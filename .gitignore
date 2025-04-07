@@ -1,5 +1,5 @@
 # Ignore sample event logs
-sample-event-logs/
+sample_logs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

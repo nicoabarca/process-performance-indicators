@@ -7,7 +7,6 @@ requires-python = ">=3.10"
 dependencies = [
     "mypy>=1.15.0",
     "pandas>=2.2.3",
-    "pydantic>=2.11.2",
     "ruff>=0.11.4",
 ]
 
@@ -43,6 +42,7 @@ ignore = [
     "D415",
     "E402",   # false positives for local imports
     "E501",   # line too long
+    "EM102",  # f strings in exceptions
     "TRY003", # external messages in exceptions are too verbose
     "TD002",
     "TD003",
