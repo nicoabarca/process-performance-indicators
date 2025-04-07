@@ -1,0 +1,7 @@
+case:concept:name,concept:name,time:timestamp
+case_1,activity_1,2021-01-01 00:00:00
+case_1,activity_2,2021-01-01 00:00:01
+case_1,activity_3,2021-01-01 00:00:02
+case_2,activity_1,2021-01-01 00:00:03
+case_2,activity_2,2021-01-01 00:00:04
+case_2,activity_3,2021-01-01 00:00:05
