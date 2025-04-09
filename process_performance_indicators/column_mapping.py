@@ -1,7 +1,7 @@
 from dataclasses import asdict, dataclass
 from typing import ClassVar
 
-from process_performance_indicators.constants import STANDARD_COLUMN_NAMES
+from process_performance_indicators.constants import STANDARD_COLUMN_NAMES, StandardColumnNames
 
 
 @dataclass
@@ -37,27 +37,27 @@ class StandardColumnMapping:
     instance_key: str | None = None
 
     _field_to_standard: ClassVar[dict[str, str]] = {
-        "case_id_key": "case:concept:name",
-        "activity_key": "concept:name",
-        "timestamp_key": "time:timestamp",
-        "start_timestamp_key": "start_timestamp",
-        "total_cost_key": "cost:total",
-        "human_resource_key": "human_resource",
-        "role_key": "org:role",
-        "resource_key": "org:resource",
-        "outcome_unit_key": "outcome_unit",
-        "fixed_cost_key": "cost:fixed",
-        "variable_cost_key": "cost:variable",
-        "labor_cost_key": "cost:labor",
-        "inventory_cost_key": "cost:inventory",
-        "client_key": "client",
-        "maintenance_cost_key": "cost:maintenance",
-        "missed_deadline_cost_key": "cost:missed_deadline",
-        "transportation_cost_key": "cost:transportation",
-        "warehousing_cost_key": "cost:warehousing",
-        "quality_key": "quality",
-        "lifecycle_type_key": "lifecycle:transition",
-        "instance_key": "concept:instance",
+        "case_id_key": StandardColumnNames.CASE_ID,
+        "activity_key": StandardColumnNames.ACTIVITY,
+        "timestamp_key": StandardColumnNames.TIMESTAMP,
+        "start_timestamp_key": StandardColumnNames.START_TIMESTAMP,
+        "total_cost_key": StandardColumnNames.TOTAL_COST,
+        "human_resource_key": StandardColumnNames.HUMAN_RESOURCE,
+        "role_key": StandardColumnNames.ROLE,
+        "resource_key": StandardColumnNames.ORG_RESOURCE,
+        "outcome_unit_key": StandardColumnNames.OUTCOME_UNIT,
+        "fixed_cost_key": StandardColumnNames.FIXED_COST,
+        "variable_cost_key": StandardColumnNames.VARIABLE_COST,
+        "labor_cost_key": StandardColumnNames.LABOR_COST,
+        "inventory_cost_key": StandardColumnNames.INVENTORY_COST,
+        "client_key": StandardColumnNames.CLIENT,
+        "maintenance_cost_key": StandardColumnNames.MAINTENANCE_COST,
+        "missed_deadline_cost_key": StandardColumnNames.MISSED_DEADLINE_COST,
+        "transportation_cost_key": StandardColumnNames.TRANSPORTATION_COST,
+        "warehousing_cost_key": StandardColumnNames.WAREHOUSING_COST,
+        "quality_key": StandardColumnNames.QUALITY,
+        "lifecycle_type_key": StandardColumnNames.LIFECYCLE_TRANSITION,
+        "instance_key": StandardColumnNames.INSTANCE,
     }
 
     def to_standard_mapping(self) -> dict[str, str]:
@@ -73,6 +73,7 @@ class StandardColumnMapping:
             if field_value is not None and field_name in self._field_to_standard:
                 standard_name = self._field_to_standard[field_name]
                 mapping[standard_name] = field_value
+        print(mapping)
         return mapping
 
 

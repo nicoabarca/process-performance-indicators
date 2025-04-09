@@ -1,23 +1,42 @@
-STANDARD_COLUMN_NAMES = [
-    "case:concept:name",
-    "concept:name",
-    "time:timestamp",
-    "resource",
-    "cost:total",
-    "human_resource",
-    "org:role",
-    "org:resource",
-    "outcome_unit",
-    "cost:fixed",
-    "cost:variable",
-    "cost:labor",
-    "cost:inventory",
-    "client",
-    "cost:maintenance",
-    "cost:missed_deadline",
-    "cost:transportation",
-    "cost:warehousing",
-    "quality",
-    "lifecycle:transition",
-    "concept:instance",
-]
+from enum import Enum
+
+
+class StandardColumnNames(str, Enum):
+    """Enum representing standard column names in process mining event logs."""
+
+    CASE_ID = "case:concept:name"
+    ACTIVITY = "concept:name"
+    TIMESTAMP = "time:timestamp"
+    START_TIMESTAMP = "start_timestamp"
+    RESOURCE = "resource"
+    TOTAL_COST = "cost:total"
+    HUMAN_RESOURCE = "human_resource"
+    ROLE = "org:role"
+    ORG_RESOURCE = "org:resource"
+    OUTCOME_UNIT = "outcome_unit"
+    FIXED_COST = "cost:fixed"
+    VARIABLE_COST = "cost:variable"
+    LABOR_COST = "cost:labor"
+    INVENTORY_COST = "cost:inventory"
+    CLIENT = "client"
+    MAINTENANCE_COST = "cost:maintenance"
+    MISSED_DEADLINE_COST = "cost:missed_deadline"
+    TRANSPORTATION_COST = "cost:transportation"
+    WAREHOUSING_COST = "cost:warehousing"
+    QUALITY = "quality"
+    LIFECYCLE_TRANSITION = "lifecycle:transition"
+    INSTANCE = "concept:instance"
+
+    def __str__(self) -> str:
+        return self.value
+
+
+STANDARD_COLUMN_NAMES = [column.value for column in StandardColumnNames]
+
+
+class EventLogClassification(str, Enum):
+    """Enum representing the classification of an event log."""
+
+    ATOMIC = "atomic"
+    DERIVABLE = "derivable"
+    EXPLICIT = "explicit"
