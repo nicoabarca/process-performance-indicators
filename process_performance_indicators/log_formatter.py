@@ -29,35 +29,44 @@ def event_log_formatter(
 
     """
     event_log = event_log.copy()
+
+    # Validate column mapping with standard column names
     standard_mapping = convert_to_standard_mapping(column_mapping)
     validate_column_mapping(standard_mapping)
-    inverted_mapping = {v: k for k, v in standard_mapping.items()}
 
+    # Rename columns to standard column names
+    inverted_mapping = {v: k for k, v in standard_mapping.items()}
     standard_named_log = event_log.rename(columns=inverted_mapping)
 
-    start_timestamp_key = (
-        StandardColumnNames.START_TIMESTAMP
-        if StandardColumnNames.START_TIMESTAMP in standard_mapping
-        else None
-    )
-    instance_key = (
-        StandardColumnNames.INSTANCE if StandardColumnNames.INSTANCE in standard_mapping else None
-    )
-
-    if start_timestamp_key is None:
+    # If start timestamp is not present, return the standard named log
+    if StandardColumnNames.START_TIMESTAMP not in standard_named_log.columns:
+        print("types:")
+        print(standard_named_log.dtypes)
+        print("event log classification:")
+        print(_event_log_classifier(standard_named_log))
         return standard_named_log
 
-    if instance_key is None:
-        instance_key = StandardColumnNames.INSTANCE
-        standard_named_log[instance_key] = [
+    # Add missing columns
+    if StandardColumnNames.INSTANCE not in standard_named_log.columns:
+        standard_named_log[StandardColumnNames.INSTANCE] = [
             str(uuid.uuid4()) for _ in range(len(standard_named_log))
         ]
 
+    # Convert timestamp columns to datetime
+    standard_named_log[StandardColumnNames.TIMESTAMP] = pd.to_datetime(
+        standard_named_log[StandardColumnNames.TIMESTAMP], utc=True
+    )
+    standard_named_log[StandardColumnNames.START_TIMESTAMP] = pd.to_datetime(
+        standard_named_log[StandardColumnNames.START_TIMESTAMP], utc=True
+    )
+
+    # Create a copy of the log for start events
     start_events_log = standard_named_log.copy()
     start_events_log[StandardColumnNames.TIMESTAMP] = start_events_log[
         StandardColumnNames.START_TIMESTAMP
     ]
 
+    # Drop the start timestamp from both logs
     if StandardColumnNames.START_TIMESTAMP in standard_named_log.columns:
         standard_named_log = standard_named_log.drop(columns=[StandardColumnNames.START_TIMESTAMP])
         start_events_log = start_events_log.drop(columns=[StandardColumnNames.START_TIMESTAMP])
