@@ -39,4 +39,5 @@ class EventLogClassification(str, Enum):
 
     ATOMIC = "atomic"
     DERIVABLE = "derivable"
+    ACTIVITY_LOG = "activity_log"
     EXPLICIT = "explicit"

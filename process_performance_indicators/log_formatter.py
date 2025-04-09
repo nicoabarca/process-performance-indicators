@@ -71,8 +71,8 @@ def event_log_formatter(
         standard_named_log = standard_named_log.drop(columns=[StandardColumnNames.START_TIMESTAMP])
         start_events_log = start_events_log.drop(columns=[StandardColumnNames.START_TIMESTAMP])
 
-    # standard_named_df[StandardColumnNames.LIFECYCLE_TRANSITION] = "complete"
-    # start_events[StandardColumnNames.LIFECYCLE_TRANSITION] = "start"
+    standard_named_log[StandardColumnNames.LIFECYCLE_TRANSITION] = "complete"
+    start_events_log[StandardColumnNames.LIFECYCLE_TRANSITION] = "start"
 
     # Combine the start and complete events
     combined_df = pd.concat([start_events_log, standard_named_log], ignore_index=True)

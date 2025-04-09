@@ -17,7 +17,7 @@ def convert_to_derivable_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
     """
     if StandardColumnNames.LIFECYCLE_TRANSITION in event_log.columns:
         error_message = (
-            "Event log is not an atomic log and can't be converted derivable interval log"
+            "Event log is not an atomic log and can't be converted to derivable interval log"
         )
         raise ValueError(error_message)
 
