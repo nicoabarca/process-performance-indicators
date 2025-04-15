@@ -1,0 +1,65 @@
+import pandas as pd
+
+from process_performance_indicators.formatting.constants import (
+    LifecycleTransitionType,
+    StandardColumnNames,
+)
+from process_performance_indicators.formatting.match import match_all
+
+
+def convert_to_derivable_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert an event log into a derivable log.
+
+    Args:
+        event_log: The event log to convert.
+
+    Returns:
+        The converted event log.
+
+    """
+    if StandardColumnNames.LIFECYCLE_TRANSITION in event_log.columns:
+        error_message = (
+            "Event log is not an atomic log and can't be converted to derivable interval log"
+        )
+        raise ValueError(error_message)
+    event_log = event_log.copy()
+    event_log[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.COMPLETE
+
+    return convert_to_explicit_interval_log(event_log)
+
+
+def convert_to_explicit_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert an event log into an explicit interval log by matching start and complete events.
+
+    Args:
+        event_log: The event log to convert. Assumes standard columns are present.
+
+    Returns:
+        The converted event log with INSTANCE IDs linking matched events.
+
+    """
+    event_log = event_log.copy()
+    event_log[StandardColumnNames.INSTANCE] = pd.NA
+
+    return (
+        event_log.groupby(StandardColumnNames.CASE_ID, group_keys=False)
+        .apply(_process_case_group)
+        .dropna(subset=[StandardColumnNames.INSTANCE])
+    )
+
+
+def _process_case_group(case_log: pd.DataFrame) -> pd.DataFrame:
+    """
+    Applies the matching logic to a single case group.
+
+    Args:
+        case_log: The case log to process.
+
+    Returns:
+        The processed case log.
+
+    """
+    match_all(case_log)
+    return case_log

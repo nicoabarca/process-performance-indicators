@@ -1,7 +1,7 @@
 from dataclasses import asdict, dataclass
 from typing import ClassVar
 
-from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.formatting.constants import StandardColumnNames
 
 
 @dataclass
@@ -107,9 +107,7 @@ def validate_column_mapping(mapping: dict[str, str]) -> bool:
         ValueError: If any key in the mapping is not a standard column name.
 
     """
-    for key in mapping:
-        try:
-            StandardColumnNames(key)
-        except ValueError as err:
-            raise ValueError(f"Column name {key} is not a standard column name.") from err
+    invalid_keys = [key for key in mapping if key not in StandardColumnNames.__members__.values()]
+    if invalid_keys:
+        raise ValueError(f"Column names {invalid_keys} are not standard column names.")
     return True

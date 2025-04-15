@@ -2,12 +2,15 @@ import uuid
 
 import pandas as pd
 
-from process_performance_indicators.column_mapping import (
+from process_performance_indicators.formatting.column_mapping import (
     StandardColumnMapping,
     convert_to_standard_mapping,
     validate_column_mapping,
 )
-from process_performance_indicators.constants import EventLogClassification, StandardColumnNames
+from process_performance_indicators.formatting.constants import (
+    EventLogClassification,
+    StandardColumnNames,
+)
 
 
 def event_log_formatter(
@@ -96,7 +99,9 @@ def _event_log_classifier(event_log: pd.DataFrame) -> EventLogClassification:
 
     - DERIVABLE: Has either lifecycle transition or start timestamp columns
       Format: case | activity | timestamp | lifecycle_transition
-      OR: case | activity | start_timestamp | complete_timestamp
+
+    - ACTIVITY_LOG: Has timestamp and start_timestamp columns
+      Format: case | activity | timestamp | start_timestamp
 
     - EXPLICIT: Has both instance ID and lifecycle transition columns
       Format: case | activity | timestamp | instance_id | lifecycle_transition
@@ -109,16 +114,27 @@ def _event_log_classifier(event_log: pd.DataFrame) -> EventLogClassification:
 
     """
     columns = set(event_log.columns)
-    if (
-        StandardColumnNames.INSTANCE in columns
-        and StandardColumnNames.LIFECYCLE_TRANSITION in columns
-    ):
-        return EventLogClassification.EXPLICIT
 
-    if (
-        StandardColumnNames.START_TIMESTAMP in columns
-        or StandardColumnNames.LIFECYCLE_TRANSITION in columns
-    ):
-        return EventLogClassification.DERIVABLE
+    # Define classification rules with their required columns
+    classification_rules = [
+        (
+            EventLogClassification.EXPLICIT,
+            {StandardColumnNames.INSTANCE, StandardColumnNames.LIFECYCLE_TRANSITION},
+        ),
+        (
+            EventLogClassification.DERIVABLE,
+            {StandardColumnNames.START_TIMESTAMP} | {StandardColumnNames.LIFECYCLE_TRANSITION},
+        ),
+        (
+            EventLogClassification.ACTIVITY_LOG,
+            {StandardColumnNames.TIMESTAMP, StandardColumnNames.START_TIMESTAMP},
+        ),
+        (EventLogClassification.ATOMIC, set()),  # Default case
+    ]
+
+    # Return first matching classification
+    for classification, required_columns in classification_rules:
+        if required_columns.issubset(columns):
+            return classification
 
     return EventLogClassification.ATOMIC

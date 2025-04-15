@@ -30,8 +30,8 @@ class StandardColumnNames(str, Enum):
     def __str__(self) -> str:
         return self.value
 
-
-STANDARD_COLUMN_NAMES = [column.value for column in StandardColumnNames]
+    def to_string(self) -> str:
+        return self.value
 
 
 class EventLogClassification(str, Enum):
@@ -41,3 +41,10 @@ class EventLogClassification(str, Enum):
     DERIVABLE = "derivable"
     ACTIVITY_LOG = "activity_log"
     EXPLICIT = "explicit"
+
+
+class LifecycleTransitionType(str, Enum):
+    """Enum representing the lifecycle transition of an event."""
+
+    START = "start"
+    COMPLETE = "complete"
