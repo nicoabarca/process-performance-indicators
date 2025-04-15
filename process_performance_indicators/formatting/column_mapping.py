@@ -1,7 +1,7 @@
 from dataclasses import asdict, dataclass
 from typing import ClassVar
 
-from process_performance_indicators.formatting.constants import StandardColumnNames
+from process_performance_indicators.constants import StandardColumnNames
 
 
 @dataclass

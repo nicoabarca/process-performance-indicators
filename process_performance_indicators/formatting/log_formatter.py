@@ -2,15 +2,15 @@ import uuid
 
 import pandas as pd
 
+from process_performance_indicators.constants import (
+    UUID_LENGTH,
+    EventLogClassification,
+    StandardColumnNames,
+)
 from process_performance_indicators.formatting.column_mapping import (
     StandardColumnMapping,
     convert_to_standard_mapping,
     validate_column_mapping,
-)
-from process_performance_indicators.formatting.constants import (
-    UUID_LENGTH,
-    EventLogClassification,
-    StandardColumnNames,
 )
 
 

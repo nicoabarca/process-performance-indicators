@@ -1,6 +1,6 @@
 import pandas as pd
 
-from process_performance_indicators.formatting.constants import (
+from process_performance_indicators.constants import (
     LifecycleTransitionType,
     StandardColumnNames,
 )
@@ -31,12 +31,13 @@ def convert_to_derivable_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
         LifecycleTransitionType.COMPLETE.to_string()
     )
 
-    return event_log
+    return event_log.reset_index(drop=True)
 
 
 def convert_to_explicit_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
     """
     Convert an event log into an explicit interval log by matching start and complete events.
+    Not matched start events are dropped.
 
     Args:
         event_log: The event log to convert. Assumes standard columns are present.
@@ -54,6 +55,7 @@ def convert_to_explicit_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
         event_log.groupby(StandardColumnNames.CASE_ID, group_keys=False)
         .apply(_process_case_group)
         .dropna(subset=[StandardColumnNames.INSTANCE])
+        .reset_index(drop=True)
     )
 
 

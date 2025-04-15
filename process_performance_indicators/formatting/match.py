@@ -2,7 +2,7 @@ import uuid
 
 import pandas as pd
 
-from process_performance_indicators.formatting.constants import (
+from process_performance_indicators.constants import (
     UUID_LENGTH,
     LifecycleTransitionType,
     StandardColumnNames,

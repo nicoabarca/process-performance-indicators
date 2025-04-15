@@ -1,3 +1,3 @@
-from process_performance_indicators.helpers import cases
+from process_performance_indicators.helpers import activities, cases
 
-__all__ = ["cases"]
+__all__ = ["activities", "cases"]

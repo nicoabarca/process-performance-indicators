@@ -10,7 +10,6 @@ class StandardColumnNames(str, Enum):
     ACTIVITY = "concept:name"
     TIMESTAMP = "time:timestamp"
     START_TIMESTAMP = "start_timestamp"
-    RESOURCE = "resource"
     TOTAL_COST = "cost:total"
     HUMAN_RESOURCE = "human_resource"
     ROLE = "org:role"
