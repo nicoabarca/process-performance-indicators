@@ -12,7 +12,7 @@ dependencies = [
 
 [tool.ruff]
 line-length = 100
-target-version = "py312"
+target-version = "py310"
 select = [
     "ALL", # include all the rules, including new ones
 ]

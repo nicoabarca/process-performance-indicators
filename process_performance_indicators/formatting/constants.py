@@ -1,5 +1,7 @@
 from enum import Enum
 
+UUID_LENGTH = 12
+
 
 class StandardColumnNames(str, Enum):
     """Enum representing standard column names in process mining event logs."""
@@ -30,8 +32,8 @@ class StandardColumnNames(str, Enum):
     def __str__(self) -> str:
         return self.value
 
-
-STANDARD_COLUMN_NAMES = [column.value for column in StandardColumnNames]
+    def to_string(self) -> str:
+        return self.__str__()
 
 
 class EventLogClassification(str, Enum):
@@ -39,6 +41,7 @@ class EventLogClassification(str, Enum):
 
     ATOMIC = "atomic"
     DERIVABLE = "derivable"
+    ACTIVITY_LOG = "activity_log"
     EXPLICIT = "explicit"
 
     def __str__(self) -> str:
@@ -56,3 +59,16 @@ class Granularity(str, Enum):
 
     def __str__(self) -> str:
         return self.value
+
+
+class LifecycleTransitionType(str, Enum):
+    """Enum representing the lifecycle transition of an event."""
+
+    START = "start"
+    COMPLETE = "complete"
+
+    def __str__(self) -> str:
+        return self.value
+
+    def to_string(self) -> str:
+        return self.__str__()
