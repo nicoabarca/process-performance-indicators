@@ -44,6 +44,22 @@ class EventLogClassification(str, Enum):
     ACTIVITY_LOG = "activity_log"
     EXPLICIT = "explicit"
 
+    def __str__(self) -> str:
+        return self.value
+
+
+class Granularity(str, Enum):
+    """Enum representing the granularity of an event log attributes."""
+
+    INSTANCE = "instance"
+    ACTIVITY = "activity"
+    CASE = "case"
+    GROUP = "group"
+    EXPECTED = "expected"
+
+    def __str__(self) -> str:
+        return self.value
+
 
 class LifecycleTransitionType(str, Enum):
     """Enum representing the lifecycle transition of an event."""

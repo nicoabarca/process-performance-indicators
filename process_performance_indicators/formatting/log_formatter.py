@@ -46,6 +46,11 @@ def event_log_formatter(
     if StandardColumnNames.START_TIMESTAMP not in standard_named_log.columns:
         return standard_named_log
 
+    # Convert case id to string
+    standard_named_log[StandardColumnNames.CASE_ID] = standard_named_log[
+        StandardColumnNames.CASE_ID
+    ].astype(str)
+
     # Add missing columns
     if StandardColumnNames.INSTANCE not in standard_named_log.columns:
         standard_named_log[StandardColumnNames.INSTANCE] = [
@@ -71,6 +76,7 @@ def event_log_formatter(
         standard_named_log = standard_named_log.drop(columns=[StandardColumnNames.START_TIMESTAMP])
         start_events_log = start_events_log.drop(columns=[StandardColumnNames.START_TIMESTAMP])
 
+    # Add lifecycle transition column
     standard_named_log[StandardColumnNames.LIFECYCLE_TRANSITION] = "complete"
     start_events_log[StandardColumnNames.LIFECYCLE_TRANSITION] = "start"
 
@@ -80,10 +86,6 @@ def event_log_formatter(
         by=[StandardColumnNames.CASE_ID, StandardColumnNames.TIMESTAMP]
     )
 
-    print("types:")
-    print(combined_df.dtypes)
-    print("event log classification:")
-    print(_event_log_classifier(combined_df))
     return combined_df.reset_index(drop=True)
 
 
