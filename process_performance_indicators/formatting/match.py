@@ -3,6 +3,7 @@ import uuid
 import pandas as pd
 
 from process_performance_indicators.formatting.constants import (
+    UUID_LENGTH,
     LifecycleTransitionType,
     StandardColumnNames,
 )
@@ -37,7 +38,7 @@ def _match(case_log: pd.DataFrame, complete_event: pd.Series) -> None:
         raise ValueError(error_message)
 
     # Create a unique instance ID for the complete event
-    instance_id = str(uuid.uuid4())
+    instance_id = str(uuid.uuid4())[:UUID_LENGTH]
     case_log.loc[complete_event.name, StandardColumnNames.INSTANCE] = instance_id
 
     compatible_start_events = _compatible_start_events(case_log, complete_event)

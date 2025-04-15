@@ -8,6 +8,7 @@ from process_performance_indicators.formatting.column_mapping import (
     validate_column_mapping,
 )
 from process_performance_indicators.formatting.constants import (
+    UUID_LENGTH,
     EventLogClassification,
     StandardColumnNames,
 )
@@ -43,16 +44,12 @@ def event_log_formatter(
 
     # If start timestamp is not present, return the standard named log
     if StandardColumnNames.START_TIMESTAMP not in standard_named_log.columns:
-        print("types:")
-        print(standard_named_log.dtypes)
-        print("event log classification:")
-        print(_event_log_classifier(standard_named_log))
         return standard_named_log
 
     # Add missing columns
     if StandardColumnNames.INSTANCE not in standard_named_log.columns:
         standard_named_log[StandardColumnNames.INSTANCE] = [
-            str(uuid.uuid4()) for _ in range(len(standard_named_log))
+            str(uuid.uuid4())[:UUID_LENGTH] for _ in range(len(standard_named_log))
         ]
 
     # Convert timestamp columns to datetime

@@ -23,10 +23,13 @@ def convert_to_derivable_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
             "Event log is not an atomic log and can't be converted to derivable interval log"
         )
         raise ValueError(error_message)
-    event_log = event_log.copy()
-    event_log[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.COMPLETE
 
-    return convert_to_explicit_interval_log(event_log)
+    event_log = event_log.copy()
+    event_log[StandardColumnNames.LIFECYCLE_TRANSITION] = (
+        LifecycleTransitionType.COMPLETE.to_string()
+    )
+
+    return event_log
 
 
 def convert_to_explicit_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
