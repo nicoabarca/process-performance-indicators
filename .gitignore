@@ -1,5 +1,6 @@
 # Ignore sample event logs
 sample_logs/
+dev_tests/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

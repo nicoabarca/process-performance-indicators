@@ -25,6 +25,8 @@ def convert_to_derivable_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
         raise ValueError(error_message)
 
     event_log = event_log.copy()
+    # FIX: this ensures that case id is a string, check if this is the best way to do this
+    event_log[StandardColumnNames.CASE_ID] = event_log[StandardColumnNames.CASE_ID].astype(str)
     event_log[StandardColumnNames.LIFECYCLE_TRANSITION] = (
         LifecycleTransitionType.COMPLETE.to_string()
     )
@@ -44,6 +46,8 @@ def convert_to_explicit_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
 
     """
     event_log = event_log.copy()
+    # FIX: this ensures that case id is a string, check if this is the best way to do this
+    event_log[StandardColumnNames.CASE_ID] = event_log[StandardColumnNames.CASE_ID].astype(str)
     event_log[StandardColumnNames.INSTANCE] = pd.NA
 
     return (
