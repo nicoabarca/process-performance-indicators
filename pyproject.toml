@@ -16,6 +16,9 @@ dev = [
     "mypy>=1.15.0",
 ]
 
+[tool.setuptools]
+packages = [ "process_performance_indicators" ]
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"
