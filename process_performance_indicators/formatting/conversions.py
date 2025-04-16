@@ -55,6 +55,14 @@ def convert_to_explicit_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
         event_log.groupby(StandardColumnNames.CASE_ID, group_keys=False)
         .apply(_process_case_group)
         .dropna(subset=[StandardColumnNames.INSTANCE])
+        .sort_values(
+            by=[
+                StandardColumnNames.CASE_ID,
+                StandardColumnNames.TIMESTAMP,
+            ],
+            key=lambda x: x.astype(int),
+            ascending=True,
+        )
         .reset_index(drop=True)
     )
 

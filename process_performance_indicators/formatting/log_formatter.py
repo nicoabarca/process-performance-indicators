@@ -4,7 +4,6 @@ import pandas as pd
 
 from process_performance_indicators.constants import (
     UUID_LENGTH,
-    EventLogClassification,
     StandardColumnNames,
 )
 from process_performance_indicators.formatting.column_mapping import (
@@ -87,53 +86,3 @@ def event_log_formatter(
     )
 
     return combined_df.reset_index(drop=True)
-
-
-def _event_log_classifier(event_log: pd.DataFrame) -> EventLogClassification:
-    """
-    Classify the event log into one of the following categories based on its columns:
-
-    - ATOMIC: Only has case ID, activity name, and timestamp columns
-      Format: case | activity | timestamp
-
-    - DERIVABLE: Has either lifecycle transition or start timestamp columns
-      Format: case | activity | timestamp | lifecycle_transition
-
-    - ACTIVITY_LOG: Has timestamp and start_timestamp columns
-      Format: case | activity | timestamp | start_timestamp
-
-    - EXPLICIT: Has both instance ID and lifecycle transition columns
-      Format: case | activity | timestamp | instance_id | lifecycle_transition
-
-    Args:
-        event_log: The event log to classify
-
-    Returns:
-        EventLogClassification: The classification of the event log
-
-    """
-    columns = set(event_log.columns)
-
-    # Define classification rules with their required columns
-    classification_rules = [
-        (
-            EventLogClassification.EXPLICIT,
-            {StandardColumnNames.INSTANCE, StandardColumnNames.LIFECYCLE_TRANSITION},
-        ),
-        (
-            EventLogClassification.DERIVABLE,
-            {StandardColumnNames.START_TIMESTAMP} | {StandardColumnNames.LIFECYCLE_TRANSITION},
-        ),
-        (
-            EventLogClassification.ACTIVITY_LOG,
-            {StandardColumnNames.TIMESTAMP, StandardColumnNames.START_TIMESTAMP},
-        ),
-        (EventLogClassification.ATOMIC, set()),  # Default case
-    ]
-
-    # Return first matching classification
-    for classification, required_columns in classification_rules:
-        if required_columns.issubset(columns):
-            return classification
-
-    return EventLogClassification.ATOMIC
