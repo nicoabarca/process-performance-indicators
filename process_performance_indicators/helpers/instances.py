@@ -125,7 +125,12 @@ def _match(event_log: pd.DataFrame, complete_event: pd.DataFrame) -> pd.DataFram
     Match the event log to the instance id.
     """
     complete_event_instance_id = complete_event[StandardColumnNames.INSTANCE].unique()[0]
-    return event_log[
+
+    start_event = event_log[
         (event_log[StandardColumnNames.INSTANCE] == complete_event_instance_id)
         & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START)
     ]
+    if start_event.empty:
+        return complete_event
+
+    return start_event

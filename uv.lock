@@ -524,7 +524,7 @@ dependencies = [
     { name = "pandas-stubs" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "ipykernel" },
     { name = "mypy" },
@@ -533,13 +533,16 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "ipykernel", marker = "extra == 'dev'", specifier = ">=6.29.5" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.15.0" },
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "pandas-stubs", specifier = ">=2.2.3.250308" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.11.4" },
 ]
-provides-extras = ["dev"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "ipykernel", specifier = ">=6.29.5" },
+    { name = "mypy", specifier = ">=1.15.0" },
+    { name = "ruff", specifier = ">=0.11.4" },
+]
 
 [[package]]
 name = "prompt-toolkit"

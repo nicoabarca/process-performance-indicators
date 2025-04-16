@@ -1,9 +1,6 @@
-import uuid
-
 import pandas as pd
 
 from process_performance_indicators.constants import (
-    UUID_LENGTH,
     StandardColumnNames,
 )
 from process_performance_indicators.formatting.column_mapping import (
@@ -11,6 +8,7 @@ from process_performance_indicators.formatting.column_mapping import (
     convert_to_standard_mapping,
     validate_column_mapping,
 )
+from process_performance_indicators.formatting.instance_id_generator import id_generator
 
 
 def event_log_formatter(
@@ -53,7 +51,7 @@ def event_log_formatter(
     # Add missing columns
     if StandardColumnNames.INSTANCE not in standard_named_log.columns:
         standard_named_log[StandardColumnNames.INSTANCE] = [
-            str(uuid.uuid4())[:UUID_LENGTH] for _ in range(len(standard_named_log))
+            id_generator.get_next_id() for _ in range(len(standard_named_log))
         ]
 
     # Convert timestamp columns to datetime
