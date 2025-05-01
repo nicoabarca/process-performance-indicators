@@ -35,18 +35,6 @@ class StandardColumnNames(str, Enum):
         return self.__str__()
 
 
-class EventLogClassification(str, Enum):
-    """Enum representing the classification of an event log."""
-
-    ATOMIC = "atomic"
-    DERIVABLE = "derivable"
-    ACTIVITY_LOG = "activity_log"
-    EXPLICIT = "explicit"
-
-    def __str__(self) -> str:
-        return self.value
-
-
 class Granularity(str, Enum):
     """Enum representing the granularity of an event log attributes."""
 

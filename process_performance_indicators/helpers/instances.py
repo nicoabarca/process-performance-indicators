@@ -119,7 +119,6 @@ def _is_instance_id_valid(event_log: pd.DataFrame, instance_id: str) -> None:
         raise InstanceIdNotFoundError(f"Instance id {instance_id} not found in event log.")
 
 
-# TODO: redo this function to use the paper defined match function
 def _match(event_log: pd.DataFrame, complete_event: pd.DataFrame) -> pd.DataFrame:
     """
     Match the event log to the instance id.

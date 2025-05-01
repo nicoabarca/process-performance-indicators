@@ -1,6 +1,6 @@
 import pandas as pd
 
-from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.constants import LifecycleTransitionType, StandardColumnNames
 from process_performance_indicators.exceptions import ColumnNotFoundError
 
 
@@ -88,6 +88,46 @@ def inst(event_log: pd.DataFrame, case_id: str) -> set:
         StandardColumnNames.INSTANCE
     ].unique()
     return set(instances)
+
+
+def strin(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
+    """
+    Get the start activity instances of a case
+    """
+    _is_case_id_valid(event_log, case_id)
+    return event_log[
+        (event_log[StandardColumnNames.CASE_ID] == case_id)
+        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START)
+    ]
+
+
+def endin(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
+    """
+    Get the end activity instances of a case
+    """
+    _is_case_id_valid(event_log, case_id)
+    return event_log[
+        (event_log[StandardColumnNames.CASE_ID] == case_id)
+        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE)
+    ]
+
+
+def startt(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
+    """
+    Get the start timestamp of a case start activity instances
+    """
+    _is_case_id_valid(event_log, case_id)
+    start_activity_instances = strin(event_log, case_id)
+    return start_activity_instances[StandardColumnNames.TIMESTAMP]
+
+
+def endt(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
+    """
+    Get the end timestamp of a case end activity instances
+    """
+    _is_case_id_valid(event_log, case_id)
+    end_activity_instances = endin(event_log, case_id)
+    return end_activity_instances[StandardColumnNames.TIMESTAMP]
 
 
 def _is_case_id_valid(event_log: pd.DataFrame, case_id: str) -> None:
