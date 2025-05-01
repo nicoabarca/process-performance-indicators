@@ -10,7 +10,6 @@ class StandardColumnNames(str, Enum):
     ACTIVITY = "concept:name"
     TIMESTAMP = "time:timestamp"
     START_TIMESTAMP = "start_timestamp"
-    RESOURCE = "resource"
     TOTAL_COST = "cost:total"
     HUMAN_RESOURCE = "human_resource"
     ROLE = "org:role"
@@ -34,18 +33,6 @@ class StandardColumnNames(str, Enum):
 
     def to_string(self) -> str:
         return self.__str__()
-
-
-class EventLogClassification(str, Enum):
-    """Enum representing the classification of an event log."""
-
-    ATOMIC = "atomic"
-    DERIVABLE = "derivable"
-    ACTIVITY_LOG = "activity_log"
-    EXPLICIT = "explicit"
-
-    def __str__(self) -> str:
-        return self.value
 
 
 class Granularity(str, Enum):
