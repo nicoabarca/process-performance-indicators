@@ -62,12 +62,12 @@ plugins:
           paths: [.]  # Relative to project root
           options:
             docstring_style: google
-            docstring_section_style: spacy
-            members_order: source
-            show_root_heading: true
-            show_source: true
+            members_order: alphabetical
             show_signature_annotations: true
-            line_length: 88
+            line_length: 100
+            merge_init_into_class: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
 
 # Navigation
 nav:
