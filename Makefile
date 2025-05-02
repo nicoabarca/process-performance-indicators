@@ -34,3 +34,19 @@ serve-docs: ## Build and serve the documentation.
 	@echo "==================================="
 	@echo
 	@uv run mkdocs serve
+
+.PHONY: test-all
+test-all: ## Run all tests in the test suite.
+	@echo
+	@echo "Running all tests..."
+	@echo "==================="
+	@echo
+	@uv run pytest tests/
+
+.PHONY: test-module
+test-module: ## Run tests for a specific module. Usage: make test-module module=<module_path>
+	@echo
+	@echo "Running tests for module: $(module)"
+	@echo "=================================="
+	@echo
+	@uv run pytest tests/$(module)

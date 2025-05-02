@@ -142,7 +142,9 @@ def _is_case_id_valid(event_log: pd.DataFrame, case_id: str) -> None:
         ValueError: If the case id is not found in the event log.
 
     """
-    if case_id not in event_log[StandardColumnNames.CASE_ID].unique():
+    if case_id == "" or case_id is None:
+        raise ValueError("case_id is empty. Please provide a valid case id.")
+    if case_id not in list(event_log[StandardColumnNames.CASE_ID].unique()):
         raise ValueError(
-            f"CASE_ID = {case_id} not found in event log. Check your event log CASE_ID column for possible values."
+            f"CASE_ID = '{case_id}' not found in event log. Check your event log CASE_ID column for possible values."
         )

@@ -62,7 +62,7 @@ plugins:
           paths: [.]  # Relative to project root
           options:
             docstring_style: google
-            members_order: alphabetical
+            members_order: source
             show_signature_annotations: true
             line_length: 100
             merge_init_into_class: true
