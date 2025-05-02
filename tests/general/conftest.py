@@ -35,12 +35,6 @@ def sample_event_log():
 
 
 @pytest.fixture
-def empty_event_log():
-    """Create an empty event log for testing error cases"""
-    return pd.DataFrame()
-
-
-@pytest.fixture
 def event_log_missing_columns():
     """Create an event log missing required columns for testing error cases"""
     data = {

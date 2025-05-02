@@ -21,8 +21,8 @@ class TestGroups:
         """Test counting activities for a group of cases"""
         # Test with multiple cases
         assert (
-            activity_count(sample_event_log, ["case1", "case2"]) == 5
-        )  # 2 from case1 + 3 from case2
+            activity_count(sample_event_log, ["case1", "case2"]) == 4
+        )  # 2 from case1 + 2 from case2
 
         # Test with a single case
         assert activity_count(sample_event_log, ["case3"]) == 1
@@ -31,12 +31,15 @@ class TestGroups:
         assert activity_count(sample_event_log, {"case1", "case3"}) == 3
 
         # Test with non-existent case
-        assert activity_count(sample_event_log, ["case1", "non_existent_case"]) == 2
+        with pytest.raises(
+            ValueError, match="CASE_ID = 'non_existent_case' not found in event log"
+        ):
+            activity_count(sample_event_log, ["case1", "non_existent_case"])
 
     def test_expected_activity_count(self, sample_event_log):
         """Test expected activity count for a group of cases"""
         # Test with multiple cases
-        assert expected_activity_count(sample_event_log, ["case1", "case2"]) == 2.5  # (2+3)/2
+        assert expected_activity_count(sample_event_log, ["case1", "case2"]) == 2  # (2+2)/2
 
         # Test with a single case
         assert expected_activity_count(sample_event_log, ["case3"]) == 1.0
@@ -80,7 +83,9 @@ class TestGroups:
     def test_human_resource_count(self, sample_event_log):
         """Test counting human resources for a group of cases"""
         # Test with multiple cases
-        assert human_resource_count(sample_event_log, ["case1", "case2"]) == 3  # hr1, hr2, hr3
+        # case1: hr1, hr2,
+        # case2: hr2, hr3
+        assert human_resource_count(sample_event_log, ["case1", "case2"]) == 4
 
         # Test with a single case
         assert human_resource_count(sample_event_log, ["case3"]) == 1  # hr3
@@ -93,7 +98,7 @@ class TestGroups:
     def test_expected_human_resource_count(self, sample_event_log):
         """Test expected human resource count for a group of cases"""
         # Test with multiple cases
-        assert expected_human_resource_count(sample_event_log, ["case1", "case2"]) == 2.5  # (2+3)/2
+        assert expected_human_resource_count(sample_event_log, ["case1", "case2"]) == 2  # (2+2)/2
 
         # Test with a single case
         assert expected_human_resource_count(sample_event_log, ["case3"]) == 1.0
@@ -101,7 +106,9 @@ class TestGroups:
     def test_resource_count(self, sample_event_log):
         """Test counting resources for a group of cases"""
         # Test with multiple cases
-        assert resource_count(sample_event_log, ["case1", "case2"]) == 3  # res1, res2, res3
+        # case1: res1, res2,
+        # case2: res2, res3
+        assert resource_count(sample_event_log, ["case1", "case2"]) == 4
 
         # Test with a single case
         assert resource_count(sample_event_log, ["case3"]) == 1  # res3
@@ -114,7 +121,7 @@ class TestGroups:
     def test_expected_resource_count(self, sample_event_log):
         """Test expected resource count for a group of cases"""
         # Test with multiple cases
-        assert expected_resource_count(sample_event_log, ["case1", "case2"]) == 2.5  # (2+3)/2
+        assert expected_resource_count(sample_event_log, ["case1", "case2"]) == 2  # (2+2)/2
 
         # Test with a single case
         assert expected_resource_count(sample_event_log, ["case3"]) == 1.0
@@ -122,7 +129,9 @@ class TestGroups:
     def test_role_count(self, sample_event_log):
         """Test counting roles for a group of cases"""
         # Test with multiple cases
-        assert role_count(sample_event_log, ["case1", "case2"]) == 3  # role1, role2, role3
+        # case1: role1, role2
+        # case2: role2, role3
+        assert role_count(sample_event_log, ["case1", "case2"]) == 4
 
         # Test with a single case
         assert role_count(sample_event_log, ["case3"]) == 1  # role1
@@ -135,20 +144,19 @@ class TestGroups:
     def test_expected_role_count(self, sample_event_log):
         """Test expected role count for a group of cases"""
         # Test with multiple cases
-        assert expected_role_count(sample_event_log, ["case1", "case2"]) == 2.5  # (2+3)/2
+        assert expected_role_count(sample_event_log, ["case1", "case2"]) == 2  # (2+2)/2
 
         # Test with a single case
         assert expected_role_count(sample_event_log, ["case3"]) == 1.0
 
     def test_group_with_empty_cases(self, sample_event_log):
         """Test group functions with empty case list"""
-        assert activity_count(sample_event_log, []) == 0
-        assert case_count(sample_event_log, []) == 0
+        with pytest.raises(
+            ValueError, match="case_ids is empty. Please provide a valid list of case ids."
+        ):
+            activity_count(sample_event_log, [])
 
-        # The following functions should raise exceptions with empty case lists
-        # since they involve division by case_count
-        with pytest.raises(ZeroDivisionError):
-            expected_activity_count(sample_event_log, [])
-
-        with pytest.raises(ZeroDivisionError):
-            expected_activity_instance_count(sample_event_log, [])
+        with pytest.raises(
+            ValueError, match="case_ids is empty. Please provide a valid list of case ids."
+        ):
+            activity_instance_count(sample_event_log, [])

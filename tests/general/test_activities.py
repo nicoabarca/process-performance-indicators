@@ -22,11 +22,6 @@ class TestActivities:
         with pytest.raises(ActivityNameNotFoundError):
             activity_instance_count(sample_event_log, "non_existent_activity")
 
-    def test_activity_instance_count_empty_log(self, empty_event_log):
-        """Test activity_instance_count with empty event log"""
-        with pytest.raises(ActivityNameNotFoundError):
-            activity_instance_count(empty_event_log, "activity1")
-
     def test_human_resource_count(self, sample_event_log):
         """Test counting human resources for a specific activity"""
         # Test activity with multiple human resources

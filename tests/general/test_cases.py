@@ -22,7 +22,11 @@ class TestCases:
     def test_activity_count_invalid_case(self, sample_event_log):
         """Test activity_count with non-existent case"""
         # Empty result for non-existent case, not an error
-        assert activity_count(sample_event_log, "non_existent_case") == 0
+        with pytest.raises(
+            ValueError,
+            match="CASE_ID = 'non_existent_case' not found in event log. Check your event log CASE_ID column for possible values.",
+        ):
+            activity_count(sample_event_log, "non_existent_case")
 
     def test_activity_instance_count(self, sample_event_log):
         """Test counting activity instances for a specific case"""
@@ -40,7 +44,11 @@ class TestCases:
     def test_activity_instance_count_invalid_case(self, sample_event_log):
         """Test activity_instance_count with non-existent case"""
         # Non-existent case should result in 0 instances, not an error
-        assert activity_instance_count(sample_event_log, "non_existent_case") == 0
+        with pytest.raises(
+            ValueError,
+            match="CASE_ID = 'non_existent_case' not found in event log. Check your event log CASE_ID column for possible values.",
+        ):
+            activity_instance_count(sample_event_log, "non_existent_case")
 
     def test_human_resource_count(self, sample_event_log):
         """Test counting human resources for a specific case"""
@@ -58,7 +66,11 @@ class TestCases:
     def test_human_resource_count_invalid_case(self, sample_event_log):
         """Test human_resource_count with non-existent case"""
         # Non-existent case should result in 0 human resources, not an error
-        assert human_resource_count(sample_event_log, "non_existent_case") == 0
+        with pytest.raises(
+            ValueError,
+            match="CASE_ID = 'non_existent_case' not found in event log. Check your event log CASE_ID column for possible values.",
+        ):
+            human_resource_count(sample_event_log, "non_existent_case")
 
     def test_resource_count(self, sample_event_log):
         """Test counting resources for a specific case"""
@@ -76,7 +88,11 @@ class TestCases:
     def test_resource_count_invalid_case(self, sample_event_log):
         """Test resource_count with non-existent case"""
         # Non-existent case should result in 0 resources, not an error
-        assert resource_count(sample_event_log, "non_existent_case") == 0
+        with pytest.raises(
+            ValueError,
+            match="CASE_ID = 'non_existent_case' not found in event log. Check your event log CASE_ID column for possible values.",
+        ):
+            resource_count(sample_event_log, "non_existent_case")
 
     def test_role_count(self, sample_event_log):
         """Test counting roles for a specific case"""
@@ -94,4 +110,8 @@ class TestCases:
     def test_role_count_invalid_case(self, sample_event_log):
         """Test role_count with non-existent case"""
         # Non-existent case should result in 0 roles, not an error
-        assert role_count(sample_event_log, "non_existent_case") == 0
+        with pytest.raises(
+            ValueError,
+            match="CASE_ID = 'non_existent_case' not found in event log. Check your event log CASE_ID column for possible values.",
+        ):
+            role_count(sample_event_log, "non_existent_case")
