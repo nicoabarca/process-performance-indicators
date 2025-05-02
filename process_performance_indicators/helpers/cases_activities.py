@@ -61,9 +61,7 @@ def fi_c(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFr
     return instances.iloc[first_occurrence_index]
 
 
-def fi(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame: 
-    
-
+def fi(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame: ...
 
 
 def _is_case_id_activity_name_valid(

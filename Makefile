@@ -25,3 +25,12 @@ mypy: ## Apply mypy.
 	@echo "================="
 	@echo
 	@uv run mypy $(path)
+
+
+.PHONY: build-serve-docs
+serve-docs: ## Build and serve the documentation.
+	@echo
+	@echo "Building and serving documentation..."
+	@echo "==================================="
+	@echo
+	@uv run mkdocs serve

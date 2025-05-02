@@ -15,6 +15,12 @@ dev = [
     "ipykernel>=6.29.5",
     "mypy>=1.15.0",
 ]
+docs = [
+    "mkdocs>=1.5.4",
+    "mkdocstrings-python>=1.16.10",
+    "mkdocs-material>=9.6.12",
+]
+
 
 [tool.setuptools]
 packages = [ "process_performance_indicators" ]
