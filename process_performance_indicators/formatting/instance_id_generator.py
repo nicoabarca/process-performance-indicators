@@ -8,6 +8,7 @@ class InstanceIdGenerator:
 
     _instance = None
     _lock = threading.Lock()
+    _counter = 0
 
     def __new__(cls):
         if cls._instance is None:

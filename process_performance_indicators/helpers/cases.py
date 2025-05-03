@@ -112,22 +112,22 @@ def endin(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
     ]
 
 
-def startt(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
+def startt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
     """
     Get the start timestamp of a case start activity instances
     """
     _is_case_id_valid(event_log, case_id)
     start_activity_instances = strin(event_log, case_id)
-    return start_activity_instances[StandardColumnNames.TIMESTAMP]
+    return start_activity_instances[StandardColumnNames.TIMESTAMP].iloc[0]
 
 
-def endt(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
+def endt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
     """
     Get the end timestamp of a case end activity instances
     """
     _is_case_id_valid(event_log, case_id)
     end_activity_instances = endin(event_log, case_id)
-    return end_activity_instances[StandardColumnNames.TIMESTAMP]
+    return end_activity_instances[StandardColumnNames.TIMESTAMP].iloc[0]
 
 
 def _is_case_id_valid(event_log: pd.DataFrame, case_id: str) -> None:

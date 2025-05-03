@@ -1,7 +1,5 @@
 from enum import Enum
 
-UUID_LENGTH = 12
-
 
 class StandardColumnNames(str, Enum):
     """Enum representing standard column names in process mining event logs."""
