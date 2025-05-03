@@ -28,7 +28,7 @@ mypy: ## Apply mypy.
 
 
 .PHONY: build-serve-docs
-serve-docs: ## Build and serve the documentation.
+build-serve-docs: ## Build and serve the documentation.
 	@echo
 	@echo "Building and serving documentation..."
 	@echo "==================================="
