@@ -27,8 +27,6 @@ theme:
     - navigation.instant.prefetch
     - navigation.instant.progress
     - navigation.path
-    - navigation.tabs
-    - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
     - search.highlight
@@ -76,4 +74,5 @@ nav:
   - Usage: usage.md
   - API Reference:
     - General Indicators: reference/general.md
+    - Time Dimension Indicators: reference/time.md
 
