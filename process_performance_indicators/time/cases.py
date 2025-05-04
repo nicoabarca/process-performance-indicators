@@ -16,6 +16,7 @@ def automated_activity_count(event_log: pd.DataFrame, case_id: str) -> int:
         int: The number of automated activities in the case.
 
     """
+    raise NotImplementedError("Automated activity count is not implemented yet.")
 
 
 def lead_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
@@ -85,3 +86,18 @@ def service_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
         for instance_id in cases_helpers.inst(event_log, case_id)
     )
     return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
+
+
+def service_and_lead_time_ratio(event_log: pd.DataFrame, case_id: str) -> float:
+    """
+    Calculate the service and lead time ratio of a case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+
+    Returns:
+        float: The service and lead time ratio of the case.
+
+    """
+    return service_time(event_log, case_id).total_seconds() / lead_time(event_log, case_id).total_seconds()

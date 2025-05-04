@@ -1,7 +1,11 @@
 import pandas as pd
 
 from process_performance_indicators.constants import LifecycleTransitionType, StandardColumnNames
-from process_performance_indicators.exceptions import ColumnNotFoundError
+from process_performance_indicators.exceptions import (
+    ColumnNotFoundError,
+    NoCompleteEventFoundError,
+    NoStartEventFoundError,
+)
 
 
 def events(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
@@ -104,6 +108,8 @@ def startt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
     """
     _is_case_id_valid(event_log, case_id)
     start_activity_instances = strin(event_log, case_id)
+    if start_activity_instances.empty:
+        raise NoStartEventFoundError(f"No start event found for case {case_id}.")
     return start_activity_instances[StandardColumnNames.TIMESTAMP].iloc[0]
 
 
@@ -113,6 +119,8 @@ def endt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
     """
     _is_case_id_valid(event_log, case_id)
     end_activity_instances = endin(event_log, case_id)
+    if end_activity_instances.empty:
+        raise NoCompleteEventFoundError(f"No complete event found for case {case_id}.")
     return end_activity_instances[StandardColumnNames.TIMESTAMP].iloc[0]
 
 
