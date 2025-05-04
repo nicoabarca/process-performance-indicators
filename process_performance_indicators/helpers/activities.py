@@ -19,9 +19,7 @@ def res(event_log: pd.DataFrame, activity_name: str) -> set:
     """
     _is_activity_name_valid(event_log, activity_name)
     if StandardColumnNames.ORG_RESOURCE not in event_log.columns:
-        error_message = (
-            "RESOURCE column not found in event log. Check your event log for possible columns."
-        )
+        error_message = "RESOURCE column not found in event log. Check your event log for possible columns."
         raise ColumnNotFoundError(error_message)
 
     resources = event_log[event_log[StandardColumnNames.ACTIVITY] == activity_name][
@@ -52,14 +50,10 @@ def role(event_log: pd.DataFrame, activity_name: str) -> set:
     """
     _is_activity_name_valid(event_log, activity_name)
     if StandardColumnNames.ROLE not in event_log.columns:
-        error_message = (
-            "ROLE column not found in event log. Check your event log for possible columns."
-        )
+        error_message = "ROLE column not found in event log. Check your event log for possible columns."
         raise ColumnNotFoundError(error_message)
 
-    roles = event_log[event_log[StandardColumnNames.ACTIVITY] == activity_name][
-        StandardColumnNames.ROLE
-    ].unique()
+    roles = event_log[event_log[StandardColumnNames.ACTIVITY] == activity_name][StandardColumnNames.ROLE].unique()
 
     return set(roles)
 
@@ -70,9 +64,7 @@ def inst(event_log: pd.DataFrame, activity_name: str) -> set:
     """
     _is_activity_name_valid(event_log, activity_name)
     if StandardColumnNames.INSTANCE not in event_log.columns:
-        error_message = (
-            "INSTANCE column not found in event log. Check your event log for possible columns."
-        )
+        error_message = "INSTANCE column not found in event log. Check your event log for possible columns."
         raise ColumnNotFoundError(error_message)
 
     instances = event_log[event_log[StandardColumnNames.ACTIVITY] == activity_name][

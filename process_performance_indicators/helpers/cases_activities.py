@@ -15,8 +15,7 @@ def inst(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFr
     """
     _is_case_id_activity_name_valid(event_log, case_id, activity_name)
     return event_log[
-        (event_log[StandardColumnNames.CASE_ID] == case_id)
-        & (event_log[StandardColumnNames.ACTIVITY] == activity_name)
+        (event_log[StandardColumnNames.CASE_ID] == case_id) & (event_log[StandardColumnNames.ACTIVITY] == activity_name)
     ]
 
 
@@ -37,9 +36,7 @@ def fi_s(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFr
     ].index.min()
 
     if first_occurrence_index.isna():
-        raise NoStartEventFoundError(
-            f"No start event found for activity {activity_name} in case {case_id}."
-        )
+        raise NoStartEventFoundError(f"No start event found for activity {activity_name} in case {case_id}.")
 
     return instances.iloc[first_occurrence_index]
 
@@ -54,19 +51,16 @@ def fi_c(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFr
     ].index.min()
 
     if first_occurrence_index.isna():
-        raise NoCompleteEventFoundError(
-            f"No complete event found for activity {activity_name} in case {case_id}."
-        )
+        raise NoCompleteEventFoundError(f"No complete event found for activity {activity_name} in case {case_id}.")
 
     return instances.iloc[first_occurrence_index]
 
 
-def fi(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame: ...
+def fi(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame:
+    raise NotImplementedError("First occurrence is not implemented yet.")
 
 
-def _is_case_id_activity_name_valid(
-    event_log: pd.DataFrame, case_id: str, activity_name: str
-) -> None:
+def _is_case_id_activity_name_valid(event_log: pd.DataFrame, case_id: str, activity_name: str) -> None:
     """
     Checks if the case_id and activity_name are valid.
     Raises an exception if they are not valid.

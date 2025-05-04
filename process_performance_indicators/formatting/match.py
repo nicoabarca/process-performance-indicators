@@ -15,9 +15,7 @@ def match_all(case_log: pd.DataFrame) -> None:
         case_log: The event log to match.
 
     """
-    complete_events = case_log[
-        case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE
-    ]
+    complete_events = case_log[case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE]
     for _, complete_event in complete_events.iterrows():
         _match(case_log, complete_event)
 
@@ -37,7 +35,7 @@ def _match(case_log: pd.DataFrame, complete_event: pd.Series) -> None:
 
     # Create a unique instance ID for the complete event
     instance_id = id_generator.get_next_id()
-    case_log.loc[complete_event.name, StandardColumnNames.INSTANCE] = instance_id
+    case_log.loc[[complete_event.name], StandardColumnNames.INSTANCE.to_string()] = instance_id
 
     compatible_start_events = _compatible_start_events(case_log, complete_event)
 
@@ -47,7 +45,7 @@ def _match(case_log: pd.DataFrame, complete_event: pd.Series) -> None:
 
     # Match the complete event to the first compatible start event
     matching_start_event_index = compatible_start_events.index[0]
-    case_log.loc[matching_start_event_index, StandardColumnNames.INSTANCE] = instance_id
+    case_log.loc[[matching_start_event_index], StandardColumnNames.INSTANCE.to_string()] = instance_id
 
 
 def _compatible_start_events(case_log: pd.DataFrame, complete_event: pd.Series) -> pd.DataFrame:
