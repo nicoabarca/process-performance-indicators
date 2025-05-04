@@ -18,9 +18,7 @@ def act(event_log: pd.DataFrame, case_id: str) -> set:
     Get the activities names set of a case.
     """
     _is_case_id_valid(event_log, case_id)
-    activities = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][
-        StandardColumnNames.ACTIVITY
-    ].unique()
+    activities = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][StandardColumnNames.ACTIVITY].unique()
     return set(activities)
 
 
@@ -30,14 +28,10 @@ def res(event_log: pd.DataFrame, case_id: str) -> set:
     """
     _is_case_id_valid(event_log, case_id)
     if StandardColumnNames.ORG_RESOURCE not in event_log.columns:
-        error_message = (
-            "RESOURCE column not found in event log. Check your event log for possible columns."
-        )
+        error_message = "RESOURCE column not found in event log. Check your event log for possible columns."
         raise ColumnNotFoundError(error_message)
 
-    resources = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][
-        StandardColumnNames.ORG_RESOURCE
-    ].unique()
+    resources = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][StandardColumnNames.ORG_RESOURCE].unique()
     return set(resources)
 
 
@@ -62,14 +56,10 @@ def role(event_log: pd.DataFrame, case_id: str) -> set:
     """
     _is_case_id_valid(event_log, case_id)
     if StandardColumnNames.ROLE not in event_log.columns:
-        error_message = (
-            "ROLE column not found in event log. Check your event log for possible columns."
-        )
+        error_message = "ROLE column not found in event log. Check your event log for possible columns."
         raise ColumnNotFoundError(error_message)
 
-    roles = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][
-        StandardColumnNames.ROLE
-    ].unique()
+    roles = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][StandardColumnNames.ROLE].unique()
     return set(roles)
 
 
@@ -79,14 +69,10 @@ def inst(event_log: pd.DataFrame, case_id: str) -> set:
     """
     _is_case_id_valid(event_log, case_id)
     if StandardColumnNames.INSTANCE not in event_log.columns:
-        error_message = (
-            "INSTANCE column not found in event log. Check your event log for possible columns."
-        )
+        error_message = "INSTANCE column not found in event log. Check your event log for possible columns."
         raise ColumnNotFoundError(error_message)
 
-    instances = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][
-        StandardColumnNames.INSTANCE
-    ].unique()
+    instances = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][StandardColumnNames.INSTANCE].unique()
     return set(instances)
 
 

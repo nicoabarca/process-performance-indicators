@@ -32,7 +32,7 @@ def cpl(event_log: pd.DataFrame, instance_id: str) -> pd.DataFrame:
     ]
 
 
-def stime(event_log: pd.DataFrame, instance_id: str) -> pd.DataFrame:
+def stime(event_log: pd.DataFrame, instance_id: str) -> pd.Timestamp:
     """
     Get the start time of an event based on the instance id.
     """
@@ -41,7 +41,7 @@ def stime(event_log: pd.DataFrame, instance_id: str) -> pd.DataFrame:
     return start_event[StandardColumnNames.TIMESTAMP].unique()[0]
 
 
-def ctime(event_log: pd.DataFrame, instance_id: str) -> pd.Timestamp | str:
+def ctime(event_log: pd.DataFrame, instance_id: str) -> pd.Timestamp:
     """
     Get the complete time of an event based on the instance id.
     """
@@ -74,7 +74,9 @@ def res(event_log: pd.DataFrame, instance_id: str) -> str:
     """
     _is_instance_id_valid(event_log, instance_id)
     if StandardColumnNames.ORG_RESOURCE not in event_log.columns:
-        error_message = "RESOURCE column not found in event log. Please ensure the event log contains the resource column."
+        error_message = (
+            "RESOURCE column not found in event log. Please ensure the event log contains the resource column."
+        )
         raise ColumnNotFoundError(error_message)
 
     complete_event = cpl(event_log, instance_id)

@@ -44,9 +44,7 @@ def event_log_formatter(
         return standard_named_log
 
     # Convert case id to string
-    standard_named_log[StandardColumnNames.CASE_ID] = standard_named_log[
-        StandardColumnNames.CASE_ID
-    ].astype(str)
+    standard_named_log[StandardColumnNames.CASE_ID] = standard_named_log[StandardColumnNames.CASE_ID].astype(str)
 
     # Add missing columns
     if StandardColumnNames.INSTANCE not in standard_named_log.columns:
@@ -64,9 +62,7 @@ def event_log_formatter(
 
     # Create a copy of the log for start events
     start_events_log = standard_named_log.copy()
-    start_events_log[StandardColumnNames.TIMESTAMP] = start_events_log[
-        StandardColumnNames.START_TIMESTAMP
-    ]
+    start_events_log[StandardColumnNames.TIMESTAMP] = start_events_log[StandardColumnNames.START_TIMESTAMP]
 
     # Drop the start timestamp from both logs
     if StandardColumnNames.START_TIMESTAMP in standard_named_log.columns:
@@ -79,8 +75,6 @@ def event_log_formatter(
 
     # Combine the start and complete events
     combined_df = pd.concat([start_events_log, standard_named_log], ignore_index=True)
-    combined_df = combined_df.sort_values(
-        by=[StandardColumnNames.CASE_ID, StandardColumnNames.TIMESTAMP]
-    )
+    combined_df = combined_df.sort_values(by=[StandardColumnNames.CASE_ID, StandardColumnNames.TIMESTAMP])
 
     return combined_df.reset_index(drop=True)

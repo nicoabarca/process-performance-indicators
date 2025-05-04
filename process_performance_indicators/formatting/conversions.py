@@ -19,17 +19,13 @@ def convert_to_derivable_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
 
     """
     if StandardColumnNames.LIFECYCLE_TRANSITION in event_log.columns:
-        error_message = (
-            "Event log is not an atomic log and can't be converted to derivable interval log"
-        )
+        error_message = "Event log is not an atomic log and can't be converted to derivable interval log"
         raise ValueError(error_message)
 
     event_log = event_log.copy()
     # FIX: this ensures that case id is a string, check if this is the best way to do this
     event_log[StandardColumnNames.CASE_ID] = event_log[StandardColumnNames.CASE_ID].astype(str)
-    event_log[StandardColumnNames.LIFECYCLE_TRANSITION] = (
-        LifecycleTransitionType.COMPLETE.to_string()
-    )
+    event_log[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.COMPLETE.to_string()
 
     return event_log.reset_index(drop=True)
 

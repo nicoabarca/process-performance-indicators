@@ -1,4 +1,4 @@
-name: Check Linter Rules
+name: Linter Rules and Static Type Checking
 
 on:
   pull_request:
@@ -21,6 +21,6 @@ jobs:
         
     - name: 📦 Install dependencies
       run: uv sync --locked --dev
-        
-    - name: 🔍 Check linter rules
+
+    - name: 🔍 Linter rules and static type checking
       run: make lint-check

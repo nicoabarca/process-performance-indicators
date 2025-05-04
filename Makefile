@@ -8,6 +8,10 @@ lint-check:  ## Check whether the codebase satisfies the linter rules.
 	@echo "========================"
 	@echo
 	@uv run ruff check process_performance_indicators/
+	@echo
+	@echo "Checking static type checking..."
+	@echo "============================="
+	@echo
 	@uv run mypy process_performance_indicators/
 
 .PHONY: ruff

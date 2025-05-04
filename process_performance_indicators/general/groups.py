@@ -62,9 +62,7 @@ def activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
     return count
 
 
-def expected_activity_instance_count(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str]
-) -> int | float:
+def expected_activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float:
     """
     The expected number of activity instances for each case in the event log for a given list or set of case ids.
 
@@ -79,9 +77,7 @@ def expected_activity_instance_count(
     _is_case_ids_empty(case_ids)
     cases_activity_instance_count = 0
     for case_id in case_ids:
-        cases_activity_instance_count += cases_general_indicators.activity_instance_count(
-            event_log, case_id
-        )
+        cases_activity_instance_count += cases_general_indicators.activity_instance_count(event_log, case_id)
     return cases_activity_instance_count / case_count(event_log, case_ids)
 
 
@@ -122,9 +118,7 @@ def human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     return count
 
 
-def expected_human_resource_count(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str]
-) -> int | float:
+def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float:
     """
     The expected number of human resources in the event log for a given list or set of case ids.
 

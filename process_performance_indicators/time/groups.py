@@ -38,7 +38,7 @@ def case_count_where_lead_time_over_value(
         int: The number of cases in a group of cases where the lead time is over a given value.
 
     """
-    return len([case_id for case_id in case_ids if lead_time(event_log, case_id) > value])
+    return len([case_id for case_id in case_ids if time_cases_indicators.lead_time(event_log, case_id) > value])
 
 
 def case_percentage_where_lead_time_over_value(
@@ -56,13 +56,13 @@ def case_percentage_where_lead_time_over_value(
         float: The percentage of cases in a group of cases where the lead time is over a given value.
 
     """
-    return case_count_where_lead_time_over_value(
-        event_log, case_ids, value
-    ) / general_groups_indicators.case_count(event_log, case_ids)
+    return case_count_where_lead_time_over_value(event_log, case_ids, value) / general_groups_indicators.case_count(
+        event_log, case_ids
+    )
 
 
 def case_percentage_with_missed_deadline(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], value: pd.Timedelta
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], value: pd.Timestamp
 ) -> float:
     """
     Calculate the percentage of cases in a group of cases where the end time is over a given value (deadline).
@@ -76,9 +76,7 @@ def case_percentage_with_missed_deadline(
         float: The percentage of cases in a group of cases where the end time is over a given value (deadline).
 
     """
-    cases_over_deadline = [
-        case_id for case_id in case_ids if cases_helpers.endt(event_log, case_id) > value
-    ]
+    cases_over_deadline = [case_id for case_id in case_ids if cases_helpers.endt(event_log, case_id) > value]
     return len(cases_over_deadline) / general_groups_indicators.case_count(event_log, case_ids)
 
 
@@ -115,13 +113,15 @@ def expected_lead_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) 
         pd.Timedelta: The expected lead time of the group of cases.
 
     """
-    # INFO: lead_time is converted to total seconds a float for division
-    group_lead_times = [time_cases_indicators.lead_time(event_log, case_id) for case_id in case_ids]
-    sum_of_lead_times = sum(group_lead_times).total_seconds()  # FIX: this should be a float
-    return sum_of_lead_times / general_groups_indicators.case_count(event_log, case_ids)
+    group_total_lead_times_in_seconds = sum(
+        time_cases_indicators.lead_time(event_log, case_id).total_seconds() for case_id in case_ids
+    )
+    case_count = general_groups_indicators.case_count(event_log, case_ids)
+    expected_lead_time_in_seconds = group_total_lead_times_in_seconds / case_count
+    return pd.Timedelta(seconds=expected_lead_time_in_seconds)
 
 
-def lead_time_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+def lead_time_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
     Calculate the lead time case count ratio of a group of cases.
 
@@ -133,6 +133,93 @@ def lead_time_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | se
         float: The lead time case count ratio of the group of cases.
 
     """
-    group_lead_time = lead_time(event_log, case_ids)
+    group_lead_time_in_seconds = lead_time(event_log, case_ids).total_seconds()
     case_count = general_groups_indicators.case_count(event_log, case_ids)
-    return group_lead_time / case_count
+    ratio = group_lead_time_in_seconds / case_count
+    return pd.Timedelta(seconds=ratio)
+
+
+def expected_lead_time_deviation_from_deadline(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], deadline: pd.Timestamp
+) -> pd.Timedelta:
+    """
+    Calculate the expected lead time deviation from deadline of a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        deadline: The deadline date timestamp.
+
+    Returns:
+        pd.Timedelta: The expected lead time deviation from deadline of the group of cases.
+
+    """
+    cases_lead_time_deviation_from_deadline = sum(
+        time_cases_indicators.lead_time_deviation_from_deadline(event_log, case_id, deadline).total_seconds()
+        for case_id in case_ids
+    )
+    group_case_count = general_groups_indicators.case_count(event_log, case_ids)
+    expected_lead_time_deviation_from_deadline_in_seconds = cases_lead_time_deviation_from_deadline / group_case_count
+    return pd.Timedelta(seconds=expected_lead_time_deviation_from_deadline_in_seconds)
+
+
+def expected_lead_time_deviation_from_expectation(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], expectation: pd.Timedelta
+) -> pd.Timedelta:
+    """
+    Calculate the expected lead time deviation from expectation of a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        expectation: The expectation.
+
+    Returns:
+        pd.Timedelta: The expected lead time deviation from expectation of the group of cases.
+
+    """
+    cases_lead_time_deviation_from_expectation = sum(
+        time_cases_indicators.lead_time_deviation_from_expectation(event_log, case_id, expectation).total_seconds()
+        for case_id in case_ids
+    )
+    group_case_count = general_groups_indicators.case_count(event_log, case_ids)
+    expected_lead_time_deviation_from_expectation_in_seconds = (
+        cases_lead_time_deviation_from_expectation / group_case_count
+    )
+    return pd.Timedelta(seconds=expected_lead_time_deviation_from_expectation_in_seconds)
+
+
+def service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
+    """
+    Calculate the service time of a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    Returns:
+        pd.Timedelta: The service time of the group of cases.
+
+    """
+    sum_of_service_times_in_seconds = sum(
+        time_cases_indicators.service_time(event_log, case_id).total_seconds() for case_id in case_ids
+    )
+    return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
+
+
+def expected_time_service(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
+    """
+    Calculate the expected time service of a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    Returns:
+        pd.Timedelta: The expected time service of the group of cases.
+
+    """
+    service_time_in_seconds = service_time(event_log, case_ids).total_seconds()
+    case_count = general_groups_indicators.case_count(event_log, case_ids)
+    expected_time_service_in_seconds = service_time_in_seconds / case_count
+    return pd.Timedelta(seconds=expected_time_service_in_seconds)
