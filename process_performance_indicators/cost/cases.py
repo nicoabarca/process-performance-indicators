@@ -175,3 +175,18 @@ def missed_deadline_cost(event_log: pd.DataFrame, case_id: str) -> int | float |
     case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
     cost_values = case_events[StandardColumnNames.MISSED_DEADLINE_COST].unique()
     return cost_values[0] if len(cost_values) > 0 else None
+
+
+def resource_count(event_log: pd.DataFrame, case_id: str) -> int:
+    """
+    Calculate the resource count for a case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+
+    Returns:
+        The resource count for a case.
+
+    """
+    return len(cases_helpers.res(event_log, case_id))

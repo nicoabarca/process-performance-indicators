@@ -323,3 +323,42 @@ def expected_total_cost(
         raise ValueError("Total cost calculation for group of cases returned None")
     case_group_count = groups_general_indicators.case_count(event_log, case_ids)
     return group_total_cost / case_group_count
+
+
+def resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+    """
+    Calculate the resource count for a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    Returns:
+        The resource count for a group of cases.
+
+    """
+    resource_count: int = 0
+
+    for case_id in case_ids:
+        case_resource_count = cases_cost_indicators.resource_count(event_log, case_id)
+        resource_count += case_resource_count
+
+    return resource_count
+
+
+def expected_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+    """
+    Calculate the expected resource count for a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    Returns:
+        The expected resource count for a group of cases.
+
+    """
+    group_resource_count = resource_count(event_log, case_ids)
+    case_group_count = groups_general_indicators.case_count(event_log, case_ids)
+
+    return group_resource_count / case_group_count

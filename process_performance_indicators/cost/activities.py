@@ -144,3 +144,18 @@ def total_cost(
         total_cost += instance_cost
 
     return total_cost
+
+
+def resource_count(event_log: pd.DataFrame, activity_name: str) -> int:
+    """
+    Calculate the resource count for an activity.
+
+    Args:
+        event_log: The event log.
+        activity_name: The activity name.
+
+    Returns:
+        The resource count for an activity.
+
+    """
+    return len(activities_helpers.res(event_log, activity_name))

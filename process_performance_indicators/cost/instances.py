@@ -1,3 +1,5 @@
+from typing import Literal
+
 import pandas as pd
 
 import process_performance_indicators.helpers.instances as instances_helpers
@@ -207,3 +209,34 @@ def labor_cost_for_sum_of_all_events_of_activity_instances(
         )
 
     return None
+
+
+def labor_cost_and_total_cost_ratio(
+    event_log: pd.DataFrame, instance_id: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    Calculate the labor cost and total cost ratio for an activity instance.
+
+    Args:
+        event_log: The event log.
+        instance_id: The instance id.
+        aggregation_mode: The aggregation mode.
+            "sgl": The aggregation mode for single events of an activity instance.
+            "sum": The aggregation mode for the sum of all events of an activity instance.
+
+    Returns:
+        float: The labor cost and total cost ratio for an activity instance.
+
+    """
+    aggregation_function = {
+        "sgl": (labor_cost_for_single_events_of_activity_instances, total_cost_for_single_events_of_activity_instances),
+        "sum": (
+            labor_cost_for_sum_of_all_events_of_activity_instances,
+            total_cost_for_sum_of_all_events_of_activity_instances,
+        ),
+    }
+
+    labor_cost = aggregation_function[aggregation_mode][0](event_log, instance_id)
+    total_cost = aggregation_function[aggregation_mode][1](event_log, instance_id)
+
+    return labor_cost / total_cost
