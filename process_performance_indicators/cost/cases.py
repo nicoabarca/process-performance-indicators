@@ -155,8 +155,10 @@ def maintenance_cost(event_log: pd.DataFrame, case_id: str) -> int | float | Non
 
     """
     case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
-    cost_values = case_events[StandardColumnNames.MAINTENANCE_COST].unique()
-    return cost_values[0] if len(cost_values) > 0 else None
+    cost_values = case_events[StandardColumnNames.MAINTENANCE_COST].isnotna().to_list()
+    # TODO: Add support for multiple maintenance costs, choose the last one registered.
+    # Complementarily, add a warning if multiple maintenance costs are found.
+    return cost_values[-1] if len(cost_values) > 0 else None
 
 
 def missed_deadline_cost(event_log: pd.DataFrame, case_id: str) -> int | float | None:
@@ -172,9 +174,11 @@ def missed_deadline_cost(event_log: pd.DataFrame, case_id: str) -> int | float |
         None: If no missed deadline cost is found.
 
     """
+    # TODO: Add support for multiple missed deadline costs, choose the last one registered.
+    # Complementarily, add a warning if multiple missed deadline costs are found.
     case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
-    cost_values = case_events[StandardColumnNames.MISSED_DEADLINE_COST].unique()
-    return cost_values[0] if len(cost_values) > 0 else None
+    cost_values = case_events[StandardColumnNames.MISSED_DEADLINE_COST].isnotna().to_list()
+    return cost_values[-1] if len(cost_values) > 0 else None
 
 
 def resource_count(event_log: pd.DataFrame, case_id: str) -> int:

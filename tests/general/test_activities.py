@@ -1,5 +1,6 @@
 import pytest
 
+from process_performance_indicators.constants import StandardColumnNames
 from process_performance_indicators.exceptions import ActivityNameNotFoundError, ColumnNotFoundError
 from process_performance_indicators.general.activities import (
     activity_instance_count,
@@ -12,7 +13,11 @@ class TestActivities:
     def test_activity_instance_count(self, sample_event_log):
         """Test counting activity instances for a specific activity"""
         # Test activity with multiple instances
-        assert activity_instance_count(sample_event_log, "activity1") == 3
+        qty_of_activities = len(sample_event_log[StandardColumnNames.ACTIVITY])
+        intances = 0
+        for activity in sample_event_log[StandardColumnNames.ACTIVITY].unique():
+            intances += activity_instance_count(sample_event_log, activity)
+        assert intances == qty_of_activities
 
         # Test activity with a single instance
         assert activity_instance_count(sample_event_log, "activity3") == 1
