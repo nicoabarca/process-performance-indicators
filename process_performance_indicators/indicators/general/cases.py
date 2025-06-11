@@ -1,6 +1,6 @@
 import pandas as pd
 
-import process_performance_indicators.helpers.cases as cases_helpers
+import process_performance_indicators.utils.cases as cases_helpers
 
 
 def activity_count(event_log: pd.DataFrame, case_id: str) -> int:

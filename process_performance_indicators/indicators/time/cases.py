@@ -1,22 +1,50 @@
 import pandas as pd
 
-import process_performance_indicators.helpers.cases as cases_helpers
 import process_performance_indicators.time.instances as instances_time_indicators
+import process_performance_indicators.utils.cases as cases_helpers
+import process_performance_indicators.utils.instances as instances_helpers
 
 
-def automated_activity_count(event_log: pd.DataFrame, case_id: str) -> int:
+def automated_activity_count(event_log: pd.DataFrame, case_id: str, automated_activities: list[str] | set[str]) -> int:
     """
     Counts the number of automated activities in a case.
 
     Args:
         event_log: The event log.
         case_id: The case id.
+        automated_activities: The list or set of automated activities.
 
     Returns:
         int: The number of automated activities in the case.
 
     """
-    raise NotImplementedError("Automated activity count is not implemented yet.")
+    automated_activities = set(automated_activities)
+    case_activities = cases_helpers.act(event_log, case_id)
+    return len(automated_activities.intersection(case_activities))
+
+
+def automated_activity_instance_count(
+    event_log: pd.DataFrame, case_id: str, automated_activities: list[str] | set[str]
+) -> int:
+    """
+    Counts the number of automated activity instances in a case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+        automated_activities: The list or set of automated activities.
+
+    Returns:
+        int: The number of automated activity instances in the case.
+
+    """
+    automated_activities = set(automated_activities)
+    case_instances = cases_helpers.inst(event_log, case_id)
+    instances_of_automated_activities = set()
+    for instance in case_instances:
+        if instances_helpers.act(event_log, instance) in automated_activities:
+            instances_of_automated_activities.add(instance)
+    return len(instances_of_automated_activities)
 
 
 def lead_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:

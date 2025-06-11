@@ -4,8 +4,6 @@ from process_performance_indicators.constants import LifecycleTransitionType, St
 from process_performance_indicators.exceptions import (
     ActivityNameNotFoundError,
     CaseIdNotFoundError,
-    NoCompleteEventFoundError,
-    NoStartEventFoundError,
 )
 
 
@@ -28,17 +26,19 @@ def count(event_log: pd.DataFrame, case_id: str, activity_name: str) -> int:
 
 def fi_s(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame:
     """
-    Returns the first start event of an activity instance in a case.
+    Returns the first start events of an activity instance in a case.
     """
     instances = inst(event_log, case_id, activity_name)
-    first_occurrence_index = instances[
+    instances_start_events = instances[
         (instances[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START)
-    ].index.min()
+    ]
+    # Get the minimum timestamp from all start events
+    min_timestamp = instances_start_events[StandardColumnNames.TIMESTAMP].min()
+    # Get all events that have this minimum timestamp
 
-    if first_occurrence_index.isna():
-        raise NoStartEventFoundError(f"No start event found for activity {activity_name} in case {case_id}.")
-
-    return instances.iloc[first_occurrence_index]
+    return instances_start_events[instances_start_events[StandardColumnNames.TIMESTAMP] == min_timestamp][
+        StandardColumnNames.ACTIVITY
+    ].tolist()
 
 
 def fi_c(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame:
@@ -46,17 +46,17 @@ def fi_c(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFr
     Returns the first complete event of an activity instance in a case.
     """
     instances = inst(event_log, case_id, activity_name)
-    first_occurrence_index = instances[
+    instances_complete_events = instances[
         (instances[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE)
-    ].index.min()
+    ]
+    min_timestamp = instances_complete_events[StandardColumnNames.TIMESTAMP].min()
+    return instances_complete_events[instances_complete_events[StandardColumnNames.TIMESTAMP] == min_timestamp][
+        StandardColumnNames.ACTIVITY
+    ].tolist()
 
-    if first_occurrence_index.isna():
-        raise NoCompleteEventFoundError(f"No complete event found for activity {activity_name} in case {case_id}.")
 
-    return instances.iloc[first_occurrence_index]
-
-
-def fi(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame:
+def fi(event_log: pd.DataFrame, case_id: str, activity_name_1: str, activity_name_2: str) -> pd.DataFrame:
+    activity_name_fi_s = fi_s(event_log, case_id, activity_name_1)
     raise NotImplementedError("First occurrence is not implemented yet.")
 
 

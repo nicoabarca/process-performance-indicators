@@ -27,6 +27,9 @@ misc = [
 [tool.setuptools]
 packages = [ "process_performance_indicators" ]
 
+[tool.setuptools.package-data]
+"process_performance_indicators" = ["py.typed"]
+
 [tool.ruff]
 line-length = 120
 target-version = "py310"

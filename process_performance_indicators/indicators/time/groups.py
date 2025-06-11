@@ -1,8 +1,96 @@
 import pandas as pd
 
 import process_performance_indicators.general.groups as general_groups_indicators
-import process_performance_indicators.helpers.cases as cases_helpers
 import process_performance_indicators.time.cases as time_cases_indicators
+import process_performance_indicators.utils.cases as cases_helpers
+
+
+def automated_activity_count(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
+) -> int:
+    """
+    Counts the number of automated activities in a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        automated_activities: The list or set of automated activities.
+
+    Returns:
+        int: The number of automated activities in the group of cases.
+
+    """
+    automated_activities = set(automated_activities)
+    activities_in_group = set()
+    for case in case_ids:
+        activities_in_group.update(cases_helpers.act(event_log, case))
+    return len(automated_activities.intersection(activities_in_group))
+
+
+def expected_automated_activity_count(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
+) -> int | float:
+    """
+    Calculates the expected number of automated activities in a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        automated_activities: The list or set of automated activities.
+
+    Returns:
+        int | float: The expected number of automated activities in the group of cases.
+
+    """
+    automated_activities = set(automated_activities)
+    activities_count = 0
+    for case in case_ids:
+        activities_count += time_cases_indicators.automated_activity_count(event_log, case, automated_activities)
+    return activities_count / general_groups_indicators.case_count(event_log, case_ids)
+
+
+def automated_activity_instance_count(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
+) -> int | float:
+    """
+    Calculates the expected number of automated activity instances in a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        automated_activities: The list or set of automated activities.
+
+    Returns:
+        int | float: The expected number of automated activity instances in the group of cases.
+
+    """
+    automated_activities = set(automated_activities)
+    activities_count = 0
+    for case in case_ids:
+        activities_count += time_cases_indicators.automated_activity_instance_count(
+            event_log, case, automated_activities
+        )
+    return activities_count
+
+
+def expected_automated_activity_instance_count(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
+) -> int | float:
+    """
+    Calculates the expected number of automated activity instances in a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        automated_activities: The list or set of automated activities.
+
+    Returns:
+        int | float: The expected number of automated activity instances in the group of cases.
+
+    """
+    return automated_activity_instance_count(
+        event_log, case_ids, automated_activities
+    ) / general_groups_indicators.case_count(event_log, case_ids)
 
 
 def case_count_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:

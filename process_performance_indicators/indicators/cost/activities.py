@@ -3,7 +3,7 @@ from typing import Literal
 import pandas as pd
 
 import process_performance_indicators.cost.instances as instances_cost_indicators
-import process_performance_indicators.helpers.activities as activities_helpers
+import process_performance_indicators.utils.activities as activities_helpers
 
 
 def fixed_cost(
@@ -159,3 +159,29 @@ def resource_count(event_log: pd.DataFrame, activity_name: str) -> int:
 
     """
     return len(activities_helpers.res(event_log, activity_name))
+
+
+def labor_cost_and_total_cost_ratio(
+    event_log: pd.DataFrame, activity_name: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float | None:
+    """
+    The ratio between the labor cost associated with all instantiations of the activity,
+    and the total cost associated with all instantiations of the activity.
+
+    Args:
+        event_log: The event log.
+        activity_name: The activity name.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    Returns:
+        The ratio between the labor cost and the total cost for an activity.
+        None: If the labor cost or the total cost is None.
+
+    """
+    _labor_cost = labor_cost(event_log, activity_name, aggregation_mode)
+    _total_cost = total_cost(event_log, activity_name, aggregation_mode)
+    if _labor_cost is None or _total_cost is None:
+        return None
+    return _labor_cost / _total_cost

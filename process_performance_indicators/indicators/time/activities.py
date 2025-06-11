@@ -1,7 +1,7 @@
 import pandas as pd
 
-import process_performance_indicators.helpers.cases as cases_helpers
 import process_performance_indicators.time.instances as instances_time_indicators
+import process_performance_indicators.utils.cases as cases_helpers
 
 
 def service_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:

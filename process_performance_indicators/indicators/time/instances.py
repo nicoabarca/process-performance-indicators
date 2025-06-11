@@ -1,6 +1,6 @@
 import pandas as pd
 
-import process_performance_indicators.helpers.instances as instances_helpers
+import process_performance_indicators.utils.instances as instances_helpers
 
 
 def lead_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:

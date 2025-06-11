@@ -362,3 +362,210 @@ def expected_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
     case_group_count = groups_general_indicators.case_count(event_log, case_ids)
 
     return group_resource_count / case_group_count
+
+
+def labor_cost_and_total_cost_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float | None:
+    """
+    The ratio between the labor cost associated with all activity instances of the group of cases,
+    and the total cost associated with all activity instances of the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    Returns:
+        The labor cost and total cost ratio of the group of cases.
+        None: If the labor cost or the total cost is None.
+
+    """
+    _labor_cost = labor_cost(event_log, case_ids)
+    _total_cost = total_cost(event_log, case_ids)
+    if _labor_cost is None or _total_cost is None:
+        return None
+    return _labor_cost / _total_cost
+
+
+def expected_labor_cost_and_total_cost_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float | None:
+    """
+    The expected ratio between the labor cost associated with all activity instances of the group of cases, and
+    the total cost associated with all activity instances of the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    Returns:
+        The expected labor cost and total cost ratio of the group of cases.
+        None: If the labor cost or the total cost is None.
+
+    """
+    # TODO: Check if this formula is correct.
+    # Follow this format of checking for None or 0, for all ratio functions.
+    _labor_cost = labor_cost(event_log, case_ids)
+    _total_cost = total_cost(event_log, case_ids)
+    if _labor_cost is None or _total_cost in [None, 0]:
+        return None
+    return _labor_cost / _total_cost
+
+
+def automated_activity_cost(
+    event_log: pd.DataFrame,
+    case_ids: list[str] | set[str],
+    aggregation_mode: Literal["sgl", "sum"],
+    automated_activities: list[str] | set[str],
+) -> int | float | None:
+    """
+    The total cost associated with all instantiations of automated activities in the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        automated_activities: The list or set of automated activities.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    Returns:
+        The total cost associated with all instantiations of automated activities in the group of cases.
+        None: If no automated activity cost is found.
+
+    """
+    automated_activities = set(automated_activities)
+
+    total_cost = 0
+    for case_id in case_ids:
+        total_cost += cases_cost_indicators.automated_activity_cost(
+            event_log, case_id, aggregation_mode, automated_activities
+        )
+    return total_cost
+
+
+def expected_automated_activity_cost(
+    event_log: pd.DataFrame,
+    case_ids: list[str] | set[str],
+    aggregation_mode: Literal["sgl", "sum"],
+    automated_activities: list[str] | set[str],
+) -> int | float | None:
+    """
+    The expected total cost associated with all instantiations of automated activities
+    in a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        automated_activities: The list or set of automated activities.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    Returns:
+        The expected total cost associated with all instantiations of automated activities
+        in a case belonging to the group of cases.
+        None: If no automated activity cost is found.
+
+    """
+    group_automated_activity_cost = automated_activity_cost(event_log, case_ids, aggregation_mode, automated_activities)
+    if group_automated_activity_cost is None:
+        return None
+    case_group_count = groups_general_indicators.case_count(event_log, case_ids)
+    return group_automated_activity_cost / case_group_count
+
+
+def desired_activity_count(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], desired_activities: list[str] | set[str]
+) -> int:
+    """
+    The number of instantiated activities whose occurrences is desirable in the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        desired_activities: The list or set of desired activities.
+
+    Returns:
+        The number of instantiated activities whose occurrences is desirable in the group of cases.
+
+    """
+    desired_activities = set(desired_activities)
+    desired_activity_count = 0
+    for case_id in case_ids:
+        desired_activity_count += cases_cost_indicators.desired_activity_count(event_log, case_id, desired_activities)
+    return desired_activity_count
+
+
+def expected_desired_activity_count(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], desired_activities: list[str] | set[str]
+) -> int:
+    """
+    The expected number of instantiated activities whose occurence is desirable in a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        desired_activities: The list or set of desired activities.
+
+    Returns:
+        The expected number of instantiated activities whose occurence is desirable in a case belonging to the group of cases.
+
+    """
+    group_desired_activity_count = desired_activity_count(event_log, case_ids, desired_activities)
+    case_group_count = groups_general_indicators.case_count(event_log, case_ids)
+    return group_desired_activity_count / case_group_count
+
+
+def direct_cost(
+    event_log: pd.DataFrame,
+    case_ids: list[str] | set[str],
+    aggregation_mode: Literal["sgl", "sum"],
+    direct_costs_activities: list[str] | set[str],
+) -> int | float | None:
+    """
+    The total cost associated with all instantiations of activities that have a
+    direct effect on the outcome of a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        direct_costs_activities: The list or set of activities that have a direct effect on the outcome of cases in the group of cases.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    Returns:
+        The total cost associated with all instantiations of activities that have a
+        direct effect on the outcome of a case belonging to the group of cases.
+
+    """
+    total_cost = 0
+    for case_id in case_ids:
+        total_cost += cases_cost_indicators.direct_cost(event_log, case_id, aggregation_mode, direct_costs_activities)
+    return total_cost
+
+
+def expected_direct_cost(
+    event_log: pd.DataFrame,
+    case_ids: list[str] | set[str],
+    aggregation_mode: Literal["sgl", "sum"],
+    direct_costs_activities: list[str] | set[str],
+) -> int | float | None:
+    """
+    The expected total cost associated with all instantiations of activities that have a
+    direct effect on the outcome of a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+        direct_costs_activities: The list or set of activities that have a direct effect on the outcome of cases in the group of cases.
+
+    Returns:
+        The expected total cost associated with all instantiations of activities that have a
+        direct effect on the outcome of a case belonging to the group of cases.
+
+    """
+    group_direct_cost = direct_cost(event_log, case_ids, aggregation_mode, direct_costs_activities)
+    if group_direct_cost is None:
+        return None
+    return group_direct_cost / groups_general_indicators.case_count(event_log, case_ids)
