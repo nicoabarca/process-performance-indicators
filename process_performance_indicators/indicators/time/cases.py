@@ -1,6 +1,6 @@
 import pandas as pd
 
-import process_performance_indicators.time.instances as instances_time_indicators
+import process_performance_indicators.indicators.time.instances as instances_time_indicators
 import process_performance_indicators.utils.cases as cases_helpers
 import process_performance_indicators.utils.instances as instances_helpers
 
@@ -45,6 +45,22 @@ def automated_activity_instance_count(
         if instances_helpers.act(event_log, instance) in automated_activities:
             instances_of_automated_activities.add(instance)
     return len(instances_of_automated_activities)
+
+
+def automated_activity_service_time(
+    event_log: pd.DataFrame, case_id: str, automated_activities: list[str] | set[str]
+) -> pd.Timedelta:
+    """
+    Calculates the service time of automated activities in a case.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def handover_count(event_log: pd.DataFrame, case_id: str) -> int:
+    """
+    Counts the number of handovers in a case.
+    """
+    raise NotImplementedError("Not implemented yet")
 
 
 def lead_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
@@ -97,6 +113,44 @@ def lead_time_deviation_from_expectation(
     return expectation - lead_time(event_log, case_id)
 
 
+def lead_time_from_activity_a(event_log: pd.DataFrame, case_id: str, activity_a: str) -> pd.Timedelta:
+    """
+    Calculates the lead time of a case from an activity.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def lead_time_from_activity_a_to_b(
+    event_log: pd.DataFrame, case_id: str, activity_a: str, activity_b: str
+) -> pd.Timedelta:
+    """
+    Calculates the lead time of a case from an activity to another activity.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def lead_time_to_activity_a(event_log: pd.DataFrame, case_id: str, activity_a: str) -> pd.Timedelta:
+    """
+    Calculates the lead time of a case to an activity.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def service_and_lead_time_ratio(event_log: pd.DataFrame, case_id: str) -> float:
+    """
+    Calculate the service and lead time ratio of a case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+
+    Returns:
+        float: The service and lead time ratio of the case.
+
+    """
+    return service_time(event_log, case_id).total_seconds() / lead_time(event_log, case_id).total_seconds()
+
+
 def service_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     """
     Calculate the service time of all activity instances of a case.
@@ -116,16 +170,26 @@ def service_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
 
 
-def service_and_lead_time_ratio(event_log: pd.DataFrame, case_id: str) -> float:
+def service_time_from_activity_a_to_b(
+    event_log: pd.DataFrame, case_id: str, activity_a: str, activity_b: str
+) -> pd.Timedelta:
     """
-    Calculate the service and lead time ratio of a case.
-
-    Args:
-        event_log: The event log.
-        case_id: The case id.
-
-    Returns:
-        float: The service and lead time ratio of the case.
-
+    Calculates the service time of a case from an activity to another activity.
     """
-    return service_time(event_log, case_id).total_seconds() / lead_time(event_log, case_id).total_seconds()
+    raise NotImplementedError("Not implemented yet")
+
+
+def waiting_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
+    """
+    Calculates the waiting time of a case.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def waiting_time_from_activity_a_to_b(
+    event_log: pd.DataFrame, case_id: str, activity_a: str, activity_b: str
+) -> pd.Timedelta:
+    """
+    Calculates the waiting time of a case from an activity to another activity.
+    """
+    raise NotImplementedError("Not implemented yet")

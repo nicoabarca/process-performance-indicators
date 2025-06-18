@@ -1,7 +1,21 @@
 import pandas as pd
 
-import process_performance_indicators.time.instances as instances_time_indicators
+import process_performance_indicators.indicators.time.instances as instances_time_indicators
 import process_performance_indicators.utils.cases as cases_helpers
+
+
+def lead_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
+    """
+    Calculate the lead time of an activity instances accross all cases.
+    """
+    raise NotImplementedError("Not implemented yet.")
+
+
+def service_and_lead_time_ratio(event_log: pd.DataFrame, activity_name: str) -> float:
+    """
+    Calculate the service and lead time ratio of an activity instances accross all cases.
+    """
+    raise NotImplementedError("Not implemented yet.")
 
 
 def service_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
@@ -21,3 +35,10 @@ def service_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
         for instance_id in cases_helpers.inst(event_log, activity_name)
     )
     return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
+
+
+def waiting_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
+    """
+    Calculate the waiting time of an activity instances accross all cases.
+    """
+    raise NotImplementedError("Not implemented yet.")

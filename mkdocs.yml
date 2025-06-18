@@ -57,7 +57,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [.]  # Relative to project root
+          paths: [.] # Relative to project root
           options:
             docstring_style: google
             members_order: source
@@ -73,7 +73,8 @@ nav:
   - Installation: installation.md
   - Usage: usage.md
   - API Reference:
-    - General Indicators: reference/general.md
-    - Time Dimension Indicators: reference/time.md
-    - Cost Dimension Indicators: reference/cost.md
-
+      - General Indicators: reference/general.md
+      - Time Dimension Indicators: reference/time.md
+      - Cost Dimension Indicators: reference/cost.md
+      - Flexibility Dimension Indicators: reference/flexibility.md
+      - Quality Dimension Indicators: reference/quality.md

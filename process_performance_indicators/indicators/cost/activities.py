@@ -2,7 +2,7 @@ from typing import Literal
 
 import pandas as pd
 
-import process_performance_indicators.cost.instances as instances_cost_indicators
+import process_performance_indicators.indicators.cost.instances as instances_cost_indicators
 import process_performance_indicators.utils.activities as activities_helpers
 
 

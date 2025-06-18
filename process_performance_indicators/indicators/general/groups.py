@@ -1,6 +1,6 @@
 import pandas as pd
 
-import process_performance_indicators.general.cases as cases_general_indicators
+import process_performance_indicators.indicators.general.cases as cases_general_indicators
 import process_performance_indicators.utils.cases as cases_helpers
 from process_performance_indicators.constants import StandardColumnNames
 

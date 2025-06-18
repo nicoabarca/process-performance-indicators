@@ -18,6 +18,13 @@ def lead_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:
     raise NotImplementedError("Lead time is not implemented yet.")
 
 
+def service_and_lead_time_ratio(event_log: pd.DataFrame, instance_id: str) -> float:
+    """
+    Calculate the service and lead time ratio of an activity based on instance id.
+    """
+    raise NotImplementedError("Service and lead time ratio is not implemented yet.")
+
+
 def service_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:
     """
     Calculate the service time, i.e. the time between the start and the complete time of an activity based on instance id.

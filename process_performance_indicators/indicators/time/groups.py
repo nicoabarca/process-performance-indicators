@@ -1,7 +1,7 @@
 import pandas as pd
 
-import process_performance_indicators.general.groups as general_groups_indicators
-import process_performance_indicators.time.cases as time_cases_indicators
+import process_performance_indicators.indicators.general.groups as general_groups_indicators
+import process_performance_indicators.indicators.time.cases as time_cases_indicators
 import process_performance_indicators.utils.cases as cases_helpers
 
 
@@ -93,6 +93,24 @@ def expected_automated_activity_instance_count(
     ) / general_groups_indicators.case_count(event_log, case_ids)
 
 
+def automated_activity_service_time(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
+) -> pd.Timedelta:
+    """
+    Calculates the service time of automated activities in a group of cases.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def expected_automated_activity_service_time(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
+) -> pd.Timedelta:
+    """
+    Calculates the expected service time of automated activities in a group of cases.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
 def case_count_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
     Calculate the case count lead time ratio of a group of cases.
@@ -168,6 +186,20 @@ def case_percentage_with_missed_deadline(
     return len(cases_over_deadline) / general_groups_indicators.case_count(event_log, case_ids)
 
 
+def handover_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+    """
+    Calculate the handover count of a group of cases.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def expected_handover_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+    """
+    Calculate the expected handover count of a group of cases.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
 def lead_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
     Calculate the lead time of a group of cases based on max end timestamp value and min start timestamp value.
@@ -209,7 +241,7 @@ def expected_lead_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) 
     return pd.Timedelta(seconds=expected_lead_time_in_seconds)
 
 
-def lead_time_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
+def lead_time_and_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
     Calculate the lead time case count ratio of a group of cases.
 
@@ -277,40 +309,31 @@ def expected_lead_time_deviation_from_expectation(
     return pd.Timedelta(seconds=expected_lead_time_deviation_from_expectation_in_seconds)
 
 
-def service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
+def expected_lead_time_from_activity_a(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str
+) -> pd.Timedelta:
     """
-    Calculate the service time of a group of cases.
-
-    Args:
-        event_log: The event log.
-        case_ids: The case ids.
-
-    Returns:
-        pd.Timedelta: The service time of the group of cases.
-
+    Calculate the expected lead time from activity a of a group of cases.
     """
-    sum_of_service_times_in_seconds = sum(
-        time_cases_indicators.service_time(event_log, case_id).total_seconds() for case_id in case_ids
-    )
-    return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
+    raise NotImplementedError("Not implemented yet")
 
 
-def expected_service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
+def expected_lead_time_from_activity_a_to_b(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
+) -> pd.Timedelta:
     """
-    Calculate the expected service time of a group of cases.
-
-    Args:
-        event_log: The event log.
-        case_ids: The case ids.
-
-    Returns:
-        pd.Timedelta: The expected service time of the group of cases.
-
+    Calculate the expected lead time from activity a to b of a group of cases.
     """
-    group_service_time_in_seconds = service_time(event_log, case_ids).total_seconds()
-    case_count = general_groups_indicators.case_count(event_log, case_ids)
-    expected_service_time_in_seconds = group_service_time_in_seconds / case_count
-    return pd.Timedelta(seconds=expected_service_time_in_seconds)
+    raise NotImplementedError("Not implemented yet")
+
+
+def expected_lead_time_to_activity_a(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str
+) -> pd.Timedelta:
+    """
+    Calculate the expected lead time to activity a of a group of cases.
+    """
+    raise NotImplementedError("Not implemented yet")
 
 
 def service_and_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -362,3 +385,73 @@ def expected_service_and_lead_time_ratio(event_log: pd.DataFrame, case_ids: list
         time_cases_indicators.lead_time(event_log, case_id).total_seconds() for case_id in case_ids
     )
     return group_service_time_in_seconds / group_total_lead_time_in_seconds
+
+
+def service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
+    """
+    Calculate the service time of a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    Returns:
+        pd.Timedelta: The service time of the group of cases.
+
+    """
+    sum_of_service_times_in_seconds = sum(
+        time_cases_indicators.service_time(event_log, case_id).total_seconds() for case_id in case_ids
+    )
+    return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
+
+
+def expected_service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
+    """
+    Calculate the expected service time of a group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    Returns:
+        pd.Timedelta: The expected service time of the group of cases.
+
+    """
+    group_service_time_in_seconds = service_time(event_log, case_ids).total_seconds()
+    case_count = general_groups_indicators.case_count(event_log, case_ids)
+    expected_service_time_in_seconds = group_service_time_in_seconds / case_count
+    return pd.Timedelta(seconds=expected_service_time_in_seconds)
+
+
+def service_time_from_activity_a_to_b(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
+) -> pd.Timedelta:
+    """
+    Calculate the service time from activity a to b of a group of cases.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def expected_service_time_from_activity_a_to_b(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
+) -> pd.Timedelta:
+    """
+    Calculate the expected service time from activity a to b of a group of cases.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def expected_waiting_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
+    """
+    Calculate the waiting time of a group of cases.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def expected_waiting_time_from_activity_a_to_b(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
+) -> pd.Timedelta:
+    """
+    Calculate the expected waiting time from activity a to b of a group of cases.
+    """
+    raise NotImplementedError("Not implemented yet")
