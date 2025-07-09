@@ -4,6 +4,9 @@ sample_logs/
 # Ignore dev scripts and notebooks
 dev/
 
+# Ignore MacOS generated files
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
