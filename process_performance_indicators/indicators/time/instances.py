@@ -1,6 +1,6 @@
 import pandas as pd
 
-import process_performance_indicators.utils.instances as instances_helpers
+import process_performance_indicators.utils.instances as instances_utils
 
 
 def lead_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:
@@ -37,8 +37,8 @@ def service_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:
         pd.Timedelta: The service time.
 
     """
-    complete_time = instances_helpers.ctime(event_log, instance_id)
-    start_time = instances_helpers.stime(event_log, instance_id)
+    complete_time = instances_utils.ctime(event_log, instance_id)
+    start_time = instances_utils.stime(event_log, instance_id)
     return complete_time - start_time
 
 

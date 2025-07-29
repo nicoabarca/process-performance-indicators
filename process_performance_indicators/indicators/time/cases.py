@@ -1,11 +1,18 @@
 import pandas as pd
 
-import process_performance_indicators.indicators.time.instances as instances_time_indicators
-import process_performance_indicators.utils.cases as cases_helpers
-import process_performance_indicators.utils.instances as instances_helpers
+import process_performance_indicators.indicators.time.instances as time_instances_indicators
+import process_performance_indicators.utils.cases as cases_utils
+import process_performance_indicators.utils.instances as instances_utils
 
 
-def automated_activity_count(event_log: pd.DataFrame, case_id: str, automated_activities: list[str] | set[str]) -> int:
+def active_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
+    """
+    Todo: Implement this function.
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def automated_activity_count(event_log: pd.DataFrame, case_id: str, automated_activities: set[str]) -> int:
     """
     Counts the number of automated activities in a case.
 
@@ -19,7 +26,7 @@ def automated_activity_count(event_log: pd.DataFrame, case_id: str, automated_ac
 
     """
     automated_activities = set(automated_activities)
-    case_activities = cases_helpers.act(event_log, case_id)
+    case_activities = cases_utils.act(event_log, case_id)
     return len(automated_activities.intersection(case_activities))
 
 
@@ -39,10 +46,10 @@ def automated_activity_instance_count(
 
     """
     automated_activities = set(automated_activities)
-    case_instances = cases_helpers.inst(event_log, case_id)
+    case_instances = cases_utils.inst(event_log, case_id)
     instances_of_automated_activities = set()
     for instance in case_instances:
-        if instances_helpers.act(event_log, instance) in automated_activities:
+        if instances_utils.act(event_log, instance) in automated_activities:
             instances_of_automated_activities.add(instance)
     return len(instances_of_automated_activities)
 
@@ -75,7 +82,7 @@ def lead_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
         pd.Timedelta: The lead time of the case.
 
     """
-    return cases_helpers.endt(event_log, case_id) - cases_helpers.startt(event_log, case_id)
+    return cases_utils.endt(event_log, case_id) - cases_utils.startt(event_log, case_id)
 
 
 def lead_time_deviation_from_deadline(event_log: pd.DataFrame, case_id: str, deadline: pd.Timestamp) -> pd.Timedelta:
@@ -164,8 +171,8 @@ def service_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
 
     """
     sum_of_service_times_in_seconds = sum(
-        instances_time_indicators.service_time(event_log, instance_id).total_seconds()
-        for instance_id in cases_helpers.inst(event_log, case_id)
+        time_instances_indicators.service_time(event_log, instance_id).total_seconds()
+        for instance_id in cases_utils.inst(event_log, case_id)
     )
     return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
 

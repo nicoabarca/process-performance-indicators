@@ -1,58 +1,49 @@
 import pandas as pd
 
 import process_performance_indicators.indicators.general.cases as cases_general_indicators
-import process_performance_indicators.utils.cases as cases_helpers
+import process_performance_indicators.utils.cases as cases_utils
 from process_performance_indicators.constants import StandardColumnNames
 
 
 def activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
     """
-    Counts the number of different activities for each case in the event log for a given list or set of case ids.
+    The number of activities that occur in the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int: The number of activities.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
     count = 0
     for case_id in case_ids:
-        count += len(cases_helpers.act(event_log, case_id))
+        count += len(cases_utils.act(event_log, case_id))
     return count
 
 
-def expected_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float:
+def expected_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
-    The expected number of different activities for each case in the event log for a given list or set of case ids.
+    The expected number of activities that occur in a case belonging to the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int | float: The expected number of activities.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
     count = 0
     for case_id in case_ids:
-        count += len(cases_helpers.act(event_log, case_id))
+        count += len(cases_utils.act(event_log, case_id))
     return count / case_count(event_log, case_ids)
 
 
 def activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
     """
-    Counts the number of activity instances for each case in the event log for a given list or set of case ids.
+    The number of times that any activity has been instantiated in the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int: The number of activity instances.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
@@ -62,16 +53,13 @@ def activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
     return count
 
 
-def expected_activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float:
+def expected_activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
-    The expected number of activity instances for each case in the event log for a given list or set of case ids.
+    The expected number of times that any activity has been instantiated in a case belonging to the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int | float: The expected number of activity instances.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
@@ -83,14 +71,11 @@ def expected_activity_instance_count(event_log: pd.DataFrame, case_ids: list[str
 
 def case_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
     """
-    Counts the number of cases in the event log for a given list or set of case ids.
+    The number of cases belonging to the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int: The number of cases.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
@@ -101,33 +86,27 @@ def case_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
 
 def human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
     """
-    Counts the number of human resources in the event log for a given list or set of case ids.
+    The number of human resources that are involved in the execution of the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int: The number of human resources.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
     count = 0
     for case_id in case_ids:
-        count += len(cases_helpers.hres(event_log, case_id))
+        count += len(cases_utils.hres(event_log, case_id))
     return count
 
 
-def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float:
+def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
-    The expected number of human resources in the event log for a given list or set of case ids.
+    The expected number of human resources that are involved in the execution of a case belonging to the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int | float: The expected number of human resources.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
@@ -139,33 +118,27 @@ def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] |
 
 def resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
     """
-    Counts the number of resources in the event log for a given list or set of case ids.
+    The number of resources that are involved in the execution of the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int: The number of resources.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
     count = 0
     for case_id in case_ids:
-        count += len(cases_helpers.res(event_log, case_id))
+        count += len(cases_utils.res(event_log, case_id))
     return count
 
 
 def expected_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float:
     """
-    The expected number of resources in the event log for a given list or set of case ids.
+    The expected number of resources that are involved in the execution of a case belonging to the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int | float: The expected number of resources.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
@@ -177,33 +150,27 @@ def expected_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
 
 def role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
     """
-    Counts the number of roles in the event log for a given list or set of case ids.
+    The number of human resource roles that are involved in the execution of the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int: The number of roles.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)
     count = 0
     for case_id in case_ids:
-        count += len(cases_helpers.role(event_log, case_id))
+        count += len(cases_utils.role(event_log, case_id))
     return count
 
 
 def expected_role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float:
     """
-    The expected number of roles in the event log for a given list or set of case ids.
+    The expected number of human resource roles that are involved in the execution of a case belonging to the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The list or set of case ids.
-
-    Returns:
-        int | float: The expected number of roles.
+        event_log: The event log.
+        case_ids: The list or set of case ids.
 
     """
     _is_case_ids_empty(case_ids)

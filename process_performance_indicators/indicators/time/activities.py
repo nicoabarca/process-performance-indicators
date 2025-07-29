@@ -1,7 +1,7 @@
 import pandas as pd
 
-import process_performance_indicators.indicators.time.instances as instances_time_indicators
-import process_performance_indicators.utils.cases as cases_helpers
+import process_performance_indicators.indicators.time.instances as time_instances_indicators
+import process_performance_indicators.utils.cases as cases_utils
 
 
 def lead_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
@@ -31,8 +31,8 @@ def service_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
 
     """
     sum_of_service_times_in_seconds = sum(
-        instances_time_indicators.service_time(event_log, instance_id).total_seconds()
-        for instance_id in cases_helpers.inst(event_log, activity_name)
+        time_instances_indicators.service_time(event_log, instance_id).total_seconds()
+        for instance_id in cases_utils.inst(event_log, activity_name)
     )
     return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
 

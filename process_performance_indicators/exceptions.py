@@ -32,3 +32,9 @@ class NoCompleteEventFoundError(Exception):
     """
     Exception raised when no complete event is found in the event log.
     """
+
+
+class ProcessPerformanceIndicatorDivisionError(Exception):
+    """
+    Exception raised when the indicator division cannot be calculated.
+    """
