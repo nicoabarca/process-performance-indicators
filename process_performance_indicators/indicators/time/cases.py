@@ -30,16 +30,14 @@ def automated_activity_count(event_log: pd.DataFrame, case_id: str, automated_ac
     return len(automated_activities.intersection(case_activities))
 
 
-def automated_activity_instance_count(
-    event_log: pd.DataFrame, case_id: str, automated_activities: list[str] | set[str]
-) -> int:
+def automated_activity_instance_count(event_log: pd.DataFrame, case_id: str, automated_activities: set[str]) -> int:
     """
     Counts the number of automated activity instances in a case.
 
     Args:
         event_log: The event log.
         case_id: The case id.
-        automated_activities: The list or set of automated activities.
+        automated_activities: The set of automated activities.
 
     Returns:
         int: The number of automated activity instances in the case.
@@ -55,7 +53,7 @@ def automated_activity_instance_count(
 
 
 def automated_activity_service_time(
-    event_log: pd.DataFrame, case_id: str, automated_activities: list[str] | set[str]
+    event_log: pd.DataFrame, case_id: str, automated_activities: set[str]
 ) -> pd.Timedelta:
     """
     Calculates the service time of automated activities in a case.

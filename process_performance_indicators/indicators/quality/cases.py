@@ -2,8 +2,13 @@ from typing import Literal
 
 import pandas as pd
 
+import process_performance_indicators.indicators.general.cases as general_cases_indicators
+import process_performance_indicators.indicators.quality.instances as quality_instances_indicators
 import process_performance_indicators.utils.cases as cases_utils
+import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
+from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.utils.safe_division import safe_divide
 
 
 def activity_instance_count_by_human_resource(event_log: pd.DataFrame, case_id: str, human_resource_name: str) -> int:
@@ -57,28 +62,37 @@ def automated_activity_count(event_log: pd.DataFrame, case_id: str, automated_ac
     return len(automated_activities.intersection(case_activities))
 
 
-def automated_activity_instance_count(event_log: pd.DataFrame, case_id: str) -> int:
+def automated_activity_instance_count(event_log: pd.DataFrame, case_id: str, automated_activities: set[str]) -> int:
     """
     The number of times that an automated activity is instantiated in the case.
 
     Args:
         event_log: The event log.
         case_id: The case ID.
+        automated_activities: The set of automated activities.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    case_instances = cases_utils.inst(event_log, case_id)
+    instances_of_automated_activities = set()
+    for instance in case_instances:
+        if instances_utils.act(event_log, instance) in automated_activities:
+            instances_of_automated_activities.add(instance)
+    return len(instances_of_automated_activities)
 
 
-def desired_activity_count(event_log: pd.DataFrame, case_id: str) -> int:
+def desired_activity_count(event_log: pd.DataFrame, case_id: str, desired_activities: set[str]) -> int:
     """
     The number of instantiated activities whose occurence is desirable in the case.
 
     Args:
         event_log: The event log.
         case_id: The case ID.
+        desired_activities: The set of desired activities.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    desired_activities = set(desired_activities)
+    case_activities = cases_utils.act(event_log, case_id)
+    return len(desired_activities.intersection(case_activities))
 
 
 def human_resource_count(event_log: pd.DataFrame, case_id: str) -> int:
@@ -90,34 +104,42 @@ def human_resource_count(event_log: pd.DataFrame, case_id: str) -> int:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return len(cases_utils.hres(event_log, case_id))
 
 
-def non_automated_activity_count(event_log: pd.DataFrame, case_id: str) -> int:
+def non_automated_activity_count(event_log: pd.DataFrame, case_id: str, automated_activities: set[str]) -> int:
     """
     The number of non-automated activities that occur in the case.
 
     Args:
         event_log: The event log.
         case_id: The case ID.
+        automated_activities: The set of automated activities.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    case_activities = cases_utils.act(event_log, case_id)
+    return len(case_activities.difference(automated_activities))
 
 
-def non_automated_activity_instance_count(event_log: pd.DataFrame, case_id: str) -> int:
+def non_automated_activity_instance_count(event_log: pd.DataFrame, case_id: str, automated_activities: set[str]) -> int:
     """
     The number of times that an non-automated activity is instantiated in the case.
 
     Args:
         event_log: The event log.
         case_id: The case ID.
+        automated_activities: The set of automated activities.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    non_automated_activity_instances = {
+        instance
+        for instance in cases_utils.inst(event_log, case_id)
+        if instances_utils.act(event_log, instance) not in automated_activities
+    }
+    return len(non_automated_activity_instances)
 
 
-def outcome_unit_count(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]) -> int:
+def outcome_unit_count(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]) -> float:
     """
     The outcome units associated with all instantiations of the case.
 
@@ -129,10 +151,21 @@ def outcome_unit_count(event_log: pd.DataFrame, case_id: str, aggregation_mode: 
             "sum": Considers the sum of all events of activity instances for outcome unit calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    aggregation_function = {
+        "sgl": quality_instances_indicators.outcome_unit_count_considering_single_events_of_activity_instances,
+        "sum": quality_instances_indicators.outcome_unit_count_considering_sum_of_all_events_of_activity_instances,
+    }
+    case_instances = cases_utils.inst(event_log, case_id)
+
+    outcome_unit_count = 0
+    for instance_id in case_instances:
+        outcome_unit = aggregation_function[aggregation_mode](event_log, instance_id)
+        if outcome_unit is not None:
+            outcome_unit_count += outcome_unit
+    return outcome_unit_count
 
 
-def overall_quality(event_log: pd.DataFrame, case_id: str) -> int | float:
+def overall_quality(event_log: pd.DataFrame, case_id: str) -> float:
     """
     The overall quality associated with the outcome of the case.
 
@@ -141,10 +174,11 @@ def overall_quality(event_log: pd.DataFrame, case_id: str) -> int | float:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    case_rows = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
+    return float(case_rows[StandardColumnNames.QUALITY].unique()[0])
 
 
-def repeatability(event_log: pd.DataFrame, case_id: str) -> int | float:
+def repeatability(event_log: pd.DataFrame, case_id: str) -> float:
     """
     The inverted ratio between the number of activities that occur in the case, and the number of times that an activity has been instantiated in the case.
 
@@ -153,7 +187,10 @@ def repeatability(event_log: pd.DataFrame, case_id: str) -> int | float:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return 1 - safe_divide(
+        general_cases_indicators.activity_count(event_log, case_id),
+        general_cases_indicators.activity_instance_count(event_log, case_id),
+    )
 
 
 def rework_count(event_log: pd.DataFrame, case_id: str) -> int:
@@ -165,10 +202,14 @@ def rework_count(event_log: pd.DataFrame, case_id: str) -> int:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    rework_count = 0
+
+    for activity_name in event_log[StandardColumnNames.ACTIVITY].unique():
+        rework_count += max(0, cases_activities_utils.count(event_log, case_id, activity_name) - 1)
+    return rework_count
 
 
-def rework_count_by_value(event_log: pd.DataFrame, case_id: str, value: str) -> int:
+def rework_count_by_value(event_log: pd.DataFrame, case_id: str, value: float) -> int:
     """
     The number of times that the activity has been instantiated again, after it has been instantiated a certain number of times, in the case.
 
@@ -178,7 +219,11 @@ def rework_count_by_value(event_log: pd.DataFrame, case_id: str, value: str) -> 
         value: The certain number of times that the activity has been instantiated.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    rework_count = 0
+
+    for activity_name in event_log[StandardColumnNames.ACTIVITY].unique():
+        rework_count += max(0, cases_activities_utils.count(event_log, case_id, activity_name) - value)
+    return rework_count
 
 
 def rework_of_activities_subset(event_log: pd.DataFrame, case_id: str, activities_subset: set[str]) -> int:
@@ -192,7 +237,11 @@ def rework_of_activities_subset(event_log: pd.DataFrame, case_id: str, activitie
         activities_subset: The subset of activities.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    rework_count = 0
+
+    for activity_name in activities_subset:
+        rework_count += max(0, cases_activities_utils.count(event_log, case_id, activity_name) - 1)
+    return rework_count
 
 
 def rework_percentage(event_log: pd.DataFrame, case_id: str) -> float:
@@ -204,7 +253,9 @@ def rework_percentage(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = rework_count(event_log, case_id)
+    denominator = general_cases_indicators.activity_instance_count(event_log, case_id)
+    return safe_divide(numerator, denominator)
 
 
 def rework_percentage_by_value(event_log: pd.DataFrame, case_id: str, value: str) -> float:
@@ -217,7 +268,9 @@ def rework_percentage_by_value(event_log: pd.DataFrame, case_id: str, value: str
         value: The certain number of times that the activity has been instantiated.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = rework_count_by_value(event_log, case_id, value)
+    denominator = general_cases_indicators.activity_instance_count(event_log, case_id)
+    return safe_divide(numerator, denominator)
 
 
 def rework_time(event_log: pd.DataFrame, case_id: str, activity_name: str) -> float:
@@ -247,7 +300,12 @@ def successful_outcome_unit_count(
             "sum": Considers the sum of all events of activity instances for outcome unit count calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_successful_outcome_unit_counts = 0
+    for instance_id in cases_utils.inst(event_log, case_id):
+        sum_of_successful_outcome_unit_counts += quality_instances_indicators.successful_outcome_unit_count(
+            event_log, instance_id, aggregation_mode
+        )
+    return sum_of_successful_outcome_unit_counts
 
 
 def successful_outcome_unit_percentage(
@@ -264,7 +322,9 @@ def successful_outcome_unit_percentage(
             "sum": Considers the sum of all events of activity instances for outcome unit count calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = successful_outcome_unit_count(event_log, case_id, aggregation_mode)
+    denominator = outcome_unit_count(event_log, case_id, aggregation_mode)
+    return safe_divide(numerator, denominator)
 
 
 def unwanted_activity_count(event_log: pd.DataFrame, case_id: str, unwanted_activities: set[str]) -> int:
@@ -277,7 +337,7 @@ def unwanted_activity_count(event_log: pd.DataFrame, case_id: str, unwanted_acti
         unwanted_activities: The set of unwanted activities names.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return len(unwanted_activities.intersection(cases_utils.act(event_log, case_id)))
 
 
 def unwanted_activity_percentage(event_log: pd.DataFrame, case_id: str, unwanted_activities: set[str]) -> float:
@@ -290,7 +350,9 @@ def unwanted_activity_percentage(event_log: pd.DataFrame, case_id: str, unwanted
         unwanted_activities: The set of unwanted activities names.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = unwanted_activity_count(event_log, case_id, unwanted_activities)
+    denominator = general_cases_indicators.activity_count(event_log, case_id)
+    return safe_divide(numerator, denominator)
 
 
 def unwanted_activity_instance_count(event_log: pd.DataFrame, case_id: str, unwanted_activities: set[str]) -> int:
@@ -303,7 +365,12 @@ def unwanted_activity_instance_count(event_log: pd.DataFrame, case_id: str, unwa
         unwanted_activities: The set of unwanted activities names.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    unwanted_activity_instances = {
+        instance
+        for instance in cases_utils.inst(event_log, case_id)
+        if instances_utils.act(instance) in unwanted_activities
+    }
+    return len(unwanted_activity_instances)
 
 
 def unwanted_activity_instance_percentage(
@@ -318,4 +385,6 @@ def unwanted_activity_instance_percentage(
         unwanted_activities: The set of unwanted activities names.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = unwanted_activity_instance_count(event_log, case_id, unwanted_activities)
+    denominator = general_cases_indicators.activity_instance_count(event_log, case_id)
+    return safe_divide(numerator, denominator)

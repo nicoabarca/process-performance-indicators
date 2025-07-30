@@ -2,10 +2,14 @@ from typing import Literal
 
 import pandas as pd
 
+import process_performance_indicators.utils.instances as instances_utils
+from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.utils.safe_division import safe_divide
+
 
 def outcome_unit_count_considering_single_events_of_activity_instances(
     event_log: pd.DataFrame, instance_id: str
-) -> int:
+) -> float | None:
     """
     The outcome units associated with an activity instance, measured as the latest recorded value among the events of the activity instance.
 
@@ -14,12 +18,20 @@ def outcome_unit_count_considering_single_events_of_activity_instances(
         instance_id: The instance id.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    complete_event = instances_utils.cpl(event_log, instance_id)
+    if not complete_event.empty:
+        return float(complete_event[StandardColumnNames.OUTCOME_UNIT].unique()[0])
+
+    start_event = instances_utils.start(event_log, instance_id)
+    if not start_event.empty:
+        return float(start_event[StandardColumnNames.OUTCOME_UNIT].unique()[0])
+
+    return None
 
 
 def outcome_unit_count_considering_sum_of_all_events_of_activity_instances(
     event_log: pd.DataFrame, instance_id: str
-) -> int:
+) -> float | None:
     """
     The outcome units associated with an activity instance, measured as the sum of all values among the events of the activity instance.
 
@@ -28,7 +40,14 @@ def outcome_unit_count_considering_sum_of_all_events_of_activity_instances(
         instance_id: The instance id.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    start_event = instances_utils.start(event_log, instance_id)
+    complete_event = instances_utils.cpl(event_log, instance_id)
+    if not start_event.empty and not complete_event.empty:
+        return float(
+            start_event[StandardColumnNames.OUTCOME_UNIT].unique()[0]
+            + complete_event[StandardColumnNames.OUTCOME_UNIT].unique()[0]
+        )
+    return None
 
 
 def successful_outcome_unit_count(
@@ -45,7 +64,19 @@ def successful_outcome_unit_count(
             "sum": Considers the sum of all events of activity instances for outcome unit count calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    aggregation_function = {
+        "sgl": outcome_unit_count_considering_single_events_of_activity_instances,
+        "sum": outcome_unit_count_considering_sum_of_all_events_of_activity_instances,
+    }
+    outcome_unit_count = aggregation_function[aggregation_mode](event_log, instance_id)
+    complete_event = instances_utils.cpl(event_log, instance_id)
+    # TODO: ASK HERE FOR STANDARD COLUMN NAME FOR UNSUCCESSFUL OUTCOME UNIT
+    if not complete_event.empty:
+        return outcome_unit_count - float(
+            complete_event[StandardColumnNames.OUTCOME_UNIT].unique()[0]
+        )  # HERE I SHOULD SUBSTRACT THE UNSUCCESSFUL OUTCOME UNIT
+
+    return outcome_unit_count
 
 
 def successful_outcome_unit_percentage(
@@ -62,7 +93,14 @@ def successful_outcome_unit_percentage(
             "sum": Considers the sum of all events of activity instances for outcome unit count calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    outcome_unit_function = {
+        "sgl": outcome_unit_count_considering_single_events_of_activity_instances,
+        "sum": outcome_unit_count_considering_sum_of_all_events_of_activity_instances,
+    }
+
+    numerator = successful_outcome_unit_count(event_log, instance_id, aggregation_mode)
+    denominator = outcome_unit_function[aggregation_mode](event_log, instance_id)
+    return safe_divide(numerator, denominator)
 
 
 def total_cost_and_client_count_ratio(
