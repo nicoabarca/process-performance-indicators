@@ -1,5 +1,11 @@
 import pandas as pd
 
+import process_performance_indicators.indicators.general.cases as general_cases_indicators
+import process_performance_indicators.indicators.general.groups as general_groups_indicators
+import process_performance_indicators.utils.cases as cases_utils
+from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.utils.safe_division import safe_divide
+
 
 def activity_and_role_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
@@ -10,7 +16,9 @@ def activity_and_role_count_ratio(event_log: pd.DataFrame, case_ids: list[str] |
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = general_groups_indicators.activity_count(event_log, case_ids)
+    denominator = general_groups_indicators.role_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def expected_activity_and_role_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -22,7 +30,15 @@ def expected_activity_and_role_count_ratio(event_log: pd.DataFrame, case_ids: li
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_activities_count = 0
+    sum_of_roles_count = 0
+    for case_id in case_ids:
+        sum_of_activities_count += general_groups_indicators.activity_count(event_log, case_id)
+        sum_of_roles_count += general_groups_indicators.role_count(event_log, case_id)
+
+    numerator = sum_of_activities_count
+    denominator = sum_of_roles_count
+    return safe_divide(numerator, denominator)
 
 
 def activity_instance_and_human_resource_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -34,7 +50,9 @@ def activity_instance_and_human_resource_count_ratio(event_log: pd.DataFrame, ca
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = general_groups_indicators.activity_instance_count(event_log, case_ids)
+    denominator = general_groups_indicators.human_resource_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def expected_activity_instance_and_human_resource_count_ratio(
@@ -48,7 +66,13 @@ def expected_activity_instance_and_human_resource_count_ratio(
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_human_resources_counts = 0
+    for case_id in case_ids:
+        sum_of_human_resources_counts += general_cases_indicators.human_resource_count(event_log, case_id)
+
+    numerator = general_groups_indicators.activity_instance_count(event_log, case_ids)
+    denominator = sum_of_human_resources_counts
+    return safe_divide(numerator, denominator)
 
 
 def client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -60,7 +84,12 @@ def client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    clients = set()
+    for case_id in case_ids:
+        clients.update(
+            set(event_log[StandardColumnNames.CLIENT][event_log[StandardColumnNames.CASE_ID] == case_id].unique())
+        )
+    return len(clients)
 
 
 def expected_client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -72,7 +101,9 @@ def expected_client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = client_count(event_log, case_ids)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def directly_follows_relations_and_activity_count_ratio(
@@ -136,7 +167,11 @@ def human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    _is_case_ids_empty(case_ids)
+    count = 0
+    for case_id in case_ids:
+        count += len(cases_utils.hres(event_log, case_id))
+    return count
 
 
 def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -148,7 +183,15 @@ def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] |
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    _is_case_ids_empty(case_ids)
+
+    sum_of_human_resources_counts = 0
+    for case_id in case_ids:
+        sum_of_human_resources_counts += general_groups_indicators.human_resource_count(event_log, case_id)
+
+    numerator = sum_of_human_resources_counts
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -220,7 +263,11 @@ def role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    _is_case_ids_empty(case_ids)
+    count = 0
+    for case_id in case_ids:
+        count += len(cases_utils.role(event_log, case_id))
+    return count
 
 
 def expected_role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -232,7 +279,13 @@ def expected_role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str])
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    _is_case_ids_empty(case_ids)
+    sum_of_role_counts = 0
+    for case_id in case_ids:
+        sum_of_role_counts += general_cases_indicators.role_count(event_log, case_id)
+    numerator = sum_of_role_counts
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def variant_case_coverage(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -257,3 +310,11 @@ def variant_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> in
 
     """
     raise NotImplementedError("Not implemented yet.")
+
+
+def _is_case_ids_empty(case_ids: list[str] | set[str]) -> None:
+    """
+    Raises a ValueError if the case ids are empty.
+    """
+    if len(case_ids) == 0:
+        raise ValueError("case_ids is empty. Please provide a valid list of case ids.")

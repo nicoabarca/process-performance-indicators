@@ -1,6 +1,6 @@
 import pandas as pd
 
-import process_performance_indicators.utils.activities as activities_helpers
+import process_performance_indicators.utils.activities as activities_utils
 
 
 def activity_instance_count(event_log: pd.DataFrame, activity_name: str) -> int:
@@ -12,7 +12,7 @@ def activity_instance_count(event_log: pd.DataFrame, activity_name: str) -> int:
         activity_name: The name of the activity.
 
     """
-    return len(activities_helpers.inst(event_log, activity_name))
+    return len(activities_utils.inst(event_log, activity_name))
 
 
 def human_resource_count(event_log: pd.DataFrame, activity_name: str) -> int:
@@ -24,7 +24,7 @@ def human_resource_count(event_log: pd.DataFrame, activity_name: str) -> int:
         activity_name: The name of the activity.
 
     """
-    return len(activities_helpers.hres(event_log, activity_name))
+    return len(activities_utils.hres(event_log, activity_name))
 
 
 def resource_count(event_log: pd.DataFrame, activity_name: str) -> int:
@@ -36,4 +36,4 @@ def resource_count(event_log: pd.DataFrame, activity_name: str) -> int:
         activity_name: The name of the activity.
 
     """
-    return len(activities_helpers.res(event_log, activity_name))
+    return len(activities_utils.res(event_log, activity_name))

@@ -1,8 +1,9 @@
 import pandas as pd
 
-import process_performance_indicators.indicators.general.cases as cases_general_indicators
+import process_performance_indicators.indicators.general.cases as general_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
 from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.utils.safe_division import safe_divide
 
 
 def activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -31,10 +32,13 @@ def expected_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
 
     """
     _is_case_ids_empty(case_ids)
-    count = 0
+    sum_of_activity_counts = 0
     for case_id in case_ids:
-        count += len(cases_utils.act(event_log, case_id))
-    return count / case_count(event_log, case_ids)
+        sum_of_activity_counts += len(cases_utils.act(event_log, case_id))
+
+    numerator = sum_of_activity_counts
+    denominator = case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -49,7 +53,7 @@ def activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
     _is_case_ids_empty(case_ids)
     count = 0
     for case_id in case_ids:
-        count += cases_general_indicators.activity_instance_count(event_log, case_id)
+        count += general_cases_indicators.activity_instance_count(event_log, case_id)
     return count
 
 
@@ -63,10 +67,13 @@ def expected_activity_instance_count(event_log: pd.DataFrame, case_ids: list[str
 
     """
     _is_case_ids_empty(case_ids)
-    cases_activity_instance_count = 0
+    sum_of_activity_instance_counts = 0
     for case_id in case_ids:
-        cases_activity_instance_count += cases_general_indicators.activity_instance_count(event_log, case_id)
-    return cases_activity_instance_count / case_count(event_log, case_ids)
+        sum_of_activity_instance_counts += general_cases_indicators.activity_instance_count(event_log, case_id)
+
+    numerator = sum_of_activity_instance_counts
+    denominator = case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def case_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -110,10 +117,13 @@ def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] |
 
     """
     _is_case_ids_empty(case_ids)
-    numerator = 0
+    sum_of_human_resources_counts = 0
     for case_id in case_ids:
-        numerator += cases_general_indicators.human_resource_count(event_log, case_id)
-    return numerator / case_count(event_log, case_ids)
+        sum_of_human_resources_counts += general_cases_indicators.human_resource_count(event_log, case_id)
+
+    numerator = sum_of_human_resources_counts
+    denominator = case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -142,10 +152,13 @@ def expected_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
 
     """
     _is_case_ids_empty(case_ids)
-    numerator = 0
+    sum_of_resource_counts = 0
     for case_id in case_ids:
-        numerator += cases_general_indicators.resource_count(event_log, case_id)
-    return numerator / case_count(event_log, case_ids)
+        sum_of_resource_counts += general_cases_indicators.resource_count(event_log, case_id)
+
+    numerator = sum_of_resource_counts
+    denominator = case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -174,10 +187,13 @@ def expected_role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str])
 
     """
     _is_case_ids_empty(case_ids)
-    numerator = 0
+    sum_of_role_counts = 0
     for case_id in case_ids:
-        numerator += cases_general_indicators.role_count(event_log, case_id)
-    return numerator / case_count(event_log, case_ids)
+        sum_of_role_counts += general_cases_indicators.role_count(event_log, case_id)
+
+    numerator = sum_of_role_counts
+    denominator = case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def _is_case_ids_empty(case_ids: list[str] | set[str]) -> None:

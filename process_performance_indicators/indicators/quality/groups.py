@@ -94,7 +94,7 @@ def automated_activity_count(
     """
     activities_in_group = set()
     for case_id in case_ids:
-        activities_in_group = activities_in_group.union(cases_utils.act(event_log, case_id))
+        activities_in_group.update(cases_utils.act(event_log, case_id))
 
     return len(automated_activities.intersection(activities_in_group))
 
@@ -413,7 +413,7 @@ def desired_activity_count(
     """
     activities_in_group = set()
     for case_id in case_ids:
-        activities_in_group = activities_in_group.union(cases_utils.act(event_log, case_id))
+        activities_in_group.update(cases_utils.act(event_log, case_id))
 
     return len(desired_activities.intersection(activities_in_group))
 
@@ -452,7 +452,7 @@ def human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     """
     cases_human_resources = set()
     for case_id in case_ids:
-        cases_human_resources = cases_human_resources.union(cases_utils.hres(event_log, case_id))
+        cases_human_resources.update(cases_utils.hres(event_log, case_id))
     return len(cases_human_resources)
 
 
@@ -486,7 +486,7 @@ def non_automated_activity_count(
     """
     activities_in_cases = set()
     for case_id in case_ids:
-        activities_in_cases = activities_in_cases.union(cases_utils.act(event_log, case_id))
+        activities_in_cases.update(cases_utils.act(event_log, case_id))
 
     return len(activities_in_cases.difference(automated_activities))
 
@@ -969,7 +969,7 @@ def unwanted_activity_count(
     """
     activities_in_group = set()
     for case_id in case_ids:
-        activities_in_group = activities_in_group.union(cases_utils.act(event_log, case_id))
+        activities_in_group.update(cases_utils.act(event_log, case_id))
 
     return len(unwanted_activities.intersection(activities_in_group))
 

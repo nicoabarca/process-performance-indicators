@@ -1,5 +1,9 @@
 import pandas as pd
 
+import process_performance_indicators.indicators.general.cases as general_cases_indicators
+import process_performance_indicators.utils.cases as cases_utils
+from process_performance_indicators.utils.safe_division import safe_divide
+
 
 def activity_and_role_count_ratio(event_log: pd.DataFrame, case_id: str) -> float:
     """
@@ -11,7 +15,9 @@ def activity_and_role_count_ratio(event_log: pd.DataFrame, case_id: str) -> floa
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = general_cases_indicators.activity_count(event_log, case_id)
+    denominator = general_cases_indicators.role_count(event_log, case_id)
+    return safe_divide(numerator, denominator)
 
 
 def activity_instance_and_human_resource_count_ratio(event_log: pd.DataFrame, case_id: str) -> float:
@@ -23,7 +29,9 @@ def activity_instance_and_human_resource_count_ratio(event_log: pd.DataFrame, ca
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = general_cases_indicators.activity_instance_count(event_log, case_id)
+    denominator = general_cases_indicators.human_resource_count(event_log, case_id)
+    return safe_divide(numerator, denominator)
 
 
 def directly_follows_relations_and_activity_count_ratio(event_log: pd.DataFrame, case_id: str) -> float:
@@ -59,7 +67,7 @@ def human_resource_count(event_log: pd.DataFrame, case_id: str) -> int:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return len(cases_utils.hres(event_log, case_id))
 
 
 def optional_activity_count(event_log: pd.DataFrame, case_id: str) -> int:
@@ -95,7 +103,7 @@ def role_count(event_log: pd.DataFrame, case_id: str) -> int:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return len(cases_utils.role(event_log, case_id))
 
 
 def variant_case_coverage(event_log: pd.DataFrame, case_id: str) -> float:
