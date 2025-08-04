@@ -5,14 +5,14 @@ import process_performance_indicators.utils.instances as instances_utils
 
 def lead_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:
     """
-    Calculate the lead time of an activity based on instance id.
+    The total elapsed time of the activity instance, measured as the sum of the elapsed time
+    between the start and complete events of the activity instance, and the elapsed time between
+    the complete event of the activity instance that precedes the current activity instance,
+    and the start event of the current activity instance.
 
     Args:
         event_log: The event log.
         instance_id: The instance id.
-
-    Returns:
-        pd.Timedelta: The lead time.
 
     """
     raise NotImplementedError("Lead time is not implemented yet.")
@@ -20,21 +20,24 @@ def lead_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:
 
 def service_and_lead_time_ratio(event_log: pd.DataFrame, instance_id: str) -> float:
     """
-    Calculate the service and lead time ratio of an activity based on instance id.
+    The ratio between the elapsed time between the start and complete events of the activity instance,
+    and the total elapsed time of the activity instance.
+
+    Args:
+        event_log: The event log.
+        instance_id: The instance id.
+
     """
     raise NotImplementedError("Service and lead time ratio is not implemented yet.")
 
 
 def service_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:
     """
-    Calculate the service time, i.e. the time between the start and the complete time of an activity based on instance id.
+    The elapsed time between the start and complete events of the activity instance.
 
     Args:
         event_log: The event log.
         instance_id: The instance id.
-
-    Returns:
-        pd.Timedelta: The service time.
 
     """
     complete_time = instances_utils.ctime(event_log, instance_id)
@@ -44,14 +47,13 @@ def service_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:
 
 def waiting_time(event_log: pd.DataFrame, instance_id: str) -> pd.Timedelta:
     """
-    Calculate the waiting time of an activity based on instance id.
+    The elapsed time between the complete event of the activity instance that
+    precedes the current activity instance, and the start event of the current
+    activity instance.
 
     Args:
         event_log: The event log.
         instance_id: The instance id.
-
-    Returns:
-        pd.Timedelta: The waiting time.
 
     """
     raise NotImplementedError("Waiting time is not implemented yet.")

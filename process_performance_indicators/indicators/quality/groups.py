@@ -119,7 +119,9 @@ def expected_automated_activity_count(
     for case_id in case_ids:
         count += quality_cases_indicators.automated_activity_count(event_log, case_id, automated_activities)
 
-    return safe_divide(count, general_groups_indicators.case_count(event_log, case_ids))
+    numerator = count
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def automated_activity_instance_count(

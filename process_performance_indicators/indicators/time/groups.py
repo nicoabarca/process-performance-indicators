@@ -3,6 +3,7 @@ import pandas as pd
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.indicators.time.cases as time_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
+from process_performance_indicators.utils.safe_division import safe_divide
 
 
 def expected_active_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
@@ -12,315 +13,377 @@ def expected_active_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     raise NotImplementedError("Not implemented yet")
 
 
-def automated_activity_count(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
-) -> int:
+def activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
     """
-    Counts the number of automated activities in a group of cases.
+    The number of activities that occur in the group of cases.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        automated_activities: The list or set of automated activities.
-
-    Returns:
-        int: The number of automated activities in the group of cases.
 
     """
-    automated_activities = set(automated_activities)
     activities_in_group = set()
     for case in case_ids:
         activities_in_group.update(cases_utils.act(event_log, case))
+
+    return len(activities_in_group)
+
+
+def expected_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+    """
+    The expected number of activities that occur in a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    sum_of_activities_counts = 0
+    for case_id in case_ids:
+        sum_of_activities_counts += time_cases_indicators.activity_count(event_log, case_id)
+
+    numerator = sum_of_activities_counts
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
+
+
+def activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+    """
+    The number of times that any activity has been instantiated in the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    count = 0
+    for case_id in case_ids:
+        count += time_cases_indicators.activity_instance_count(event_log, case_id)
+    return count
+
+
+def expected_activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+    """
+    The expected number of times that any activity is instantiated in a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    numerator = activity_instance_count(event_log, case_ids)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
+
+
+def automated_activity_count(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: set[str]
+) -> int:
+    """
+    The number of automated activities that occur in the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+        automated_activities: The set of automated activities.
+
+    """
+    activities_in_group = set()
+    for case in case_ids:
+        activities_in_group.update(cases_utils.act(event_log, case))
+
     return len(automated_activities.intersection(activities_in_group))
 
 
 def expected_automated_activity_count(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
-) -> int | float:
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: set[str]
+) -> float:
     """
-    Calculates the expected number of automated activities in a group of cases.
+    The expected number of automated activities that occur in a case belonging to the group of cases.
 
     Args:
         event_log: The event log.
-        case_ids: The case ids.
-        automated_activities: The list or set of automated activities.
-
-    Returns:
-        int | float: The expected number of automated activities in the group of cases.
+        case_ids: The case IDs.
+        automated_activities: The set of automated activities.
 
     """
-    automated_activities = set(automated_activities)
-    activities_count = 0
+    count = 0
     for case in case_ids:
-        activities_count += time_cases_indicators.automated_activity_count(event_log, case, automated_activities)
-    return activities_count / general_groups_indicators.case_count(event_log, case_ids)
+        count += time_cases_indicators.automated_activity_count(event_log, case, automated_activities)
+
+    numerator = count
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def automated_activity_instance_count(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
-) -> int | float:
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: set[str]
+) -> int:
     """
-    Calculates the expected number of automated activity instances in a group of cases.
+    The number of times that an automated activity is instantiated in the group of cases.
 
     Args:
         event_log: The event log.
-        case_ids: The case ids.
-        automated_activities: The list or set of automated activities.
-
-    Returns:
-        int | float: The expected number of automated activity instances in the group of cases.
+        case_ids: The case IDs.
+        automated_activities: The set of automated activities.
 
     """
-    automated_activities = set(automated_activities)
-    activities_count = 0
+    count = 0
     for case in case_ids:
-        activities_count += time_cases_indicators.automated_activity_instance_count(
-            event_log, case, automated_activities
-        )
-    return activities_count
+        count += time_cases_indicators.automated_activity_instance_count(event_log, case, automated_activities)
+    return count
 
 
 def expected_automated_activity_instance_count(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
-) -> int | float:
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: set[str]
+) -> float:
     """
-    Calculates the expected number of automated activity instances in a group of cases.
+    The expected number of times that an automated activity is instantiated in a case belonging to the group of cases.
 
     Args:
         event_log: The event log.
-        case_ids: The case ids.
-        automated_activities: The list or set of automated activities.
-
-    Returns:
-        int | float: The expected number of automated activity instances in the group of cases.
+        case_ids: The case IDs.
+        automated_activities: The set of automated activities.
 
     """
-    return automated_activity_instance_count(
-        event_log, case_ids, automated_activities
-    ) / general_groups_indicators.case_count(event_log, case_ids)
+    numerator = automated_activity_instance_count(event_log, case_ids, automated_activities)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def automated_activity_service_time(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: set[str]
 ) -> pd.Timedelta:
     """
-    Calculates the service time of automated activities in a group of cases.
+    The sum of elapsed times for all instantiations of automated activities in the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+        automated_activities: The set of automated activities.
+
     """
     raise NotImplementedError("Not implemented yet")
 
 
 def expected_automated_activity_service_time(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: list[str] | set[str]
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], automated_activities: set[str]
 ) -> pd.Timedelta:
     """
-    Calculates the expected service time of automated activities in a group of cases.
+    The expected sum of elapsed times for all instantiations of automated activities in a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+        automated_activities: The set of automated activities.
+
     """
     raise NotImplementedError("Not implemented yet")
 
 
 def case_count_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
-    Calculate the case count lead time ratio of a group of cases.
+    The ratio between the number of cases belonging to the group of cases, and the total elapsed time between the earliest
+    and latest events in the group of cases. Returns cases per hour
 
     Args:
         event_log: The event log.
-        case_ids: The case ids.
-
-    Returns:
-        float: The case count lead time ratio of the group of cases.
+        case_ids: The case IDs.
 
     """
-    # INFO: lead_time is converted to total seconds a float for division
-    case_count = general_groups_indicators.case_count(event_log, case_ids)
-
-    return case_count / lead_time(event_log, case_ids).total_seconds()
+    # TODO: ask if time unit is correct
+    numerator = general_groups_indicators.case_count(event_log, case_ids)
+    # Using hour as the time unit for denominator
+    denominator = lead_time(event_log, case_ids) / pd.Timedelta(hours=1)
+    return safe_divide(numerator, denominator)
 
 
 def case_count_where_lead_time_over_value(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], value: pd.Timedelta
 ) -> int:
     """
-    Calculate the number of cases in a group of cases where the lead time is over a given value.
+    The number of cases belonging to the group of cases whose total elapsed time between
+    the earliest and latest events is greater than the given value.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        value: The threshold value.
-
-    Returns:
-        int: The number of cases in a group of cases where the lead time is over a given value.
+        value: The threshold value as a time delta.
 
     """
-    return len([case_id for case_id in case_ids if time_cases_indicators.lead_time(event_log, case_id) > value])
+    cases_where_lead_time_over_value = {
+        case_id for case_id in case_ids if time_cases_indicators.lead_time(event_log, case_id) > value
+    }
+    return len(cases_where_lead_time_over_value)
 
 
 def case_percentage_where_lead_time_over_value(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], value: pd.Timedelta
 ) -> float:
     """
-    Calculate the percentage of cases in a group of cases where the lead time is over a given value.
+    The percentage of cases belonging to the group of cases whose total elapsed time between
+    the earliest and latest events is greater than the given value.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        value: The threshold value.
-
-    Returns:
-        float: The percentage of cases in a group of cases where the lead time is over a given value.
+        value: The threshold value as a time delta.
 
     """
-    return case_count_where_lead_time_over_value(event_log, case_ids, value) / general_groups_indicators.case_count(
-        event_log, case_ids
-    )
+    numerator = case_count_where_lead_time_over_value(event_log, case_ids, value)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def case_percentage_with_missed_deadline(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], value: pd.Timestamp
 ) -> float:
     """
-    Calculate the percentage of cases in a group of cases where the end time is over a given value (deadline).
+    The percentage of cases belonging to the group of cases whose latest event occurs after a given deadline.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        value: The deadline value.
-
-    Returns:
-        float: The percentage of cases in a group of cases where the end time is over a given value (deadline).
+        value: The deadline value as a timestamp.
 
     """
-    cases_over_deadline = [case_id for case_id in case_ids if cases_utils.endt(event_log, case_id) > value]
-    return len(cases_over_deadline) / general_groups_indicators.case_count(event_log, case_ids)
+    cases_over_deadline = {case_id for case_id in case_ids if cases_utils.endt(event_log, case_id) > value}
+    numerator = len(cases_over_deadline)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
-def handover_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+def expected_handover_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
-    Calculate the handover count of a group of cases.
+    The expected number of times that a human resource associated with an activity instance
+    differs from the human resource associated with the preceding activity instance
+    within a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+
     """
     raise NotImplementedError("Not implemented yet")
 
 
-def expected_handover_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+def expected_idle_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    Calculate the expected handover count of a group of cases.
+    TODO: Implement this function. Ask for explanation.
     """
     raise NotImplementedError("Not implemented yet")
 
 
 def lead_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    Calculate the lead time of a group of cases based on max end timestamp value and min start timestamp value.
+    The total elpased time between the earliest and latest eents in the group of cases.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
 
-    Returns:
-        pd.Timedelta: The lead time of the group of cases.
-
     """
-    group_end_timestamps = [cases_utils.endt(event_log, case_id) for case_id in case_ids]
-    group_start_timestamps = [cases_utils.startt(event_log, case_id) for case_id in case_ids]
-
-    max_end_timestamp = max(group_end_timestamps)
-    min_start_timestamp = min(group_start_timestamps)
-
-    return max_end_timestamp - min_start_timestamp
+    latest_end_time = max(cases_utils.endt(event_log, case_id) for case_id in case_ids)
+    earliest_start_time = min(cases_utils.startt(event_log, case_id) for case_id in case_ids)
+    return latest_end_time - earliest_start_time
 
 
 def expected_lead_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    Calculate the expected lead time of a group of cases.
+    The expected total elapsed time between the earliest and latest timestamps in a case belonging to the group of cases.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
 
-    Returns:
-        pd.Timedelta: The expected lead time of the group of cases.
-
     """
-    group_total_lead_times_in_seconds = sum(
-        time_cases_indicators.lead_time(event_log, case_id).total_seconds() for case_id in case_ids
+    group_total_lead_times_in_minutes = sum(
+        time_cases_indicators.lead_time(event_log, case_id) / pd.Timedelta(minutes=1) for case_id in case_ids
     )
     case_count = general_groups_indicators.case_count(event_log, case_ids)
-    expected_lead_time_in_seconds = group_total_lead_times_in_seconds / case_count
-    return pd.Timedelta(seconds=expected_lead_time_in_seconds)
+    expected_lead_time_in_minutes = safe_divide(group_total_lead_times_in_minutes, case_count)
+    return pd.Timedelta(minutes=expected_lead_time_in_minutes)
 
 
 def lead_time_and_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    Calculate the lead time case count ratio of a group of cases.
+    The ratio between the total elapsed time between the earliest and latest events in the group of cases,
+    and the number of cases belonging to the group of cases. Returns hours per case.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
 
-    Returns:
-        float: The lead time case count ratio of the group of cases.
-
     """
-    group_lead_time_in_seconds = lead_time(event_log, case_ids).total_seconds()
+    # TODO: ask if time unit is correct
+    group_lead_time_in_hours = lead_time(event_log, case_ids) / pd.Timedelta(hours=1)
     case_count = general_groups_indicators.case_count(event_log, case_ids)
-    ratio = group_lead_time_in_seconds / case_count
-    return pd.Timedelta(seconds=ratio)
+    hours_per_case = safe_divide(group_lead_time_in_hours, case_count)
+    return pd.Timedelta(hours=hours_per_case)
 
 
 def expected_lead_time_deviation_from_deadline(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], deadline: pd.Timestamp
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], deadline: pd.Timedelta
 ) -> pd.Timedelta:
     """
-    Calculate the expected lead time deviation from deadline of a group of cases.
+    The difference between the time that a case in the group of cases is expected to take,
+    and the actual elapsed time between its earliest and latest timestamps.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        deadline: The deadline date timestamp.
-
-    Returns:
-        pd.Timedelta: The expected lead time deviation from deadline of the group of cases.
+        deadline: The expected time delta the case is expected to take.
 
     """
-    cases_lead_time_deviation_from_deadline = sum(
-        time_cases_indicators.lead_time_deviation_from_deadline(event_log, case_id, deadline).total_seconds()
-        for case_id in case_ids
-    )
-    group_case_count = general_groups_indicators.case_count(event_log, case_ids)
-    expected_lead_time_deviation_from_deadline_in_seconds = cases_lead_time_deviation_from_deadline / group_case_count
-    return pd.Timedelta(seconds=expected_lead_time_deviation_from_deadline_in_seconds)
+    deviations_from_deadline_in_minutes = 0
+    for case_id in case_ids:
+        deviations_from_deadline_in_minutes += time_cases_indicators.lead_time_deviation_from_deadline(
+            event_log, case_id, deadline
+        ) / pd.Timedelta(minutes=1)
+
+    numerator = deviations_from_deadline_in_minutes
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    expected_deviation_from_deadline_in_minutes = safe_divide(numerator, denominator)
+    return pd.Timedelta(minutes=expected_deviation_from_deadline_in_minutes)
 
 
 def expected_lead_time_deviation_from_expectation(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], expectation: pd.Timedelta
 ) -> pd.Timedelta:
     """
-    Calculate the expected lead time deviation from expectation of a group of cases.
+    The absolute value of the difference between the time that a case in the group of cases
+    is expected to take, and the actual elapsed time between its earliest and latest timestamps.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        expectation: The expectation.
-
-    Returns:
-        pd.Timedelta: The expected lead time deviation from expectation of the group of cases.
+        expectation: The time delta the case is expected to take.
 
     """
-    cases_lead_time_deviation_from_expectation = sum(
-        time_cases_indicators.lead_time_deviation_from_expectation(event_log, case_id, expectation).total_seconds()
-        for case_id in case_ids
-    )
-    group_case_count = general_groups_indicators.case_count(event_log, case_ids)
-    expected_lead_time_deviation_from_expectation_in_seconds = (
-        cases_lead_time_deviation_from_expectation / group_case_count
-    )
-    return pd.Timedelta(seconds=expected_lead_time_deviation_from_expectation_in_seconds)
+    deviations_from_expectation_in_minutes = 0
+    for case_id in case_ids:
+        deviations_from_expectation_in_minutes += time_cases_indicators.lead_time_deviation_from_expectation(
+            event_log, case_id, expectation
+        ) / pd.Timedelta(minutes=1)
+
+    numerator = deviations_from_expectation_in_minutes
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    expected_deviation_from_expectation_in_minutes = safe_divide(numerator, denominator)
+    return pd.Timedelta(minutes=expected_deviation_from_expectation_in_minutes)
 
 
 def expected_lead_time_from_activity_a(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str
 ) -> pd.Timedelta:
     """
-    Calculate the expected lead time from activity a of a group of cases.
+    The total elapsed time between the earliest instantiations of a specific activity, and
+    the latest activity instance, that is expected for a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        activity_a: The specific activity name.
+
     """
     raise NotImplementedError("Not implemented yet")
 
@@ -329,7 +392,16 @@ def expected_lead_time_from_activity_a_to_b(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
 ) -> pd.Timedelta:
     """
-    Calculate the expected lead time from activity a to b of a group of cases.
+    The total elapsed time between the earliest instantiations of a specific activity, and the earliest
+    instantiations of another specific activity that precedes the other, that is expected for a case
+    belonging to the group of cases. Here "activity a precedes activity b".
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+        activity_a: The specific activity name that precedes activity b.
+        activity_b: The specific activity name that follows activity a.
+
     """
     raise NotImplementedError("Not implemented yet")
 
@@ -338,103 +410,94 @@ def expected_lead_time_to_activity_a(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str
 ) -> pd.Timedelta:
     """
-    Calculate the expected lead time to activity a of a group of cases.
+    The total elapsed time between the earliest activity instance, and the earliest instantiations of a
+    specific activity , that is expected for a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+        activity_a: The specific activity name.
+
     """
     raise NotImplementedError("Not implemented yet")
 
 
 def service_and_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
-    Calculate the service and lead time ratio of a group of cases.
+    The ratio between the sum of elapsed times between the start and complete events of all
+    activity instances of the group of cases, and the total elapsed time between the earliest and latest
+    events in the group of cases.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
 
-    Returns:
-        float: The service and lead time ratio of the group of cases.
-
-    Raises:
-        ValueError: If case_ids is empty or if lead time is zero.
-
     """
-    # TODO: fix index 0 error in future
-    if not case_ids:
-        raise ValueError("case_ids cannot be empty")
-
-    service_time_seconds = service_time(event_log, case_ids).total_seconds()
-    lead_time_seconds = lead_time(event_log, case_ids).total_seconds()
-
-    return service_time_seconds / lead_time_seconds
+    return safe_divide(service_time(event_log, case_ids), lead_time(event_log, case_ids))
 
 
 def expected_service_and_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
-    Calculate the expected service and lead time ratio of a group of cases.
+    The ratio between the sum of elapsed times between the start and complete events of all activity instances
+    of the group of cases, and the expected total elapsed time between the earliest and latest timestamps in a case
+    belonging to the group of cases
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
 
-    Returns:
-        float: The expected service and lead time ratio of the group of cases.
-
-    Raises:
-        ValueError: If case_ids is empty or if total lead time is zero.
-
     """
-    # TODO: fix index 0 error in future
-    if not case_ids:
-        raise ValueError("case_ids cannot be empty")
-
-    group_service_time_in_seconds = service_time(event_log, case_ids).total_seconds()
-    group_total_lead_time_in_seconds = sum(
-        time_cases_indicators.lead_time(event_log, case_id).total_seconds() for case_id in case_ids
-    )
-    return group_service_time_in_seconds / group_total_lead_time_in_seconds
+    return safe_divide(service_time(event_log, case_ids), expected_lead_time(event_log, case_ids))
 
 
 def service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    Calculate the service time of a group of cases.
+    The sum of elapsed times between the start and complete events of all activity
+    instances of the group of cases.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
 
-    Returns:
-        pd.Timedelta: The service time of the group of cases.
-
     """
-    sum_of_service_times_in_seconds = sum(
-        time_cases_indicators.service_time(event_log, case_id).total_seconds() for case_id in case_ids
-    )
-    return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
+    sum_of_service_times_in_minutes = 0
+    for case_id in case_ids:
+        sum_of_service_times_in_minutes += time_cases_indicators.service_time(event_log, case_id) / pd.Timedelta(
+            minutes=1
+        )
+    return pd.Timedelta(minutes=sum_of_service_times_in_minutes)
 
 
 def expected_service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    Calculate the expected service time of a group of cases.
+    The expected sum of elapsed times between the start and complete events of all activity
+    instances of a case belonging to the group of cases.
 
     Args:
         event_log: The event log.
         case_ids: The case ids.
 
-    Returns:
-        pd.Timedelta: The expected service time of the group of cases.
-
     """
-    group_service_time_in_seconds = service_time(event_log, case_ids).total_seconds()
+    group_service_time_in_minutes = service_time(event_log, case_ids) / pd.Timedelta(minutes=1)
     case_count = general_groups_indicators.case_count(event_log, case_ids)
-    expected_service_time_in_seconds = group_service_time_in_seconds / case_count
-    return pd.Timedelta(seconds=expected_service_time_in_seconds)
+    expected_service_time_in_minutes = safe_divide(group_service_time_in_minutes, case_count)
+    return pd.Timedelta(minutes=expected_service_time_in_minutes)
 
 
 def service_time_from_activity_a_to_b(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
 ) -> pd.Timedelta:
     """
-    Calculate the service time from activity a to b of a group of cases.
+    The sum of elapsed times between the start and complete events of all activity instances of every case in the group of cases,
+    which occur between the earliest instantiations of a specific activity, and the earliest instantiations of another specific
+    activity that precedes the other, in each case. Here "activity a precedes activity b".
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+        activity_a: The specific activity name that precedes activity b.
+        activity_b: The specific activity name that follows activity a.
+
     """
     raise NotImplementedError("Not implemented yet")
 
@@ -443,14 +506,29 @@ def expected_service_time_from_activity_a_to_b(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
 ) -> pd.Timedelta:
     """
-    Calculate the expected service time from activity a to b of a group of cases.
+    The expected sum of elapsed times between the start and complete events of all activity instances of every case in the group of cases,
+    which occur between the earliest instantiations of a specific activity, and the earliest instantiations of another specific
+    activity that precedes the other, in each case. Here "activity a precedes activity b".
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+        activity_a: The specific activity name that precedes activity b.
+        activity_b: The specific activity name that follows activity a.
+
     """
     raise NotImplementedError("Not implemented yet")
 
 
 def expected_waiting_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    Calculate the waiting time of a group of cases.
+    The expected sum, for every activity instance in a case belonging to the group of cases, of the
+    elapsed time between the complete event of the activity instance that precedes it, and its start event.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+
     """
     raise NotImplementedError("Not implemented yet")
 
@@ -459,6 +537,16 @@ def expected_waiting_time_from_activity_a_to_b(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
 ) -> pd.Timedelta:
     """
-    Calculate the expected waiting time from activity a to b of a group of cases.
+    The expected sum, for every activity instance in a case belonging to the group of cases, that occurs between the earliest
+    instantiations of a specific activity, and the earliest instantiations of another specific activity
+    that precedes the other, of the elapsed time between the complete event of the activity instance that precedes it,
+    and its start event.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case IDs.
+        activity_a: The specific activity name that precedes activity b.
+        activity_b: The specific activity name that follows activity a.
+
     """
     raise NotImplementedError("Not implemented yet")

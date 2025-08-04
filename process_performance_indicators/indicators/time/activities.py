@@ -1,44 +1,60 @@
 import pandas as pd
 
 import process_performance_indicators.indicators.time.instances as time_instances_indicators
-import process_performance_indicators.utils.cases as cases_utils
+import process_performance_indicators.utils.activities as activities_utils
 
 
 def lead_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
     """
-    Calculate the lead time of an activity instances accross all cases.
+    The sum of total elapsed times of all instantiations of the activity.
+
+    Args:
+        event_log: The event log.
+        activity_name: The name of the activity.
+
     """
     raise NotImplementedError("Not implemented yet.")
 
 
 def service_and_lead_time_ratio(event_log: pd.DataFrame, activity_name: str) -> float:
     """
-    Calculate the service and lead time ratio of an activity instances accross all cases.
+    The ratio between the sum of elapsed times between the start and complete events of
+    all instantiations of the activity, and the sum of total elapsed times for all instantiations
+    of the activity.
+
+    Args:
+        event_log: The event log.
+        activity_name: The name of the activity.
+
     """
     raise NotImplementedError("Not implemented yet.")
 
 
 def service_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
     """
-    Calculate the service time of an activity instances accross all cases.
+    The sum of elapsed times between the start and complete events of all instantiations of the activity
 
     Args:
         event_log: The event log.
         activity_name: The name of the activity.
 
-    Returns:
-        pd.Timedelta: The service time of the activity.
-
     """
-    sum_of_service_times_in_seconds = sum(
-        time_instances_indicators.service_time(event_log, instance_id).total_seconds()
-        for instance_id in cases_utils.inst(event_log, activity_name)
-    )
-    return pd.Timedelta(seconds=sum_of_service_times_in_seconds)
+    sum_of_service_times_in_minutes = 0
+    for instance_id in activities_utils.inst(event_log, activity_name):
+        sum_of_service_times_in_minutes += time_instances_indicators.service_time(
+            event_log, instance_id
+        ) / pd.Timedelta(minutes=1)
+    return pd.Timedelta(minutes=sum_of_service_times_in_minutes)
 
 
 def waiting_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
     """
-    Calculate the waiting time of an activity instances accross all cases.
+    The sum of elapsed times between the complete events of activity instances that
+    precede every instantiations of the activity, and the start event of each instantiation.
+
+    Args:
+        event_log: The event log.
+        activity_name: The name of the activity.
+
     """
     raise NotImplementedError("Not implemented yet.")

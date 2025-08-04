@@ -57,7 +57,6 @@ def automated_activity_count(event_log: pd.DataFrame, case_id: str, automated_ac
         automated_activities: The set of automated activities.
 
     """
-    automated_activities = set(automated_activities)
     case_activities = cases_utils.act(event_log, case_id)
     return len(automated_activities.intersection(case_activities))
 
