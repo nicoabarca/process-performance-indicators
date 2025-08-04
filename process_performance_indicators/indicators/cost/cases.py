@@ -3,8 +3,8 @@ from typing import Literal
 import pandas as pd
 
 import process_performance_indicators.indicators.cost.instances as instances_cost_indicators
-import process_performance_indicators.utils.cases as cases_helpers
-import process_performance_indicators.utils.instances as instances_helpers
+import process_performance_indicators.utils.cases as cases_utils
+import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
 
 
@@ -36,8 +36,8 @@ def automated_activity_cost(
     }
     automated_activities = set(automated_activities)
     activity_instances = set()
-    for instance_id in cases_helpers.inst(event_log, case_id):
-        activity_instances.update(instances_helpers.act(event_log, instance_id))
+    for instance_id in cases_utils.inst(event_log, case_id):
+        activity_instances.update(instances_utils.act(event_log, instance_id))
     automated_activity_instances = automated_activities.intersection(activity_instances)
 
     total_cost = 0
@@ -60,7 +60,7 @@ def desired_activity_count(event_log: pd.DataFrame, case_id: str, desired_activi
 
     """
     desired_activities = set(desired_activities)
-    case_activities = cases_helpers.act(event_log, case_id)
+    case_activities = cases_utils.act(event_log, case_id)
     return len(desired_activities.intersection(case_activities))
 
 
@@ -94,8 +94,8 @@ def direct_cost(
     }
     direct_costs_activities = set(direct_costs_activities)
     activity_instances = set()
-    for instance_id in cases_helpers.inst(event_log, case_id):
-        activity_instances.update(instances_helpers.act(event_log, instance_id))
+    for instance_id in cases_utils.inst(event_log, case_id):
+        activity_instances.update(instances_utils.act(event_log, instance_id))
     direct_costs_activity_instances = direct_costs_activities.intersection(activity_instances)
 
     total_cost = 0
@@ -128,7 +128,7 @@ def fixed_cost(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal[
     }
     fixed_cost: int | float = 0
 
-    for instance_id in cases_helpers.inst(event_log, case_id):
+    for instance_id in cases_utils.inst(event_log, case_id):
         instance_cost = aggregation_function[aggregation_mode](event_log, instance_id)
         if instance_cost is None:
             raise ValueError(f"Fixed cost calculation for instance {instance_id} returned None")
@@ -163,7 +163,7 @@ def inventory_cost(
     }
     inventory_cost: int | float = 0
 
-    for instance_id in cases_helpers.inst(event_log, case_id):
+    for instance_id in cases_utils.inst(event_log, case_id):
         instance_cost = aggregation_function[aggregation_mode](event_log, instance_id)
         if instance_cost is None:
             raise ValueError(f"Inventory cost calculation for instance {instance_id} returned None")
@@ -196,7 +196,7 @@ def labor_cost(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal[
     }
     labor_cost: int | float = 0
 
-    for instance_id in cases_helpers.inst(event_log, case_id):
+    for instance_id in cases_utils.inst(event_log, case_id):
         instance_cost = aggregation_function[aggregation_mode](event_log, instance_id)
         if instance_cost is None:
             raise ValueError(f"Labor cost calculation for instance {instance_id} returned None")
@@ -229,7 +229,7 @@ def total_cost(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal[
     }
     total_cost: int | float = 0
 
-    for instance_id in cases_helpers.inst(event_log, case_id):
+    for instance_id in cases_utils.inst(event_log, case_id):
         instance_cost = aggregation_function[aggregation_mode](event_log, instance_id)
         if instance_cost is None:
             raise ValueError(f"Total cost calculation for instance {instance_id} returned None")
@@ -288,7 +288,7 @@ def resource_count(event_log: pd.DataFrame, case_id: str) -> int:
         The resource count for a case.
 
     """
-    return len(cases_helpers.res(event_log, case_id))
+    return len(cases_utils.res(event_log, case_id))
 
 
 def labor_cost_and_total_cost_ratio(

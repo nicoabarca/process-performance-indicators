@@ -60,7 +60,7 @@ plugins:
           paths: [.] # Relative to project root
           options:
             docstring_style: google
-            members_order: source
+            members_order: alphabetical #source
             show_signature_annotations: true
             line_length: 100
             merge_init_into_class: true
@@ -72,9 +72,8 @@ nav:
   - Start: index.md
   - Installation: installation.md
   - Usage: usage.md
-  - API Reference:
-      - General Indicators: reference/general.md
-      - Time Dimension Indicators: reference/time.md
-      - Cost Dimension Indicators: reference/cost.md
-      - Flexibility Dimension Indicators: reference/flexibility.md
-      - Quality Dimension Indicators: reference/quality.md
+  - General Indicators: reference/general.md
+  - Time Dimension Indicators: reference/time.md
+  - Cost Dimension Indicators: reference/cost.md
+  - Flexibility Dimension Indicators: reference/flexibility.md
+  - Quality Dimension Indicators: reference/quality.md

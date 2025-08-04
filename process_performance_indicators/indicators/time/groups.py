@@ -2,7 +2,14 @@ import pandas as pd
 
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.indicators.time.cases as time_cases_indicators
-import process_performance_indicators.utils.cases as cases_helpers
+import process_performance_indicators.utils.cases as cases_utils
+
+
+def expected_active_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
+    """
+    Todo: Implement this function.
+    """
+    raise NotImplementedError("Not implemented yet")
 
 
 def automated_activity_count(
@@ -23,7 +30,7 @@ def automated_activity_count(
     automated_activities = set(automated_activities)
     activities_in_group = set()
     for case in case_ids:
-        activities_in_group.update(cases_helpers.act(event_log, case))
+        activities_in_group.update(cases_utils.act(event_log, case))
     return len(automated_activities.intersection(activities_in_group))
 
 
@@ -182,7 +189,7 @@ def case_percentage_with_missed_deadline(
         float: The percentage of cases in a group of cases where the end time is over a given value (deadline).
 
     """
-    cases_over_deadline = [case_id for case_id in case_ids if cases_helpers.endt(event_log, case_id) > value]
+    cases_over_deadline = [case_id for case_id in case_ids if cases_utils.endt(event_log, case_id) > value]
     return len(cases_over_deadline) / general_groups_indicators.case_count(event_log, case_ids)
 
 
@@ -212,8 +219,8 @@ def lead_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Tim
         pd.Timedelta: The lead time of the group of cases.
 
     """
-    group_end_timestamps = [cases_helpers.endt(event_log, case_id) for case_id in case_ids]
-    group_start_timestamps = [cases_helpers.startt(event_log, case_id) for case_id in case_ids]
+    group_end_timestamps = [cases_utils.endt(event_log, case_id) for case_id in case_ids]
+    group_start_timestamps = [cases_utils.startt(event_log, case_id) for case_id in case_ids]
 
     max_end_timestamp = max(group_end_timestamps)
     min_start_timestamp = min(group_start_timestamps)
