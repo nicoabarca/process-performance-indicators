@@ -2,6 +2,8 @@ from typing import Literal
 
 import pandas as pd
 
+import process_performance_indicators.indicators.cost.activities as cost_activities_indicators
+import process_performance_indicators.indicators.flexibility.activities as flexibility_activities_indicators
 import process_performance_indicators.indicators.general.activities as general_activities_indicators
 import process_performance_indicators.indicators.quality.instances as quality_instances_indicators
 import process_performance_indicators.utils.activities as activities_utils
@@ -46,7 +48,9 @@ def client_count_and_total_cost_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = flexibility_activities_indicators.client_count(event_log, activity_name)
+    denominator = cost_activities_indicators.total_cost(event_log, activity_name, aggregation_mode)
+    return safe_divide(numerator, denominator)
 
 
 def human_resource_count(event_log: pd.DataFrame, activity_name: str) -> int:
@@ -202,4 +206,23 @@ def successful_outcome_unit_percentage(
     """
     numerator = successful_outcome_unit_count(event_log, activity_name, aggregation_mode)
     denominator = outcome_unit_count(event_log, activity_name, aggregation_mode)
+    return safe_divide(numerator, denominator)
+
+
+def total_cost_and_client_count_ratio(
+    event_log: pd.DataFrame, activity_name: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all instantiations of the activity, and the number of distinct clients associated with cases where the activity is instantiated.
+
+    Args:
+        event_log: The event log.
+        activity_name: The name of the activity.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    numerator = cost_activities_indicators.total_cost(event_log, activity_name, aggregation_mode)
+    denominator = flexibility_activities_indicators.client_count(event_log, activity_name)
     return safe_divide(numerator, denominator)

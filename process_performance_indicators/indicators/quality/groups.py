@@ -2,9 +2,13 @@ from typing import Literal
 
 import pandas as pd
 
+import process_performance_indicators.indicators.cost.groups as cost_groups_indicators
+import process_performance_indicators.indicators.flexibility.groups as flexibility_groups_indicators
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.indicators.quality.cases as quality_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
+import process_performance_indicators.utils.cases_activities as cases_activities_utils
+import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.utils.safe_division import safe_divide
 
 
@@ -172,13 +176,21 @@ def case_count_where_activity_after_time_frame(
     The number of cases belonging to the group of cases where a certain activity has occurred after a specific time frame.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The case IDs.
-        activity_name (str): The name of the activity.
-        end_time (pd.Timestamp): The end time.
+        event_log: The event log.
+        case_ids: The case IDs.
+        activity_name: The name of the activity.
+        end_time: The end time stamp.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    resulting_cases = {
+        case_id
+        for case_id in case_ids
+        if any(
+            instances_utils.stime(event_log, instance) >= end_time
+            for instance in cases_activities_utils.inst(event_log, case_id, activity_name)
+        )
+    }
+    return len(resulting_cases)
 
 
 def case_count_where_activity_before_time_frame(
@@ -191,10 +203,18 @@ def case_count_where_activity_before_time_frame(
         event_log: The event log.
         case_ids: The case IDs.
         activity_name: The name of the activity.
-        start_time: The start time.
+        start_time: The start time stamp.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    resulting_cases = {
+        case_id
+        for case_id in case_ids
+        if any(
+            instances_utils.stime(event_log, instance) <= start_time
+            for instance in cases_activities_utils.inst(event_log, case_id, activity_name)
+        )
+    }
+    return len(resulting_cases)
 
 
 def case_count_where_activity_during_time_frame(
@@ -215,7 +235,16 @@ def case_count_where_activity_during_time_frame(
         end_time: The end time.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    resulting_cases = {
+        case_id
+        for case_id in case_ids
+        if any(
+            instances_utils.stime(event_log, instance) >= start_time
+            and instances_utils.stime(event_log, instance) <= end_time
+            for instance in cases_activities_utils.inst(event_log, case_id, activity_name)
+        )
+    }
+    return len(resulting_cases)
 
 
 def case_count_where_end_activity_is_a(
@@ -230,7 +259,15 @@ def case_count_where_end_activity_is_a(
         a_activity_name: The name of the activity.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    resulting_cases = {
+        case_id
+        for case_id in case_ids
+        if any(
+            instances_utils.act(event_log, instance_id) == a_activity_name
+            for instance_id in cases_utils.endin(event_log, case_id)
+        )
+    }
+    return len(resulting_cases)
 
 
 def case_count_where_start_activity_is_a(
@@ -245,7 +282,15 @@ def case_count_where_start_activity_is_a(
         a_activity_name: The name of the activity.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    resulting_cases = {
+        case_id
+        for case_id in case_ids
+        if any(
+            instances_utils.act(event_log, instance_id) == a_activity_name
+            for instance_id in cases_utils.strin(event_log, case_id)
+        )
+    }
+    return len(resulting_cases)
 
 
 def case_count_with_rework(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -257,11 +302,12 @@ def case_count_with_rework(event_log: pd.DataFrame, case_ids: list[str] | set[st
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    resulting_cases = {case_id for case_id in case_ids if quality_cases_indicators.rework_count(event_log, case_id) > 0}
+    return len(resulting_cases)
 
 
 def case_percentage_where_activity_after_time_frame(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], end_time: pd.Timestamp
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_name: str, end_time: pd.Timestamp
 ) -> float:
     """
     The percentage of cases belonging to the group of cases where a certain activity has occurred after a specific time frame.
@@ -269,14 +315,17 @@ def case_percentage_where_activity_after_time_frame(
     Args:
         event_log: The event log.
         case_ids: The case IDs.
+        activity_name: The name of the activity.
         end_time: The end time.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = case_count_where_activity_after_time_frame(event_log, case_ids, activity_name, end_time)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def case_percentage_where_activity_before_time_frame(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], start_time: pd.Timestamp
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_name: str, start_time: pd.Timestamp
 ) -> float:
     """
     The percentage of cases belonging to the group of cases where a certain activity has occurred before a specific time frame.
@@ -284,14 +333,21 @@ def case_percentage_where_activity_before_time_frame(
     Args:
         event_log: The event log.
         case_ids: The case IDs.
+        activity_name: The name of the activity.
         start_time: The start time.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = case_count_where_activity_before_time_frame(event_log, case_ids, activity_name, start_time)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def case_percentage_where_activity_during_time_frame(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], start_time: pd.Timestamp, end_time: pd.Timestamp
+    event_log: pd.DataFrame,
+    case_ids: list[str] | set[str],
+    activity_name: str,
+    start_time: pd.Timestamp,
+    end_time: pd.Timestamp,
 ) -> float:
     """
     The percentage of cases belonging to the group of cases where a certain activity has occurred within a specific time frame.
@@ -299,11 +355,14 @@ def case_percentage_where_activity_during_time_frame(
     Args:
         event_log: The event log.
         case_ids: The case IDs.
+        activity_name: The name of the activity.
         start_time: The start time.
         end_time: The end time.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = case_count_where_activity_during_time_frame(event_log, case_ids, activity_name, start_time, end_time)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def case_percentage_where_end_activity_is_a(
@@ -318,7 +377,9 @@ def case_percentage_where_end_activity_is_a(
         a_activity_name: The name of the activity.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = case_count_where_end_activity_is_a(event_log, case_ids, a_activity_name)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def case_percentage_where_start_activity_is_a(
@@ -333,7 +394,9 @@ def case_percentage_where_start_activity_is_a(
         a_activity_name: The name of the activity.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = case_count_where_start_activity_is_a(event_log, case_ids, a_activity_name)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def case_percentage_with_missed_deadline(
@@ -345,10 +408,11 @@ def case_percentage_with_missed_deadline(
     Args:
         event_log: The event log.
         case_ids: The case IDs.
-        deadline: The deadline.
+        deadline: The deadline time stamp.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    resulting_cases = {case_id for case_id in case_ids if cases_utils.endt(event_log, case_id) > deadline}
+    return len(resulting_cases)
 
 
 def case_percentage_with_rework(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -360,7 +424,9 @@ def case_percentage_with_rework(event_log: pd.DataFrame, case_ids: list[str] | s
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = case_count_with_rework(event_log, case_ids)
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def client_count_and_total_cost_ratio(
@@ -378,7 +444,9 @@ def client_count_and_total_cost_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = flexibility_groups_indicators.client_count(event_log, case_ids)
+    denominator = cost_groups_indicators.total_cost(event_log, case_ids, aggregation_mode)
+    return safe_divide(numerator, denominator)
 
 
 def expected_client_count_and_total_cost_ratio(
@@ -396,7 +464,9 @@ def expected_client_count_and_total_cost_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = flexibility_groups_indicators.client_count(event_log, case_ids)
+    denominator = cost_groups_indicators.total_cost(event_log, case_ids, aggregation_mode)
+    return safe_divide(numerator, denominator)
 
 
 def desired_activity_count(
@@ -931,11 +1001,13 @@ def total_cost_and_client_count_ratio(
         event_log: The event log.
         case_ids: The case IDs.
         aggregation_mode: The aggregation mode.
-            "sgl": Considers single events of activity instances for outcome unit count calculations.
-            "sum": Considers the sum of all events of activity instances for outcome unit count calculations.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = flexibility_groups_indicators.client_count(event_log, case_ids)
+    denominator = cost_groups_indicators.total_cost(event_log, case_ids, aggregation_mode)
+    return safe_divide(numerator, denominator)
 
 
 def expected_total_cost_and_client_count_ratio(
@@ -948,11 +1020,13 @@ def expected_total_cost_and_client_count_ratio(
         event_log: The event log.
         case_ids: The case IDs.
         aggregation_mode: The aggregation mode.
-            "sgl": Considers single events of activity instances for outcome unit count calculations.
-            "sum": Considers the sum of all events of activity instances for outcome unit count calculations.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = flexibility_groups_indicators.client_count(event_log, case_ids)
+    denominator = cost_groups_indicators.total_cost(event_log, case_ids, aggregation_mode)
+    return safe_divide(numerator, denominator)
 
 
 def unwanted_activity_count(

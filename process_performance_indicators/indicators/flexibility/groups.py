@@ -1,5 +1,6 @@
 import pandas as pd
 
+import process_performance_indicators.indicators.flexibility.cases as cases_flexibility_indicators
 import process_performance_indicators.indicators.general.cases as general_cases_indicators
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.utils.cases as cases_utils
@@ -203,7 +204,22 @@ def optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    filtered_log = event_log[event_log[StandardColumnNames.CASE_ID].isin(case_ids)]
+
+    case_activity_sets = (
+        filtered_log.groupby(StandardColumnNames.CASE_ID)[StandardColumnNames.ACTIVITY]
+        .apply(set)
+        .reindex(case_ids)
+        .fillna(set())
+    )
+
+    all_activities = set.union(*case_activity_sets)
+
+    optional_activities = {
+        activity for activity in all_activities if any(activity not in activities for activities in case_activity_sets)
+    }
+
+    return len(optional_activities)
 
 
 def expected_optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -215,7 +231,13 @@ def expected_optional_activity_count(event_log: pd.DataFrame, case_ids: list[str
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_optional_activities_counts = 0
+    for case_id in case_ids:
+        sum_of_optional_activities_counts += cases_flexibility_indicators.optional_activity_count(event_log, case_id)
+
+    numerator = sum_of_optional_activities_counts
+    denominator = general_groups_indicators.case_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def optionality(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -227,7 +249,9 @@ def optionality(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> floa
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = optional_activity_count(event_log, case_ids)
+    denominator = general_groups_indicators.activity_count(event_log, case_ids)
+    return safe_divide(numerator, denominator)
 
 
 def expected_optionality(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -239,7 +263,15 @@ def expected_optionality(event_log: pd.DataFrame, case_ids: list[str] | set[str]
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_optional_activities_counts = 0
+    sum_of_activities_counts = 0
+    for case_id in case_ids:
+        sum_of_optional_activities_counts += cases_flexibility_indicators.optional_activity_count(event_log, case_id)
+        sum_of_activities_counts += general_cases_indicators.activity_count(event_log, case_id)
+
+    numerator = sum_of_optional_activities_counts
+    denominator = sum_of_activities_counts
+    return safe_divide(numerator, denominator)
 
 
 def role_and_variant_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:

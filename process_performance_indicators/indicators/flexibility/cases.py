@@ -2,6 +2,7 @@ import pandas as pd
 
 import process_performance_indicators.indicators.general.cases as general_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
+from process_performance_indicators.constants import StandardColumnNames
 from process_performance_indicators.utils.safe_division import safe_divide
 
 
@@ -79,7 +80,20 @@ def optional_activity_count(event_log: pd.DataFrame, case_id: str) -> int:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    target_activities = set(event_log[event_log[StandardColumnNames.CASE_ID] == case_id][StandardColumnNames.ACTIVITY])
+
+    other_cases = event_log[event_log[StandardColumnNames.CASE_ID] != case_id]
+    other_case_activities = (
+        other_cases.groupby(StandardColumnNames.CASE_ID)[StandardColumnNames.ACTIVITY].apply(set).tolist()
+    )
+
+    optional_activities = {
+        activity
+        for activity in target_activities
+        if any(activity not in activities for activities in other_case_activities)
+    }
+
+    return len(optional_activities)
 
 
 def optionality(event_log: pd.DataFrame, case_id: str) -> float:
@@ -91,7 +105,9 @@ def optionality(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    numerator = optional_activity_count(event_log, case_id)
+    denominator = general_cases_indicators.activity_count(event_log, case_id)
+    return safe_divide(numerator, denominator)
 
 
 def role_count(event_log: pd.DataFrame, case_id: str) -> int:
