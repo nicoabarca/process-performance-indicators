@@ -5,6 +5,7 @@ import pandas as pd
 import process_performance_indicators.indicators.cost.cases as cost_cases_indicators
 import process_performance_indicators.indicators.general.cases as cases_utils
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
+import process_performance_indicators.indicators.quality.groups as quality_groups_indicators
 from process_performance_indicators.utils.safe_division import safe_divide
 
 
@@ -532,11 +533,76 @@ def expected_rework_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     raise NotImplementedError("Not implemented yet")
 
 
+def rework_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+    """
+    The number of times that any activity has been instantiated again, after its first intantiation,
+    in every case of the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    rework_count = 0
+    for case_id in case_ids:
+        rework_count += cost_cases_indicators.rework_count(event_log, case_id)
+    return rework_count
+
+
+def expected_rework_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+    """
+    The expected number of times that any activity has been instantiated again,
+    after its first instantiation, in a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    return safe_divide(
+        rework_count(event_log, case_ids),
+        general_groups_indicators.case_count(event_log, case_ids),
+    )
+
+
+def rework_percentage(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+    """
+    The percentage of times that any activity has been instantiated again, after its first
+    instantiation, in every case of the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    return safe_divide(
+        rework_count(event_log, case_ids),
+        general_groups_indicators.activity_instance_count(event_log, case_ids),
+    )
+
+
+def expected_rework_percentage(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+    """
+    The expected percentage of times that any activity has been instantiated again, after its first
+    instantiation, in a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    rework_count = 0
+    for case_id in case_ids:
+        rework_count += cost_cases_indicators.rework_percentage(event_log, case_id)
+
+    return safe_divide(rework_count, general_groups_indicators.case_count(event_log, case_ids))
+
+
 def total_cost(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
-) -> int | float | None:
+) -> float:
     """
-    Calculate the total cost for a group of cases.
+    The total cost associated with all activity instances of the group of cases.
 
     Args:
         event_log: The event log.
@@ -545,20 +611,11 @@ def total_cost(
             "sgl": Considers single events of activity instances for cost calculations.
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
-    Returns:
-        The total cost for a group of cases.
-
-    Raises:
-        ValueError: If any of the aggregation function calls return None.
-
     """
-    total_cost: int | float = 0
+    total_cost = 0
 
     for case_id in case_ids:
-        case_total_cost = cost_cases_indicators.total_cost(event_log, case_id, aggregation_mode)
-        if case_total_cost is None:
-            raise ValueError(f"Total cost calculation for case {case_id} returned None")
-        total_cost += case_total_cost
+        total_cost += cost_cases_indicators.total_cost(event_log, case_id, aggregation_mode) or 0
 
     return total_cost
 
@@ -567,7 +624,8 @@ def expected_total_cost(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
 ) -> int | float | None:
     """
-    Calculate the expected total cost for a group of cases.
+    The expected total cost associated with all activity instances of a case belonging to the
+    group of cases.
 
     Args:
         event_log: The event log.
@@ -576,15 +634,87 @@ def expected_total_cost(
             "sgl": Considers single events of activity instances for cost calculations.
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
-    Returns:
-        The expected total cost for a group of cases.
-
-    Raises:
-        ValueError: If any of the cases has no total cost.
-
     """
     group_total_cost = total_cost(event_log, case_ids, aggregation_mode)
-    if group_total_cost is None:
-        raise ValueError("Total cost calculation for group of cases returned None")
     case_group_count = general_groups_indicators.case_count(event_log, case_ids)
-    return group_total_cost / case_group_count
+    return safe_divide(group_total_cost, case_group_count)
+
+
+def total_cost_and_lead_time_ratio(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all activity instances of the group of
+    cases, and the total elapsed time between the earliest and latest events in the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def expected_total_cost_and_lead_time_ratio(
+    event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the expected total cost associated with all activity instances of a case
+    belonging to the group of cases, and the expected total elapsed time between the
+    earliest and latest timestamps in a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def total_cost_and_outcome_unit_ratio(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all activity instances of the group of
+    cases, and the outcome units associated with all activity instances of the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost and outcome unit calculations.
+            "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
+
+    """
+    return safe_divide(
+        total_cost(event_log, case_ids, aggregation_mode),
+        quality_groups_indicators.outcome_unit_count(event_log, case_ids, aggregation_mode),
+    )
+
+
+def expected_total_cost_and_outcome_unit_ratio(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the expected total cost associated with all activity instances of a case
+    belonging to the group of cases, and the expected outcome units associated with all activity
+    instances of a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost and outcome unit calculations.
+            "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
+
+    """
+    return safe_divide(
+        total_cost(event_log, case_ids, aggregation_mode),
+        quality_groups_indicators.outcome_unit_count(event_log, case_ids, aggregation_mode),
+    )

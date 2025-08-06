@@ -3,6 +3,8 @@ from typing import Literal
 import pandas as pd
 
 import process_performance_indicators.indicators.cost.instances as cost_instances_indicators
+import process_performance_indicators.indicators.general.activities as general_activities_indicators
+import process_performance_indicators.indicators.quality.activities as quality_activities_indicators
 import process_performance_indicators.utils.activities as activities_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 from process_performance_indicators.constants import StandardColumnNames
@@ -158,11 +160,25 @@ def rework_count(event_log: pd.DataFrame, activity_name: str) -> int:
     return rework_count
 
 
-def total_cost(
-    event_log: pd.DataFrame, activity_name: str, aggregation_mode: Literal["sgl", "sum"]
-) -> int | float | None:
+def rework_percentage(event_log: pd.DataFrame, activity_name: str) -> float:
     """
-    Calculate the total cost for an activity.
+    The percentage of times that the activity has been instantiated again, after its first
+    instantiation, in any case.
+
+    Args:
+        event_log: The event log.
+        activity_name: The activity name.
+
+    """
+    return safe_divide(
+        rework_count(event_log, activity_name),
+        general_activities_indicators.activity_instance_count(event_log, activity_name),
+    )
+
+
+def total_cost(event_log: pd.DataFrame, activity_name: str, aggregation_mode: Literal["sgl", "sum"]) -> float:
+    """
+    The total cost associated with all instantiations of the activity.
 
     Args:
         event_log: The event log.
@@ -171,23 +187,53 @@ def total_cost(
             "sgl": Considers single events of activity instances for cost calculations.
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
-    Returns:
-        The total cost for an activity.
-
-    Raises:
-        ValueError: If any of the aggregation function calls return None.
-
     """
     aggregation_function = {
         "sgl": cost_instances_indicators.total_cost_for_single_events_of_activity_instances,
         "sum": cost_instances_indicators.total_cost_for_sum_of_all_events_of_activity_instances,
     }
-    total_cost: int | float = 0
+    total_cost: float = 0
 
     for instance_id in activities_utils.inst(event_log, activity_name):
-        instance_cost = aggregation_function[aggregation_mode](event_log, instance_id)
-        if instance_cost is None:
-            raise ValueError(f"Total cost calculation for instance {instance_id} returned None")
-        total_cost += instance_cost
+        total_cost += aggregation_function[aggregation_mode](event_log, instance_id) or 0
 
     return total_cost
+
+
+def total_cost_and_lead_time_ratio(
+    event_log: pd.DataFrame, activity_name: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all instantiations of the activity, and the
+    sum of total elapsed times for all instantiations of the activity.
+
+    Args:
+        event_log: The event log.
+        activity_name: The activity name.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def total_cost_and_outcome_unit_ratio(
+    event_log: pd.DataFrame, activity_name: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all instantiations of the activity, and the
+    outcome units associated with all instantiations of the activity.
+
+    Args:
+        event_log: The event log.
+        activity_name: The activity name.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost and outcome unit calculations.
+            "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
+
+    """
+    return safe_divide(
+        total_cost(event_log, activity_name, aggregation_mode),
+        quality_activities_indicators.outcome_unit_count(event_log, activity_name, aggregation_mode),
+    )

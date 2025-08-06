@@ -3,6 +3,8 @@ from typing import Literal
 import pandas as pd
 
 import process_performance_indicators.indicators.cost.instances as cost_instances_indicators
+import process_performance_indicators.indicators.general.cases as general_cases_indicators
+import process_performance_indicators.indicators.quality.cases as quality_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
@@ -279,9 +281,25 @@ def rework_count(event_log: pd.DataFrame, case_id: str) -> int:
     return rework_count
 
 
-def total_cost(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]) -> int | float | None:
+def rework_percentage(event_log: pd.DataFrame, case_id: str) -> float:
     """
-    Calculate the total cost for a case.
+    The percentage of times that any activity has been instantiated again, after its first
+    instantiation, in the case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+
+    """
+    return safe_divide(
+        rework_count(event_log, case_id),
+        general_cases_indicators.activity_instance_count(event_log, case_id),
+    )
+
+
+def total_cost(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]) -> float:
+    """
+    The total cost associated with all activity instances of the case.
 
     Args:
         event_log: The event log.
@@ -290,23 +308,53 @@ def total_cost(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal[
             "sgl": Considers single events of activity instances for cost calculations.
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
-    Returns:
-        The total cost for a case.
-
-    Raises:
-        ValueError: If any of the aggregation function calls return None.
-
     """
     aggregation_function = {
         "sgl": cost_instances_indicators.total_cost_for_single_events_of_activity_instances,
         "sum": cost_instances_indicators.total_cost_for_sum_of_all_events_of_activity_instances,
     }
-    total_cost: int | float = 0
+    total_cost: float = 0
 
     for instance_id in cases_utils.inst(event_log, case_id):
-        instance_cost = aggregation_function[aggregation_mode](event_log, instance_id)
-        if instance_cost is None:
-            raise ValueError(f"Total cost calculation for instance {instance_id} returned None")
-        total_cost += instance_cost
+        total_cost += aggregation_function[aggregation_mode](event_log, instance_id) or 0
 
     return total_cost
+
+
+def total_cost_and_lead_time_ratio(
+    event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all activity instances of the case, and
+    the total elpased time between the earliest and latest timestamps in the case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def total_cost_and_outcome_unit_ratio(
+    event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all activity instances of the case, and the
+    outcome units associated with all activity instances of the case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost and outcome unit calculations.
+            "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
+
+    """
+    return safe_divide(
+        total_cost(event_log, case_id, aggregation_mode),
+        quality_cases_indicators.outcome_unit_count(event_log, case_id, aggregation_mode),
+    )
