@@ -151,8 +151,8 @@ def outcome_unit_count(event_log: pd.DataFrame, case_id: str, aggregation_mode: 
 
     """
     aggregation_function = {
-        "sgl": quality_instances_indicators.outcome_unit_count_considering_single_events_of_activity_instances,
-        "sum": quality_instances_indicators.outcome_unit_count_considering_sum_of_all_events_of_activity_instances,
+        "sgl": quality_instances_indicators.outcome_unit_count_for_single_events_of_activity_instances,
+        "sum": quality_instances_indicators.outcome_unit_count_for_sum_of_all_events_of_activity_instances,
     }
     case_instances = cases_utils.inst(event_log, case_id)
 

@@ -80,8 +80,8 @@ def outcome_unit_count(
 
     """
     aggregation_function = {
-        "sgl": quality_instances_indicators.outcome_unit_count_considering_single_events_of_activity_instances,
-        "sum": quality_instances_indicators.outcome_unit_count_considering_sum_of_all_events_of_activity_instances,
+        "sgl": quality_instances_indicators.outcome_unit_count_for_single_events_of_activity_instances,
+        "sum": quality_instances_indicators.outcome_unit_count_for_sum_of_all_events_of_activity_instances,
     }
     activity_instances = activities_utils.inst(event_log, activity_name)
 

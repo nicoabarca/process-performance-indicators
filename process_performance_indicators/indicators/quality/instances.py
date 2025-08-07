@@ -7,7 +7,7 @@ from process_performance_indicators.constants import StandardColumnNames
 from process_performance_indicators.utils.safe_division import safe_divide
 
 
-def outcome_unit_count_considering_single_events_of_activity_instances(
+def outcome_unit_count_for_single_events_of_activity_instances(
     event_log: pd.DataFrame, instance_id: str
 ) -> float | None:
     """
@@ -29,7 +29,7 @@ def outcome_unit_count_considering_single_events_of_activity_instances(
     return None
 
 
-def outcome_unit_count_considering_sum_of_all_events_of_activity_instances(
+def outcome_unit_count_for_sum_of_all_events_of_activity_instances(
     event_log: pd.DataFrame, instance_id: str
 ) -> float | None:
     """
@@ -65,16 +65,13 @@ def successful_outcome_unit_count(
 
     """
     aggregation_function = {
-        "sgl": outcome_unit_count_considering_single_events_of_activity_instances,
-        "sum": outcome_unit_count_considering_sum_of_all_events_of_activity_instances,
+        "sgl": outcome_unit_count_for_single_events_of_activity_instances,
+        "sum": outcome_unit_count_for_sum_of_all_events_of_activity_instances,
     }
     outcome_unit_count = aggregation_function[aggregation_mode](event_log, instance_id)
     complete_event = instances_utils.cpl(event_log, instance_id)
-    # TODO: ASK HERE FOR STANDARD COLUMN NAME FOR UNSUCCESSFUL OUTCOME UNIT
     if not complete_event.empty:
-        return outcome_unit_count - float(
-            complete_event[StandardColumnNames.OUTCOME_UNIT].unique()[0]
-        )  # HERE I SHOULD SUBSTRACT THE UNSUCCESSFUL OUTCOME UNIT
+        return outcome_unit_count - float(complete_event[StandardColumnNames.UNSUCCESSFUL_OUTCOME_UNIT].unique()[0])
 
     return outcome_unit_count
 
@@ -94,8 +91,8 @@ def successful_outcome_unit_percentage(
 
     """
     outcome_unit_function = {
-        "sgl": outcome_unit_count_considering_single_events_of_activity_instances,
-        "sum": outcome_unit_count_considering_sum_of_all_events_of_activity_instances,
+        "sgl": outcome_unit_count_for_single_events_of_activity_instances,
+        "sum": outcome_unit_count_for_sum_of_all_events_of_activity_instances,
     }
 
     numerator = successful_outcome_unit_count(event_log, instance_id, aggregation_mode)

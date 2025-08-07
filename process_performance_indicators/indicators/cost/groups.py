@@ -718,3 +718,141 @@ def expected_total_cost_and_outcome_unit_ratio(
         total_cost(event_log, case_ids, aggregation_mode),
         quality_groups_indicators.outcome_unit_count(event_log, case_ids, aggregation_mode),
     )
+
+
+def total_cost_and_service_time_ratio(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all activity instances of the group of
+    cases, and the sum of elapsed times between the start and complete events of all activity
+    instances of the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def expected_total_cost_and_service_time_ratio(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the expected total cost associated with all activity instances of a case
+    belonging to the group of cases, and the expected sum of elapsed times between the start and
+    complete events of all activity instances of a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def transportation_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+    """
+    The transportation cost associated with all cases in the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    transportation_cost = 0
+    for case_id in case_ids:
+        transportation_cost += cost_cases_indicators.transportation_cost(event_log, case_id)
+    return transportation_cost
+
+
+def expected_transportation_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+    """
+    The expected transportation cost associated with a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    return safe_divide(
+        transportation_cost(event_log, case_ids),
+        general_groups_indicators.case_count(event_log, case_ids),
+    )
+
+
+def variable_cost(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The variable cost associated with all activity instances of the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    variable_cost = 0
+    for case_id in case_ids:
+        variable_cost += cost_cases_indicators.variable_cost(event_log, case_id, aggregation_mode)
+    return variable_cost
+
+
+def expected_variable_cost(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The expected variable cost associated with all activity instances of a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    return safe_divide(
+        variable_cost(event_log, case_ids, aggregation_mode),
+        general_groups_indicators.case_count(event_log, case_ids),
+    )
+
+
+def warehousing_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+    """
+    The warehousing cost associated with all cases in the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    warehousing_cost = 0
+    for case_id in case_ids:
+        warehousing_cost += cost_cases_indicators.warehousing_cost(event_log, case_id)
+    return warehousing_cost
+
+
+def expected_warehousing_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+    """
+    The expected warehousing cost associated with a case belonging to the group of cases.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
+    """
+    return safe_divide(
+        warehousing_cost(event_log, case_ids),
+        general_groups_indicators.case_count(event_log, case_ids),
+    )

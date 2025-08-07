@@ -349,7 +349,7 @@ def total_cost_and_outcome_unit_ratio(
     Args:
         event_log: The event log.
         case_id: The case id.
-        aggregation_mode: The aggregation mode.
+        aggregation_mode: The aggregation mode.H
             "sgl": Considers single events of activity instances for cost and outcome unit calculations.
             "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
 
@@ -358,3 +358,75 @@ def total_cost_and_outcome_unit_ratio(
         total_cost(event_log, case_id, aggregation_mode),
         quality_cases_indicators.outcome_unit_count(event_log, case_id, aggregation_mode),
     )
+
+
+def total_cost_and_service_time_ratio(
+    event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all activity instances of the case, and
+    the sum of elapsed times between the start and complete events of all activity
+    instances of the case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def transportation_cost(event_log: pd.DataFrame, case_id: str) -> float:
+    """
+    The transportation cost associated with the case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+
+    """
+    case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
+    if not case_events[StandardColumnNames.TRANSPORTATION_COST].empty:
+        return float(case_events[StandardColumnNames.TRANSPORTATION_COST].unique()[0])
+    return 0
+
+
+def variable_cost(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]) -> float:
+    """
+    The variable cost associated with all activity instances of the case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    aggregation_function = {
+        "sgl": cost_instances_indicators.variable_cost_for_single_events_of_activity_instances,
+        "sum": cost_instances_indicators.variable_cost_for_sum_of_all_events_of_activity_instances,
+    }
+    variable_cost = 0
+    for instance_id in cases_utils.inst(event_log, case_id):
+        variable_cost += aggregation_function[aggregation_mode](event_log, instance_id) or 0
+
+    return variable_cost
+
+
+def warehousing_cost(event_log: pd.DataFrame, case_id: str) -> float:
+    """
+    The warehousing cost associated with the case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+
+    """
+    case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
+    if not case_events[StandardColumnNames.WAREHOUSING_COST].empty:
+        return float(case_events[StandardColumnNames.WAREHOUSING_COST].unique()[0])
+    return 0

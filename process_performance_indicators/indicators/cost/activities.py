@@ -237,3 +237,45 @@ def total_cost_and_outcome_unit_ratio(
         total_cost(event_log, activity_name, aggregation_mode),
         quality_activities_indicators.outcome_unit_count(event_log, activity_name, aggregation_mode),
     )
+
+
+def total_cost_and_service_time_ratio(
+    event_log: pd.DataFrame, activity_name: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with all instantiations of the activity, and the
+    sum of elapsed times between the start and complete events of all instantiations of the activity.
+
+    Args:
+        event_log: The event log.
+        activity_name: The activity name.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def variable_cost(event_log: pd.DataFrame, activity_name: str, aggregation_mode: Literal["sgl", "sum"]) -> float:
+    """
+    The variable cost associated with all instantiations of the activity.
+
+    Args:
+        event_log: The event log.
+        activity_name: The activity name.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    aggregation_function = {
+        "sgl": cost_instances_indicators.variable_cost_for_single_events_of_activity_instances,
+        "sum": cost_instances_indicators.variable_cost_for_sum_of_all_events_of_activity_instances,
+    }
+    variable_cost = 0
+
+    for instance_id in activities_utils.inst(event_log, activity_name):
+        variable_cost += aggregation_function[aggregation_mode](event_log, instance_id) or 0
+
+    return variable_cost

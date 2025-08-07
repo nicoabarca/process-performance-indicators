@@ -255,11 +255,11 @@ def total_cost_and_outcome_unit_ratio(
     aggregation_functions = {
         "sgl": {
             "cost": total_cost_for_single_events_of_activity_instances,
-            "outcome": quality_instances_indicators.outcome_unit_count_considering_single_events_of_activity_instances,
+            "outcome": quality_instances_indicators.outcome_unit_count_for_single_events_of_activity_instances,
         },
         "sum": {
             "cost": total_cost_for_sum_of_all_events_of_activity_instances,
-            "outcome": quality_instances_indicators.outcome_unit_count_considering_sum_of_all_events_of_activity_instances,
+            "outcome": quality_instances_indicators.outcome_unit_count_for_sum_of_all_events_of_activity_instances,
         },
     }
 
@@ -270,3 +270,65 @@ def total_cost_and_outcome_unit_ratio(
     outcome_unit = outcome_func(event_log, instance_id) or 0
 
     return safe_divide(total_cost, outcome_unit)
+
+
+def total_cost_and_service_time_ratio(
+    event_log: pd.DataFrame, instance_id: str, aggregation_mode: Literal["sgl", "sum"]
+) -> float:
+    """
+    The ratio between the total cost associated with the activity instance, and the elapsed
+    time between the start and complete events of the activity instance.
+
+    Args:
+        event_log: The event log.
+        instance_id: The instance id.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
+    """
+    raise NotImplementedError("Not implemented yet")
+
+
+def variable_cost_for_single_events_of_activity_instances(event_log: pd.DataFrame, instance_id: str) -> float | None:
+    """
+    The variable cost associated with an activity instance, measured as the latest recorded
+    value among the events of the activity instance.
+
+    Args:
+        event_log: The event log.
+        instance_id: The instance id.
+
+    """
+    complete_event = instances_utils.cpl(event_log, instance_id)
+    if not complete_event.empty:
+        return float(complete_event[StandardColumnNames.VARIABLE_COST].unique()[0])
+
+    start_event = instances_utils.start(event_log, instance_id)
+    if not start_event.empty:
+        return float(start_event[StandardColumnNames.OUTCOME_UNIT].unique()[0])
+
+    return None
+
+
+def variable_cost_for_sum_of_all_events_of_activity_instances(
+    event_log: pd.DataFrame, instance_id: str
+) -> float | None:
+    """
+    The variable cost associated with an activity instance, measured as the sum of all
+    values among the events of the activity instance.
+
+    Args:
+        event_log: The event log.
+        instance_id: The instance id.
+
+    """
+    start_event = instances_utils.start(event_log, instance_id)
+    complete_event = instances_utils.cpl(event_log, instance_id)
+
+    if not start_event.empty and not complete_event.empty:
+        return float(
+            start_event[StandardColumnNames.VARIABLE_COST].unique()[0]
+            + complete_event[StandardColumnNames.VARIABLE_COST].unique()[0]
+        )
+    return None

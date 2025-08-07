@@ -13,6 +13,7 @@ class StandardColumnNames(str, Enum):
     ROLE = "org:role"
     ORG_RESOURCE = "org:resource"
     OUTCOME_UNIT = "outcome_unit"
+    UNSUCCESSFUL_OUTCOME_UNIT = "unsuccessful_outcome_unit"
     FIXED_COST = "cost:fixed"
     VARIABLE_COST = "cost:variable"
     LABOR_COST = "cost:labor"
