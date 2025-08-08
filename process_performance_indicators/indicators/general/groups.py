@@ -3,7 +3,7 @@ import pandas as pd
 import process_performance_indicators.indicators.general.cases as general_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
 from process_performance_indicators.constants import StandardColumnNames
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -38,7 +38,7 @@ def expected_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
 
     numerator = sum_of_activity_counts
     denominator = case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -73,7 +73,7 @@ def expected_activity_instance_count(event_log: pd.DataFrame, case_ids: list[str
 
     numerator = sum_of_activity_instance_counts
     denominator = case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def case_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -123,7 +123,7 @@ def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] |
 
     numerator = sum_of_human_resources_counts
     denominator = case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -158,7 +158,7 @@ def expected_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
 
     numerator = sum_of_resource_counts
     denominator = case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -193,7 +193,7 @@ def expected_role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str])
 
     numerator = sum_of_role_counts
     denominator = case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def _is_case_ids_empty(case_ids: list[str] | set[str]) -> None:

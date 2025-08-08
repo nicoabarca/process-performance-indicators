@@ -8,7 +8,7 @@ import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def activity_instance_count_by_human_resource(event_log: pd.DataFrame, case_id: str, human_resource_name: str) -> int:
@@ -186,7 +186,7 @@ def repeatability(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case ID.
 
     """
-    return 1 - safe_divide(
+    return 1 - safe_division(
         general_cases_indicators.activity_count(event_log, case_id),
         general_cases_indicators.activity_instance_count(event_log, case_id),
     )
@@ -254,7 +254,7 @@ def rework_percentage(event_log: pd.DataFrame, case_id: str) -> float:
     """
     numerator = rework_count(event_log, case_id)
     denominator = general_cases_indicators.activity_instance_count(event_log, case_id)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def rework_percentage_by_value(event_log: pd.DataFrame, case_id: str, value: str) -> float:
@@ -269,7 +269,7 @@ def rework_percentage_by_value(event_log: pd.DataFrame, case_id: str, value: str
     """
     numerator = rework_count_by_value(event_log, case_id, value)
     denominator = general_cases_indicators.activity_instance_count(event_log, case_id)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def rework_time(event_log: pd.DataFrame, case_id: str, activity_name: str) -> float:
@@ -323,7 +323,7 @@ def successful_outcome_unit_percentage(
     """
     numerator = successful_outcome_unit_count(event_log, case_id, aggregation_mode)
     denominator = outcome_unit_count(event_log, case_id, aggregation_mode)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def unwanted_activity_count(event_log: pd.DataFrame, case_id: str, unwanted_activities: set[str]) -> int:
@@ -351,7 +351,7 @@ def unwanted_activity_percentage(event_log: pd.DataFrame, case_id: str, unwanted
     """
     numerator = unwanted_activity_count(event_log, case_id, unwanted_activities)
     denominator = general_cases_indicators.activity_count(event_log, case_id)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def unwanted_activity_instance_count(event_log: pd.DataFrame, case_id: str, unwanted_activities: set[str]) -> int:
@@ -386,4 +386,4 @@ def unwanted_activity_instance_percentage(
     """
     numerator = unwanted_activity_instance_count(event_log, case_id, unwanted_activities)
     denominator = general_cases_indicators.activity_instance_count(event_log, case_id)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)

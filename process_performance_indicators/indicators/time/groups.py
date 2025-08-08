@@ -3,7 +3,7 @@ import pandas as pd
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.indicators.time.cases as time_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def expected_active_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
@@ -44,7 +44,7 @@ def expected_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
 
     numerator = sum_of_activities_counts
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def activity_instance_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -73,7 +73,7 @@ def expected_activity_instance_count(event_log: pd.DataFrame, case_ids: list[str
     """
     numerator = activity_instance_count(event_log, case_ids)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def automated_activity_count(
@@ -113,7 +113,7 @@ def expected_automated_activity_count(
 
     numerator = count
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def automated_activity_instance_count(
@@ -148,7 +148,7 @@ def expected_automated_activity_instance_count(
     """
     numerator = automated_activity_instance_count(event_log, case_ids, automated_activities)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def automated_activity_service_time(
@@ -195,7 +195,7 @@ def case_count_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | se
     numerator = general_groups_indicators.case_count(event_log, case_ids)
     # Using hour as the time unit for denominator
     denominator = lead_time(event_log, case_ids) / pd.Timedelta(hours=1)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def case_count_where_lead_time_over_value(
@@ -232,7 +232,7 @@ def case_percentage_where_lead_time_over_value(
     """
     numerator = case_count_where_lead_time_over_value(event_log, case_ids, value)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def case_percentage_with_missed_deadline(
@@ -250,7 +250,7 @@ def case_percentage_with_missed_deadline(
     cases_over_deadline = {case_id for case_id in case_ids if cases_utils.endt(event_log, case_id) > value}
     numerator = len(cases_over_deadline)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_handover_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -301,7 +301,7 @@ def expected_lead_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) 
         time_cases_indicators.lead_time(event_log, case_id) / pd.Timedelta(minutes=1) for case_id in case_ids
     )
     case_count = general_groups_indicators.case_count(event_log, case_ids)
-    expected_lead_time_in_minutes = safe_divide(group_total_lead_times_in_minutes, case_count)
+    expected_lead_time_in_minutes = safe_division(group_total_lead_times_in_minutes, case_count)
     return pd.Timedelta(minutes=expected_lead_time_in_minutes)
 
 
@@ -318,7 +318,7 @@ def lead_time_and_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] 
     # TODO: ask if time unit is correct
     group_lead_time_in_hours = lead_time(event_log, case_ids) / pd.Timedelta(hours=1)
     case_count = general_groups_indicators.case_count(event_log, case_ids)
-    hours_per_case = safe_divide(group_lead_time_in_hours, case_count)
+    hours_per_case = safe_division(group_lead_time_in_hours, case_count)
     return pd.Timedelta(hours=hours_per_case)
 
 
@@ -343,7 +343,7 @@ def expected_lead_time_deviation_from_deadline(
 
     numerator = deviations_from_deadline_in_minutes
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    expected_deviation_from_deadline_in_minutes = safe_divide(numerator, denominator)
+    expected_deviation_from_deadline_in_minutes = safe_division(numerator, denominator)
     return pd.Timedelta(minutes=expected_deviation_from_deadline_in_minutes)
 
 
@@ -368,7 +368,7 @@ def expected_lead_time_deviation_from_expectation(
 
     numerator = deviations_from_expectation_in_minutes
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    expected_deviation_from_expectation_in_minutes = safe_divide(numerator, denominator)
+    expected_deviation_from_expectation_in_minutes = safe_division(numerator, denominator)
     return pd.Timedelta(minutes=expected_deviation_from_expectation_in_minutes)
 
 
@@ -433,7 +433,7 @@ def service_and_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | s
         case_ids: The case ids.
 
     """
-    return safe_divide(service_time(event_log, case_ids), lead_time(event_log, case_ids))
+    return safe_division(service_time(event_log, case_ids), lead_time(event_log, case_ids))
 
 
 def expected_service_and_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -447,7 +447,7 @@ def expected_service_and_lead_time_ratio(event_log: pd.DataFrame, case_ids: list
         case_ids: The case ids.
 
     """
-    return safe_divide(service_time(event_log, case_ids), expected_lead_time(event_log, case_ids))
+    return safe_division(service_time(event_log, case_ids), expected_lead_time(event_log, case_ids))
 
 
 def service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
@@ -480,7 +480,7 @@ def expected_service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str
     """
     group_service_time_in_minutes = service_time(event_log, case_ids) / pd.Timedelta(minutes=1)
     case_count = general_groups_indicators.case_count(event_log, case_ids)
-    expected_service_time_in_minutes = safe_divide(group_service_time_in_minutes, case_count)
+    expected_service_time_in_minutes = safe_division(group_service_time_in_minutes, case_count)
     return pd.Timedelta(minutes=expected_service_time_in_minutes)
 
 

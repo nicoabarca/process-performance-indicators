@@ -3,7 +3,7 @@ import pandas as pd
 import process_performance_indicators.indicators.general.cases as general_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
 from process_performance_indicators.constants import StandardColumnNames
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def activity_and_role_count_ratio(event_log: pd.DataFrame, case_id: str) -> float:
@@ -18,7 +18,7 @@ def activity_and_role_count_ratio(event_log: pd.DataFrame, case_id: str) -> floa
     """
     numerator = general_cases_indicators.activity_count(event_log, case_id)
     denominator = general_cases_indicators.role_count(event_log, case_id)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def activity_instance_and_human_resource_count_ratio(event_log: pd.DataFrame, case_id: str) -> float:
@@ -32,7 +32,7 @@ def activity_instance_and_human_resource_count_ratio(event_log: pd.DataFrame, ca
     """
     numerator = general_cases_indicators.activity_instance_count(event_log, case_id)
     denominator = general_cases_indicators.human_resource_count(event_log, case_id)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def directly_follows_relations_and_activity_count_ratio(event_log: pd.DataFrame, case_id: str) -> float:
@@ -107,7 +107,7 @@ def optionality(event_log: pd.DataFrame, case_id: str) -> float:
     """
     numerator = optional_activity_count(event_log, case_id)
     denominator = general_cases_indicators.activity_count(event_log, case_id)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def role_count(event_log: pd.DataFrame, case_id: str) -> int:

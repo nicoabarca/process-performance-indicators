@@ -4,7 +4,7 @@ import pandas as pd
 
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def outcome_unit_count_for_single_events_of_activity_instances(
@@ -97,7 +97,7 @@ def successful_outcome_unit_percentage(
 
     numerator = successful_outcome_unit_count(event_log, instance_id, aggregation_mode)
     denominator = outcome_unit_function[aggregation_mode](event_log, instance_id)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def total_cost_and_client_count_ratio(

@@ -25,7 +25,7 @@ def res(event_log: pd.DataFrame, activity_name: str) -> set:
     resources = event_log[event_log[StandardColumnNames.ACTIVITY] == activity_name][
         StandardColumnNames.ORG_RESOURCE
     ].unique()
-    return set(resources)
+    return set(resources.tolist())
 
 
 def hres(event_log: pd.DataFrame, activity_name: str) -> set:
@@ -41,7 +41,7 @@ def hres(event_log: pd.DataFrame, activity_name: str) -> set:
         StandardColumnNames.HUMAN_RESOURCE
     ].unique()
 
-    return set(human_resources)
+    return set(human_resources.tolist())
 
 
 def role(event_log: pd.DataFrame, activity_name: str) -> set:
@@ -55,7 +55,7 @@ def role(event_log: pd.DataFrame, activity_name: str) -> set:
 
     roles = event_log[event_log[StandardColumnNames.ACTIVITY] == activity_name][StandardColumnNames.ROLE].unique()
 
-    return set(roles)
+    return set(roles.tolist())
 
 
 def inst(event_log: pd.DataFrame, activity_name: str) -> set:
@@ -71,7 +71,8 @@ def inst(event_log: pd.DataFrame, activity_name: str) -> set:
         StandardColumnNames.INSTANCE
     ].unique()
 
-    return set(instances)
+    # Convert to list first to avoid issues with numpy types in set
+    return set(instances.tolist())
 
 
 def _is_activity_name_valid(event_log: pd.DataFrame, activity_name: str) -> None:

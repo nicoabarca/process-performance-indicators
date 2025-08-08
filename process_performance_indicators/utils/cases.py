@@ -17,7 +17,7 @@ def events(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
     return event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
 
 
-def act(event_log: pd.DataFrame, case_id: str) -> set:
+def act(event_log: pd.DataFrame, case_id: str) -> set[str]:
     """
     Get the activities names set of a case.
     """
@@ -26,7 +26,7 @@ def act(event_log: pd.DataFrame, case_id: str) -> set:
     return set(activities)
 
 
-def res(event_log: pd.DataFrame, case_id: str) -> set:
+def res(event_log: pd.DataFrame, case_id: str) -> set[str]:
     """
     Get the resources names set of a case.
     """
@@ -39,7 +39,7 @@ def res(event_log: pd.DataFrame, case_id: str) -> set:
     return set(resources)
 
 
-def hres(event_log: pd.DataFrame, case_id: str) -> set:
+def hres(event_log: pd.DataFrame, case_id: str) -> set[str]:
     """
     Get the human resources names set of a case.
     """
@@ -54,7 +54,7 @@ def hres(event_log: pd.DataFrame, case_id: str) -> set:
     return set(human_resources)
 
 
-def role(event_log: pd.DataFrame, case_id: str) -> set:
+def role(event_log: pd.DataFrame, case_id: str) -> set[str]:
     """
     Get the roles names set of a case.
     """
@@ -67,7 +67,7 @@ def role(event_log: pd.DataFrame, case_id: str) -> set:
     return set(roles)
 
 
-def inst(event_log: pd.DataFrame, case_id: str) -> set:
+def inst(event_log: pd.DataFrame, case_id: str) -> set[str]:
     """
     Get the instances ids set of a case.
     """
@@ -80,26 +80,39 @@ def inst(event_log: pd.DataFrame, case_id: str) -> set:
     return set(instances)
 
 
-def strin(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
+def strin(event_log: pd.DataFrame, case_id: str) -> set[str]:
     """
-    Get the start activity instances of a case
-    """
-    _is_case_id_valid(event_log, case_id)
-    return event_log[
-        (event_log[StandardColumnNames.CASE_ID] == case_id)
-        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START)
-    ]
-
-
-def endin(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
-    """
-    Get the end activity instances of a case
+    Get the instance(s) that start first in the given case.
     """
     _is_case_id_valid(event_log, case_id)
-    return event_log[
-        (event_log[StandardColumnNames.CASE_ID] == case_id)
-        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE)
+
+    case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
+    start_events = case_events[case_events[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START]
+
+    min_start_time = start_events[StandardColumnNames.TIMESTAMP].min()
+    earliest_instances = start_events[start_events[StandardColumnNames.TIMESTAMP] == min_start_time][
+        StandardColumnNames.INSTANCE
+    ].unique()
+    return set(earliest_instances.tolist())
+
+
+def endin(event_log: pd.DataFrame, case_id: str) -> set[str]:
+    """
+    Get the instance(s) that end last in the given case.
+    """
+    _is_case_id_valid(event_log, case_id)
+
+    case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
+    complete_events = case_events[
+        case_events[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE
     ]
+
+    max_complete_time = complete_events[StandardColumnNames.TIMESTAMP].max()
+    latest_instances = complete_events[complete_events[StandardColumnNames.TIMESTAMP] == max_complete_time][
+        StandardColumnNames.INSTANCE
+    ].unique()
+
+    return set(latest_instances.tolist())
 
 
 def startt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
@@ -107,10 +120,11 @@ def startt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
     Get the start timestamp of a case start activity instances
     """
     _is_case_id_valid(event_log, case_id)
-    start_activity_instances = strin(event_log, case_id)
-    if start_activity_instances.empty:
+    earliest_instances_events = strin(event_log, case_id)
+    if earliest_instances_events.empty:
         raise NoStartEventFoundError(f"No start event found for case {case_id}.")
-    return start_activity_instances[StandardColumnNames.TIMESTAMP].iloc[0]
+
+    return earliest_instances_events[StandardColumnNames.TIMESTAMP].min()
 
 
 def endt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
@@ -118,10 +132,10 @@ def endt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
     Get the end timestamp of a case end activity instances
     """
     _is_case_id_valid(event_log, case_id)
-    end_activity_instances = endin(event_log, case_id)
-    if end_activity_instances.empty:
+    latest_instances_events = endin(event_log, case_id)
+    if latest_instances_events.empty:
         raise NoCompleteEventFoundError(f"No complete event found for case {case_id}.")
-    return end_activity_instances[StandardColumnNames.TIMESTAMP].iloc[0]
+    return latest_instances_events[StandardColumnNames.TIMESTAMP].max()
 
 
 def _is_case_id_valid(event_log: pd.DataFrame, case_id: str) -> None:

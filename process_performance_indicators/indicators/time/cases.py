@@ -3,7 +3,7 @@ import pandas as pd
 import process_performance_indicators.indicators.time.instances as time_instances_indicators
 import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.instances as instances_utils
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def active_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
@@ -202,7 +202,7 @@ def service_and_lead_time_ratio(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case id.
 
     """
-    return safe_divide(service_time(event_log, case_id), lead_time(event_log, case_id))
+    return safe_division(service_time(event_log, case_id), lead_time(event_log, case_id))
 
 
 def service_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:

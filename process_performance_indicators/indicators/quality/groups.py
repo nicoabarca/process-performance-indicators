@@ -9,7 +9,7 @@ import process_performance_indicators.indicators.quality.cases as quality_cases_
 import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def activity_instance_count_by_human_resource(
@@ -47,7 +47,7 @@ def expected_activity_instance_count_by_human_resource(
     numerator = activity_instance_count_by_human_resource(event_log, case_ids, human_resource_name)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
 
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def activity_instance_count_by_role(event_log: pd.DataFrame, case_ids: list[str] | set[str], role_name: str) -> int:
@@ -81,7 +81,7 @@ def expected_activity_instance_count_by_role(
     numerator = activity_instance_count_by_role(event_log, case_ids, role_name)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
 
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def automated_activity_count(
@@ -121,7 +121,7 @@ def expected_automated_activity_count(
 
     numerator = count
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def automated_activity_instance_count(
@@ -156,7 +156,7 @@ def expected_automated_activity_instance_count(
     """
     numerator = automated_activity_instance_count(event_log, case_ids, automated_activities)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def case_and_client_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -323,7 +323,7 @@ def case_percentage_where_activity_after_time_frame(
     """
     numerator = case_count_where_activity_after_time_frame(event_log, case_ids, activity_name, end_time)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def case_percentage_where_activity_before_time_frame(
@@ -341,7 +341,7 @@ def case_percentage_where_activity_before_time_frame(
     """
     numerator = case_count_where_activity_before_time_frame(event_log, case_ids, activity_name, start_time)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def case_percentage_where_activity_during_time_frame(
@@ -364,7 +364,7 @@ def case_percentage_where_activity_during_time_frame(
     """
     numerator = case_count_where_activity_during_time_frame(event_log, case_ids, activity_name, start_time, end_time)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def case_percentage_where_end_activity_is_a(
@@ -381,7 +381,7 @@ def case_percentage_where_end_activity_is_a(
     """
     numerator = case_count_where_end_activity_is_a(event_log, case_ids, a_activity_name)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def case_percentage_where_start_activity_is_a(
@@ -398,7 +398,7 @@ def case_percentage_where_start_activity_is_a(
     """
     numerator = case_count_where_start_activity_is_a(event_log, case_ids, a_activity_name)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def case_percentage_with_missed_deadline(
@@ -428,7 +428,7 @@ def case_percentage_with_rework(event_log: pd.DataFrame, case_ids: list[str] | s
     """
     numerator = case_count_with_rework(event_log, case_ids)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def client_count_and_total_cost_ratio(
@@ -448,7 +448,7 @@ def client_count_and_total_cost_ratio(
     """
     numerator = flexibility_groups_indicators.client_count(event_log, case_ids)
     denominator = cost_groups_indicators.total_cost(event_log, case_ids, aggregation_mode)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_client_count_and_total_cost_ratio(
@@ -468,7 +468,7 @@ def expected_client_count_and_total_cost_ratio(
     """
     numerator = flexibility_groups_indicators.client_count(event_log, case_ids)
     denominator = cost_groups_indicators.total_cost(event_log, case_ids, aggregation_mode)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def desired_activity_count(
@@ -508,7 +508,7 @@ def expected_desired_activity_count(
             event_log, case_id, desired_activities
         )
 
-    return safe_divide(
+    return safe_division(
         group_desired_activity_count, general_groups_indicators.activity_instance_count(event_log, case_ids)
     )
 
@@ -541,7 +541,7 @@ def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] |
     for case_id in case_ids:
         human_resources_count += quality_cases_indicators.human_resource_count(event_log, case_id)
 
-    return safe_divide(human_resources_count, general_groups_indicators.activity_instance_count(event_log, case_ids))
+    return safe_division(human_resources_count, general_groups_indicators.activity_instance_count(event_log, case_ids))
 
 
 def non_automated_activity_count(
@@ -580,7 +580,7 @@ def expected_non_automated_activity_count(
         non_automated_activity_count += quality_cases_indicators.non_automated_activity_count(
             event_log, case_id, automated_activities
         )
-    return safe_divide(
+    return safe_division(
         non_automated_activity_count, general_groups_indicators.activity_instance_count(event_log, case_ids)
     )
 
@@ -619,7 +619,7 @@ def expected_non_automated_activity_instance_count(
     """
     numerator = non_automated_activity_instance_count(event_log, case_ids, automated_activities)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def outcome_unit_count(
@@ -656,7 +656,7 @@ def expected_outcome_unit_count(
     """
     numerator = outcome_unit_count(event_log, case_ids, aggregation_mode)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_overall_quality(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -674,7 +674,7 @@ def expected_overall_quality(event_log: pd.DataFrame, case_ids: list[str] | set[
 
     numerator = cases_overall_quality
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def repeatability(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -687,7 +687,7 @@ def repeatability(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> fl
         case_ids: The case IDs.
 
     """
-    return 1 - safe_divide(
+    return 1 - safe_division(
         general_groups_indicators.activity_count(event_log, case_ids),
         general_groups_indicators.activity_instance_count(event_log, case_ids),
     )
@@ -708,7 +708,7 @@ def expected_repeatability(event_log: pd.DataFrame, case_ids: list[str] | set[st
     for case_id in case_ids:
         sum_of_activity_counts += general_groups_indicators.activity_count(event_log, case_id)
 
-    return 1 - safe_divide(
+    return 1 - safe_division(
         sum_of_activity_counts, general_groups_indicators.activity_instance_count(event_log, case_ids)
     )
 
@@ -739,7 +739,7 @@ def expected_rework_count(event_log: pd.DataFrame, case_ids: list[str] | set[str
     """
     numerator = rework_count(event_log, case_ids)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def rework_count_by_value(event_log: pd.DataFrame, case_ids: list[str] | set[str], value: float) -> int:
@@ -771,7 +771,7 @@ def expected_rework_count_by_value(event_log: pd.DataFrame, case_ids: list[str] 
     """
     numerator = rework_count_by_value(event_log, case_ids, value)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def rework_of_activities_subset(
@@ -805,7 +805,7 @@ def expected_rework_of_activities_subset(
     """
     numerator = rework_of_activities_subset(event_log, case_ids, activities_subset)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def rework_percentage(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -821,7 +821,7 @@ def rework_percentage(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -
     """
     numerator = rework_count(event_log, case_ids)
     denominator = general_groups_indicators.activity_instance_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_rework_percentage(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -841,7 +841,7 @@ def expected_rework_percentage(event_log: pd.DataFrame, case_ids: list[str] | se
 
     numerator = sum_of_rework_percentages
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def rework_percentage_by_value(event_log: pd.DataFrame, case_ids: list[str] | set[str], value: str) -> float:
@@ -857,7 +857,7 @@ def rework_percentage_by_value(event_log: pd.DataFrame, case_ids: list[str] | se
     """
     numerator = rework_count_by_value(event_log, case_ids, value)
     denominator = general_groups_indicators.activity_instance_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_rework_percentage_by_value(event_log: pd.DataFrame, case_ids: list[str] | set[str], value: str) -> float:
@@ -878,7 +878,7 @@ def expected_rework_percentage_by_value(event_log: pd.DataFrame, case_ids: list[
 
     numerator = sum_of_rework_by_value_percentages
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def rework_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
@@ -946,7 +946,7 @@ def expected_successful_outcome_unit_count(
     """
     numerator = successful_outcome_unit_count(event_log, case_ids, aggregation_mode)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def successful_outcome_unit_percentage(
@@ -965,7 +965,7 @@ def successful_outcome_unit_percentage(
     """
     numerator = successful_outcome_unit_count(event_log, case_ids, aggregation_mode)
     denominator = outcome_unit_count(event_log, case_ids, aggregation_mode)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_successful_outcome_unit_percentage(
@@ -990,7 +990,7 @@ def expected_successful_outcome_unit_percentage(
 
     numerator = sum_of_successful_outcome_unit_percentages
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def total_cost_and_client_count_ratio(
@@ -1009,7 +1009,7 @@ def total_cost_and_client_count_ratio(
     """
     numerator = flexibility_groups_indicators.client_count(event_log, case_ids)
     denominator = cost_groups_indicators.total_cost(event_log, case_ids, aggregation_mode)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_total_cost_and_client_count_ratio(
@@ -1028,7 +1028,7 @@ def expected_total_cost_and_client_count_ratio(
     """
     numerator = flexibility_groups_indicators.client_count(event_log, case_ids)
     denominator = cost_groups_indicators.total_cost(event_log, case_ids, aggregation_mode)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def unwanted_activity_count(
@@ -1084,7 +1084,7 @@ def unwanted_activity_percentage(
     """
     numerator = unwanted_activity_count(event_log, case_ids, unwanted_activities)
     denominator = general_groups_indicators.activity_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_unwanted_activity_percentage(
@@ -1107,7 +1107,7 @@ def expected_unwanted_activity_percentage(
 
     numerator = sum_of_unwanted_activity_percentages
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def unwanted_activity_instance_count(
@@ -1144,7 +1144,7 @@ def expected_unwanted_activity_instance_count(
     """
     numerator = unwanted_activity_instance_count(event_log, case_ids, unwanted_activities)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def unwanted_activity_instance_percentage(
@@ -1161,7 +1161,7 @@ def unwanted_activity_instance_percentage(
     """
     numerator = unwanted_activity_instance_count(event_log, case_ids, unwanted_activities)
     denominator = general_groups_indicators.activity_instance_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_unwanted_activity_instance_percentage(
@@ -1184,4 +1184,4 @@ def expected_unwanted_activity_instance_percentage(
 
     numerator = sum_of_unwanted_activity_instance_percentages
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)

@@ -9,7 +9,7 @@ import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def automated_activity_cost(
@@ -161,7 +161,7 @@ def labor_cost_and_total_cost_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         labor_cost(event_log, case_id, aggregation_mode),
         total_cost(event_log, case_id, aggregation_mode),
     )
@@ -291,7 +291,7 @@ def rework_percentage(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case id.
 
     """
-    return safe_divide(
+    return safe_division(
         rework_count(event_log, case_id),
         general_cases_indicators.activity_instance_count(event_log, case_id),
     )
@@ -354,7 +354,7 @@ def total_cost_and_outcome_unit_ratio(
             "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         total_cost(event_log, case_id, aggregation_mode),
         quality_cases_indicators.outcome_unit_count(event_log, case_id, aggregation_mode),
     )

@@ -6,7 +6,7 @@ import process_performance_indicators.indicators.cost.cases as cost_cases_indica
 import process_performance_indicators.indicators.general.cases as cases_utils
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.indicators.quality.groups as quality_groups_indicators
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def automated_activity_cost(
@@ -56,7 +56,7 @@ def expected_automated_activity_cost(
     """
     group_automated_activity_cost = automated_activity_cost(event_log, case_ids, automated_activities, aggregation_mode)
     case_group_count = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(group_automated_activity_cost, case_group_count)
+    return safe_division(group_automated_activity_cost, case_group_count)
 
 
 def desired_activity_count(
@@ -91,7 +91,7 @@ def expected_desired_activity_count(
     """
     numerator = desired_activity_count(event_log, case_ids, desired_activities)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def direct_cost(
@@ -140,7 +140,7 @@ def expected_direct_cost(
     """
     numerator = direct_cost(event_log, case_ids, direct_costs_activities, aggregation_mode)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def fixed_cost(
@@ -181,7 +181,7 @@ def expected_fixed_cost(
     """
     numerator = fixed_cost(event_log, case_ids, aggregation_mode)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def human_resource_and_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float | None:
@@ -196,7 +196,7 @@ def human_resource_and_case_count_ratio(event_log: pd.DataFrame, case_ids: list[
     """
     numerator = human_resource_count(event_log, case_ids)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -231,7 +231,7 @@ def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] |
 
     numerator = count
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def inventory_cost(
@@ -273,7 +273,7 @@ def expected_inventory_cost(
     """
     numerator = inventory_cost(event_log, case_ids, aggregation_mode)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def labor_cost_and_total_cost_ratio(
@@ -291,7 +291,7 @@ def labor_cost_and_total_cost_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         labor_cost(event_log, case_ids, aggregation_mode),
         total_cost(event_log, case_ids, aggregation_mode),
     )
@@ -312,7 +312,7 @@ def expected_labor_cost_and_total_cost_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         labor_cost(event_log, case_ids, aggregation_mode),
         total_cost(event_log, case_ids, aggregation_mode),
     )
@@ -355,7 +355,7 @@ def expected_labor_cost(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         labor_cost(event_log, case_ids, aggregation_mode),
         general_groups_indicators.case_count(event_log, case_ids),
     )
@@ -387,7 +387,9 @@ def expected_maintenance_cost(event_log: pd.DataFrame, case_ids: list[str] | set
         case_ids: The case ids.
 
     """
-    return safe_divide(maintenance_cost(event_log, case_ids), general_groups_indicators.case_count(event_log, case_ids))
+    return safe_division(
+        maintenance_cost(event_log, case_ids), general_groups_indicators.case_count(event_log, case_ids)
+    )
 
 
 def missed_deadline_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float | None:
@@ -416,7 +418,7 @@ def expected_missed_deadline_cost(event_log: pd.DataFrame, case_ids: list[str] |
         case_ids: The case ids.
 
     """
-    return safe_divide(
+    return safe_division(
         missed_deadline_cost(event_log, case_ids),
         general_groups_indicators.case_count(event_log, case_ids),
     )
@@ -470,7 +472,7 @@ def expected_overhead_cost(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         overhead_cost(event_log, case_ids, direct_cost_activities, aggregation_mode),
         general_groups_indicators.case_count(event_log, case_ids),
     )
@@ -504,7 +506,7 @@ def expected_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
     resource_count = 0
     for case_id in case_ids:
         resource_count += cost_cases_indicators.resource_count(event_log, case_id)
-    return safe_divide(resource_count, general_groups_indicators.case_count(event_log, case_ids))
+    return safe_division(resource_count, general_groups_indicators.case_count(event_log, case_ids))
 
 
 def rework_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -559,7 +561,7 @@ def expected_rework_count(event_log: pd.DataFrame, case_ids: list[str] | set[str
         case_ids: The case ids.
 
     """
-    return safe_divide(
+    return safe_division(
         rework_count(event_log, case_ids),
         general_groups_indicators.case_count(event_log, case_ids),
     )
@@ -575,7 +577,7 @@ def rework_percentage(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -
         case_ids: The case ids.
 
     """
-    return safe_divide(
+    return safe_division(
         rework_count(event_log, case_ids),
         general_groups_indicators.activity_instance_count(event_log, case_ids),
     )
@@ -595,7 +597,7 @@ def expected_rework_percentage(event_log: pd.DataFrame, case_ids: list[str] | se
     for case_id in case_ids:
         rework_count += cost_cases_indicators.rework_percentage(event_log, case_id)
 
-    return safe_divide(rework_count, general_groups_indicators.case_count(event_log, case_ids))
+    return safe_division(rework_count, general_groups_indicators.case_count(event_log, case_ids))
 
 
 def total_cost(
@@ -637,7 +639,7 @@ def expected_total_cost(
     """
     group_total_cost = total_cost(event_log, case_ids, aggregation_mode)
     case_group_count = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(group_total_cost, case_group_count)
+    return safe_division(group_total_cost, case_group_count)
 
 
 def total_cost_and_lead_time_ratio(
@@ -692,7 +694,7 @@ def total_cost_and_outcome_unit_ratio(
             "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         total_cost(event_log, case_ids, aggregation_mode),
         quality_groups_indicators.outcome_unit_count(event_log, case_ids, aggregation_mode),
     )
@@ -714,7 +716,7 @@ def expected_total_cost_and_outcome_unit_ratio(
             "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         total_cost(event_log, case_ids, aggregation_mode),
         quality_groups_indicators.outcome_unit_count(event_log, case_ids, aggregation_mode),
     )
@@ -782,7 +784,7 @@ def expected_transportation_cost(event_log: pd.DataFrame, case_ids: list[str] | 
         case_ids: The case ids.
 
     """
-    return safe_divide(
+    return safe_division(
         transportation_cost(event_log, case_ids),
         general_groups_indicators.case_count(event_log, case_ids),
     )
@@ -822,7 +824,7 @@ def expected_variable_cost(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         variable_cost(event_log, case_ids, aggregation_mode),
         general_groups_indicators.case_count(event_log, case_ids),
     )
@@ -852,7 +854,7 @@ def expected_warehousing_cost(event_log: pd.DataFrame, case_ids: list[str] | set
         case_ids: The case ids.
 
     """
-    return safe_divide(
+    return safe_division(
         warehousing_cost(event_log, case_ids),
         general_groups_indicators.case_count(event_log, case_ids),
     )

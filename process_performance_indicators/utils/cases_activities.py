@@ -1,20 +1,28 @@
+from typing import Literal
+
 import pandas as pd
 
-from process_performance_indicators.constants import LifecycleTransitionType, StandardColumnNames
+import process_performance_indicators.indicators.cost.instances as cost_instances_indicators
+from process_performance_indicators.constants import StandardColumnNames
 from process_performance_indicators.exceptions import (
     ActivityNameNotFoundError,
     CaseIdNotFoundError,
 )
+from process_performance_indicators.utils import instances as instances_utils
+from process_performance_indicators.utils.safe_division import safe_division
 
 
-def inst(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame:
+def inst(event_log: pd.DataFrame, case_id: str, activity_name: str) -> set[str]:
     """
-    Returns the instance of an activity in a case.
+    Returns the dataframe of instance of an activity in a case.
     """
     _is_case_id_activity_name_valid(event_log, case_id, activity_name)
-    return event_log[
+
+    instances = event_log[
         (event_log[StandardColumnNames.CASE_ID] == case_id) & (event_log[StandardColumnNames.ACTIVITY] == activity_name)
-    ]
+    ][StandardColumnNames.INSTANCE]
+
+    return set(instances.tolist())
 
 
 def count(event_log: pd.DataFrame, case_id: str, activity_name: str) -> int:
@@ -24,40 +32,85 @@ def count(event_log: pd.DataFrame, case_id: str, activity_name: str) -> int:
     return len(inst(event_log, case_id, activity_name))
 
 
-def fi_s(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame:
+def fi_s(event_log: pd.DataFrame, case_id: str, activity_name: str) -> set[str]:
     """
-    Returns the first start events of an activity instance in a case.
+    Return the set of instance ids of activity `activity_name` in case `case_id`
+    that start earliest (ties included).
     """
-    instances = inst(event_log, case_id, activity_name)
-    instances_start_events = instances[
-        (instances[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START)
-    ]
-    # Get the minimum timestamp from all start events
-    min_timestamp = instances_start_events[StandardColumnNames.TIMESTAMP].min()
-    # Get all events that have this minimum timestamp
+    _is_case_id_activity_name_valid(event_log, case_id, activity_name)
+    instance_ids = inst(event_log, case_id, activity_name)
 
-    return instances_start_events[instances_start_events[StandardColumnNames.TIMESTAMP] == min_timestamp][
-        StandardColumnNames.ACTIVITY
-    ].tolist()
+    if len(instance_ids) == 0:
+        return set()
+
+    instance_id_to_start_time = {iid: instances_utils.stime(event_log, iid) for iid in instance_ids}
+    earliest_time = min(instance_id_to_start_time.values())
+    return {iid for iid, t in instance_id_to_start_time.items() if t == earliest_time}
 
 
-def fi_c(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.DataFrame:
+def fi_c(event_log: pd.DataFrame, case_id: str, activity_name: str) -> set[str]:
     """
-    Returns the first complete event of an activity instance in a case.
+    Return the set of instance ids of activity `activity_name` in case `case_id`
+    that complete earliest (ties included).
     """
-    instances = inst(event_log, case_id, activity_name)
-    instances_complete_events = instances[
-        (instances[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE)
-    ]
-    min_timestamp = instances_complete_events[StandardColumnNames.TIMESTAMP].min()
-    return instances_complete_events[instances_complete_events[StandardColumnNames.TIMESTAMP] == min_timestamp][
-        StandardColumnNames.ACTIVITY
-    ].tolist()
+    _is_case_id_activity_name_valid(event_log, case_id, activity_name)
+    instance_ids = inst(event_log, case_id, activity_name)
+
+    if len(instance_ids) == 0:
+        return set()
+
+    instance_id_to_complete_time = {iid: instances_utils.ctime(event_log, iid) for iid in instance_ids}
+    earliest_time = min(instance_id_to_complete_time.values())
+    return {iid for iid, t in instance_id_to_complete_time.items() if t == earliest_time}
 
 
-def fi(event_log: pd.DataFrame, case_id: str, activity_name_1: str, activity_name_2: str) -> pd.DataFrame:
-    activity_name_fi_s = fi_s(event_log, case_id, activity_name_1)
-    raise NotImplementedError("First occurrence is not implemented yet.")
+def fi(event_log: pd.DataFrame, case_id: str, activity_name_1: str, activity_name_2: str) -> set[str]:
+    """
+    Return the set of instance ids of activity `activity_name_2` in case `case_id`
+    that start first after the earliest start of activity `activity_name_1` (ties included).
+    """
+    _is_case_id_activity_name_valid(event_log, case_id, activity_name_1)
+    _is_case_id_activity_name_valid(event_log, case_id, activity_name_2)
+
+    earliest_a_instance_ids = fi_s(event_log, case_id, activity_name_1)
+    if len(earliest_a_instance_ids) == 0:
+        return set()
+
+    # Threshold is the (common) earliest start time of activity a (use max for safety if multiple equal)
+    threshold_time = max(instances_utils.stime(event_log, iid) for iid in earliest_a_instance_ids)
+
+    # Candidate b instances strictly after threshold
+    b_instance_ids = inst(event_log, case_id, activity_name_2)
+    b_after_threshold = {iid for iid in b_instance_ids if instances_utils.stime(event_log, iid) > threshold_time}
+    if len(b_after_threshold) == 0:
+        return set()
+
+    # Among those, choose ones with minimal start time (no b in between)
+    id_to_time = {iid: instances_utils.stime(event_log, iid) for iid in b_after_threshold}
+    earliest_b_time = min(id_to_time.values())
+    return {iid for iid, t in id_to_time.items() if t == earliest_b_time}
+
+
+def fitc(event_log: pd.DataFrame, case_id: str, activity_name: str, aggregation_mode: Literal["sgl", "sum"]) -> float:
+    """
+    Returns the average cost of first occurences of activities in case `case_id`.
+    """
+    _is_case_id_activity_name_valid(event_log, case_id, activity_name)
+
+    aggregation_functions = {
+        "sgl": cost_instances_indicators.total_cost_for_single_events_of_activity_instances,
+        "sum": cost_instances_indicators.total_cost_for_sum_of_all_events_of_activity_instances,
+    }
+    first_ocurrences = fi_s(event_log, case_id, activity_name)
+
+    if len(first_ocurrences) == 0:
+        return 0
+
+    total_cost = 0
+    for instance_id in first_ocurrences:
+        total_cost += aggregation_functions[aggregation_mode](event_log, instance_id)
+
+    return safe_division(total_cost, len(first_ocurrences))
 
 
 def _is_case_id_activity_name_valid(event_log: pd.DataFrame, case_id: str, activity_name: str) -> None:

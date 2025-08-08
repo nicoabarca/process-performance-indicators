@@ -10,7 +10,7 @@ import process_performance_indicators.utils.activities as activities_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def activity_instance_count_by_human_resource(
@@ -50,7 +50,7 @@ def client_count_and_total_cost_ratio(
     """
     numerator = flexibility_activities_indicators.client_count(event_log, activity_name)
     denominator = cost_activities_indicators.total_cost(event_log, activity_name, aggregation_mode)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def human_resource_count(event_log: pd.DataFrame, activity_name: str) -> int:
@@ -136,7 +136,7 @@ def rework_percentage(event_log: pd.DataFrame, activity_name: str) -> float:
     """
     numerator = rework_count(event_log, activity_name)
     denominator = general_activities_indicators.activity_instance_count(event_log, activity_name)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def rework_percentage_by_value(event_log: pd.DataFrame, activity_name: str, value: str) -> float:
@@ -152,7 +152,7 @@ def rework_percentage_by_value(event_log: pd.DataFrame, activity_name: str, valu
     """
     numerator = rework_count_by_value(event_log, activity_name, value)
     denominator = general_activities_indicators.activity_instance_count(event_log, activity_name)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def rework_time(event_log: pd.DataFrame, activity_name: str, case_id: str) -> float:
@@ -206,7 +206,7 @@ def successful_outcome_unit_percentage(
     """
     numerator = successful_outcome_unit_count(event_log, activity_name, aggregation_mode)
     denominator = outcome_unit_count(event_log, activity_name, aggregation_mode)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def total_cost_and_client_count_ratio(
@@ -225,4 +225,4 @@ def total_cost_and_client_count_ratio(
     """
     numerator = cost_activities_indicators.total_cost(event_log, activity_name, aggregation_mode)
     denominator = flexibility_activities_indicators.client_count(event_log, activity_name)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)

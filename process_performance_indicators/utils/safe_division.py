@@ -8,7 +8,7 @@ with appropriate error handling.
 from process_performance_indicators.exceptions import ProcessPerformanceIndicatorDivisionError
 
 
-def safe_divide(
+def safe_division(
     numerator: float,
     denominator: float,
     exception_class: type[Exception] = ProcessPerformanceIndicatorDivisionError,

@@ -5,7 +5,7 @@ import process_performance_indicators.indicators.general.cases as general_cases_
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.utils.cases as cases_utils
 from process_performance_indicators.constants import StandardColumnNames
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def activity_and_role_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -19,7 +19,7 @@ def activity_and_role_count_ratio(event_log: pd.DataFrame, case_ids: list[str] |
     """
     numerator = general_groups_indicators.activity_count(event_log, case_ids)
     denominator = general_groups_indicators.role_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_activity_and_role_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -39,7 +39,7 @@ def expected_activity_and_role_count_ratio(event_log: pd.DataFrame, case_ids: li
 
     numerator = sum_of_activities_count
     denominator = sum_of_roles_count
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def activity_instance_and_human_resource_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -53,7 +53,7 @@ def activity_instance_and_human_resource_count_ratio(event_log: pd.DataFrame, ca
     """
     numerator = general_groups_indicators.activity_instance_count(event_log, case_ids)
     denominator = general_groups_indicators.human_resource_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_activity_instance_and_human_resource_count_ratio(
@@ -73,7 +73,7 @@ def expected_activity_instance_and_human_resource_count_ratio(
 
     numerator = general_groups_indicators.activity_instance_count(event_log, case_ids)
     denominator = sum_of_human_resources_counts
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -104,7 +104,7 @@ def expected_client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str
     """
     numerator = client_count(event_log, case_ids)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def directly_follows_relations_and_activity_count_ratio(
@@ -192,7 +192,7 @@ def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] |
 
     numerator = sum_of_human_resources_counts
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -237,7 +237,7 @@ def expected_optional_activity_count(event_log: pd.DataFrame, case_ids: list[str
 
     numerator = sum_of_optional_activities_counts
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def optionality(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -251,7 +251,7 @@ def optionality(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> floa
     """
     numerator = optional_activity_count(event_log, case_ids)
     denominator = general_groups_indicators.activity_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def expected_optionality(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -271,7 +271,7 @@ def expected_optionality(event_log: pd.DataFrame, case_ids: list[str] | set[str]
 
     numerator = sum_of_optional_activities_counts
     denominator = sum_of_activities_counts
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def role_and_variant_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -317,7 +317,7 @@ def expected_role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str])
         sum_of_role_counts += general_cases_indicators.role_count(event_log, case_id)
     numerator = sum_of_role_counts
     denominator = general_groups_indicators.case_count(event_log, case_ids)
-    return safe_divide(numerator, denominator)
+    return safe_division(numerator, denominator)
 
 
 def variant_case_coverage(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:

@@ -5,7 +5,7 @@ import pandas as pd
 import process_performance_indicators.indicators.quality.instances as quality_instances_indicators
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def fixed_cost_for_single_events_of_activity_instances(event_log: pd.DataFrame, instance_id: str) -> float | None:
@@ -130,7 +130,7 @@ def labor_cost_and_total_cost_ratio(
     labor_cost = labor_cost_func(event_log, instance_id)
     total_cost = total_cost_func(event_log, instance_id)
 
-    return safe_divide(labor_cost, total_cost)
+    return safe_division(labor_cost, total_cost)
 
 
 def labor_cost_for_single_events_of_activity_instances(event_log: pd.DataFrame, instance_id: str) -> float | None:
@@ -269,7 +269,7 @@ def total_cost_and_outcome_unit_ratio(
     total_cost = cost_func(event_log, instance_id) or 0
     outcome_unit = outcome_func(event_log, instance_id) or 0
 
-    return safe_divide(total_cost, outcome_unit)
+    return safe_division(total_cost, outcome_unit)
 
 
 def total_cost_and_service_time_ratio(

@@ -8,7 +8,7 @@ import process_performance_indicators.indicators.quality.activities as quality_a
 import process_performance_indicators.utils.activities as activities_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 from process_performance_indicators.constants import StandardColumnNames
-from process_performance_indicators.utils.safe_division import safe_divide
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def fixed_cost(event_log: pd.DataFrame, activity_name: str, aggregation_mode: Literal["sgl", "sum"]) -> float:
@@ -86,7 +86,7 @@ def labor_cost_and_total_cost_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         labor_cost(event_log, activity_name, aggregation_mode),
         total_cost(event_log, activity_name, aggregation_mode),
     )
@@ -170,7 +170,7 @@ def rework_percentage(event_log: pd.DataFrame, activity_name: str) -> float:
         activity_name: The activity name.
 
     """
-    return safe_divide(
+    return safe_division(
         rework_count(event_log, activity_name),
         general_activities_indicators.activity_instance_count(event_log, activity_name),
     )
@@ -233,7 +233,7 @@ def total_cost_and_outcome_unit_ratio(
             "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
 
     """
-    return safe_divide(
+    return safe_division(
         total_cost(event_log, activity_name, aggregation_mode),
         quality_activities_indicators.outcome_unit_count(event_log, activity_name, aggregation_mode),
     )
