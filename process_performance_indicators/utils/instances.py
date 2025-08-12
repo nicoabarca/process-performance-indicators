@@ -9,6 +9,7 @@ from process_performance_indicators.exceptions import (
     InstanceIdNotFoundError,
 )
 from process_performance_indicators.utils import cases as cases_utils
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def start(event_log: pd.DataFrame, instance_id: str) -> pd.DataFrame:  # ignore: A001
@@ -182,6 +183,56 @@ def concstr(event_log: pd.DataFrame, instance_id: str) -> set[str]:
         if stime(event_log, other) == stime(event_log, instance_id):
             concurrent_instances.add(other)
     return concurrent_instances
+
+
+def dres(event_log: pd.DataFrame, instance_id: str) -> float:
+    """
+    Delegation of work for activity intances.
+    If all activity instances that were completed right before the activity instances
+    were associated with the same human resource as the activity instance, returns 0.
+    If none of the activity instances that were complete right before the activity instance were
+    associated with that human resource, returns 1.
+    """
+    _is_instance_id_valid(event_log, instance_id)
+    previous_instances = prev_instances(event_log, instance_id)
+    if not previous_instances:
+        return 0
+
+    instances_with_different_human_resource = 0
+    for previous_instance in previous_instances:
+        if hres(event_log, previous_instance) != hres(event_log, instance_id):
+            instances_with_different_human_resource += 1
+
+    return safe_division(instances_with_different_human_resource, len(previous_instances))
+
+
+def instbetween_s(event_log: pd.DataFrame, instance_id_one: str, instance_id_two: str) -> set[str]: ...
+
+
+def instbetween_c(event_log: pd.DataFrame, instance_id_one: str, instance_id_two: str) -> set[str]: ...
+
+
+def instbetween_sc(event_log: pd.DataFrame, instance_id_one: str, instance_id_two: str) -> set[str]: ...
+
+
+def instbetween_w(event_log: pd.DataFrame, instance_id_one: str, instance_id_two: str) -> set[str]: ...
+
+
+def timew(event_log: pd.DataFrame, first_pair: tuple[str, str], second_pair: tuple[str, str]) -> pd.Timedelta:
+    """
+    Time between pairs of activity instances
+    """
+
+
+def lt(event_log: pd.DataFrame, earliest_instance_id: str, latest_instance_id: str) -> pd.Timedelta:
+    """
+    Lead time between pairs of activity instances.
+    """
+    _is_instance_id_valid(event_log, earliest_instance_id)
+    _is_instance_id_valid(event_log, latest_instance_id)
+    earliest_instance_start_time = stime(event_log, earliest_instance_id)
+    latest_instance_complete_time = ctime(event_log, latest_instance_id)
+    return latest_instance_complete_time - earliest_instance_start_time
 
 
 def _is_instance_id_valid(event_log: pd.DataFrame, instance_id: str) -> None:
