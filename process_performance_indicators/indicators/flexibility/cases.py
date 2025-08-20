@@ -44,7 +44,10 @@ def directly_follows_relations_and_activity_count_ratio(event_log: pd.DataFrame,
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return safe_division(
+        directly_follows_relations_count(event_log, case_id),
+        general_cases_indicators.activity_count(event_log, case_id),
+    )
 
 
 def directly_follows_relations_count(event_log: pd.DataFrame, case_id: str) -> int:
@@ -56,7 +59,7 @@ def directly_follows_relations_count(event_log: pd.DataFrame, case_id: str) -> i
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return len(cases_utils.dfrel(event_log, case_id))
 
 
 def human_resource_count(event_log: pd.DataFrame, case_id: str) -> int:
@@ -131,4 +134,13 @@ def variant_case_coverage(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case ID.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    case_traces = cases_utils.trace(event_log, case_id)
+    all_case_ids = set(event_log[StandardColumnNames.CASE_ID].unique())
+    count = 0
+
+    for c_prime in all_case_ids:
+        # if case_traces and c_prime's trace have any common activities
+        if case_traces.intersection(cases_utils.trace(event_log, c_prime)):
+            count += 1
+
+    return safe_division(count, len(all_case_ids))

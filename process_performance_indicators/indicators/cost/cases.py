@@ -5,6 +5,7 @@ import pandas as pd
 import process_performance_indicators.indicators.cost.instances as cost_instances_indicators
 import process_performance_indicators.indicators.general.cases as general_cases_indicators
 import process_performance_indicators.indicators.quality.cases as quality_cases_indicators
+import process_performance_indicators.indicators.time.cases as time_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
@@ -262,12 +263,24 @@ def resource_count(event_log: pd.DataFrame, case_id: str) -> int:
     return len(cases_utils.res(event_log, case_id))
 
 
-def rework_cost(event_log: pd.DataFrame, case_id: str) -> float:
+def rework_cost(event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]) -> float:
     """
     The total cost of all times that any activity has been instantiated again, after its first
     instantiation, in the case.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
+
     """
-    raise NotImplementedError("Not implemented yet")
+    _rework_cost = 0
+    for activity_name in event_log[StandardColumnNames.ACTIVITY].unique():
+        _rework_cost += cases_activities_utils.fitc(event_log, case_id, activity_name, aggregation_mode)
+
+    return total_cost(event_log, case_id, aggregation_mode) - _rework_cost
 
 
 def rework_count(event_log: pd.DataFrame, case_id: str) -> int:
@@ -276,7 +289,7 @@ def rework_count(event_log: pd.DataFrame, case_id: str) -> int:
     intantiation, in the case.
     """
     rework_count = 0
-    for activity_name in event_log[StandardColumnNames.ACTIVITY_NAME].unique():
+    for activity_name in event_log[StandardColumnNames.ACTIVITY].unique():
         rework_count += max(0, cases_activities_utils.count(event_log, case_id, activity_name) - 1)
     return rework_count
 
@@ -326,7 +339,7 @@ def total_cost_and_lead_time_ratio(
 ) -> float:
     """
     The ratio between the total cost associated with all activity instances of the case, and
-    the total elpased time between the earliest and latest timestamps in the case.
+    the total elpased time between the earliest and latest timestamps in the case. In cost per hour.
 
     Args:
         event_log: The event log.
@@ -336,7 +349,10 @@ def total_cost_and_lead_time_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    return safe_division(
+        total_cost(event_log, case_id, aggregation_mode),
+        time_cases_indicators.lead_time(event_log, case_id) / pd.Timedelta(hours=1),
+    )
 
 
 def total_cost_and_outcome_unit_ratio(
@@ -376,7 +392,10 @@ def total_cost_and_service_time_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    return safe_division(
+        total_cost(event_log, case_id, aggregation_mode),
+        time_cases_indicators.service_time(event_log, case_id) / pd.Timedelta(hours=1),
+    )
 
 
 def transportation_cost(event_log: pd.DataFrame, case_id: str) -> float:

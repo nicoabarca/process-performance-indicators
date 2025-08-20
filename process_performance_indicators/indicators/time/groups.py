@@ -1,8 +1,11 @@
+from typing import Literal
+
 import pandas as pd
 
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.indicators.time.cases as time_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
+import process_performance_indicators.utils.cases_activities as cases_activities_utils
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -10,7 +13,11 @@ def expected_active_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     """
     Todo: Implement this function.
     """
-    raise NotImplementedError("Not implemented yet")
+    total_active_time: pd.Timedelta = pd.Timedelta(0)
+    for case_id in case_ids:
+        total_active_time += time_cases_indicators.active_time(event_log, case_id)
+
+    return safe_division(total_active_time, general_groups_indicators.case_count(event_log, case_ids))
 
 
 def activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -163,7 +170,12 @@ def automated_activity_service_time(
         automated_activities: The set of automated activities.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    total_service_time: pd.Timedelta = pd.Timedelta(0)
+    for case_id in case_ids:
+        total_service_time += time_cases_indicators.automated_activity_service_time(
+            event_log, case_id, automated_activities
+        )
+    return total_service_time
 
 
 def expected_automated_activity_service_time(
@@ -178,7 +190,10 @@ def expected_automated_activity_service_time(
         automated_activities: The set of automated activities.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    return safe_division(
+        automated_activity_service_time(event_log, case_ids, automated_activities),
+        general_groups_indicators.case_count(event_log, case_ids),
+    )
 
 
 def case_count_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -264,14 +279,20 @@ def expected_handover_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    sum_of_handover_counts = 0
+    for case_id in case_ids:
+        sum_of_handover_counts += time_cases_indicators.handover_count(event_log, case_id)
+    return safe_division(sum_of_handover_counts, general_groups_indicators.case_count(event_log, case_ids))
 
 
 def expected_idle_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
     TODO: Implement this function. Ask for explanation.
     """
-    raise NotImplementedError("Not implemented yet")
+    total_idle_time: pd.Timedelta = pd.Timedelta(0)
+    for case_id in case_ids:
+        total_idle_time += time_cases_indicators.idle_time(event_log, case_id)
+    return safe_division(total_idle_time, general_groups_indicators.case_count(event_log, case_ids))
 
 
 def lead_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
@@ -385,7 +406,15 @@ def expected_lead_time_from_activity_a(
         activity_a: The specific activity name.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    total_lead_time: pd.Timedelta = pd.Timedelta(0)
+    for case_id in case_ids:
+        lead_time = time_cases_indicators.lead_time_from_activity_a(event_log, case_id, activity_a)
+        if lead_time is not None:
+            total_lead_time += lead_time
+
+    case_count = len({case_id for case_id in case_ids if cases_activities_utils.fi_s(event_log, case_id, activity_a)})
+
+    return safe_division(total_lead_time, case_count)
 
 
 def expected_lead_time_from_activity_a_to_b(
@@ -403,7 +432,17 @@ def expected_lead_time_from_activity_a_to_b(
         activity_b: The specific activity name that follows activity a.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    total_lead_time: pd.Timedelta = pd.Timedelta(0)
+
+    for case_id in case_ids:
+        lead_time = time_cases_indicators.lead_time_from_activity_a_to_b(event_log, case_id, activity_a, activity_b)
+        if lead_time is not None:
+            total_lead_time += lead_time
+
+    case_count = len(
+        {case_id for case_id in case_ids if cases_activities_utils.fi(event_log, case_id, activity_a, activity_b)}
+    )
+    return safe_division(total_lead_time, case_count)
 
 
 def expected_lead_time_to_activity_a(
@@ -419,7 +458,13 @@ def expected_lead_time_to_activity_a(
         activity_a: The specific activity name.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    total_lead_time: pd.Timedelta = pd.Timedelta(0)
+    for case_id in case_ids:
+        lead_time = time_cases_indicators.lead_time_to_activity_a(event_log, case_id, activity_a)
+        if lead_time is not None:
+            total_lead_time += lead_time
+    case_count = len({case_id for case_id in case_ids if cases_activities_utils.fi_c(event_log, case_id, activity_a)})
+    return safe_division(total_lead_time, case_count)
 
 
 def service_and_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
@@ -485,7 +530,11 @@ def expected_service_time(event_log: pd.DataFrame, case_ids: list[str] | set[str
 
 
 def service_time_from_activity_a_to_b(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
+    event_log: pd.DataFrame,
+    case_ids: list[str] | set[str],
+    activity_a: str,
+    activity_b: str,
+    aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     The sum of elapsed times between the start and complete events of all activity instances of every case in the group of cases,
@@ -497,13 +546,30 @@ def service_time_from_activity_a_to_b(
         case_ids: The case IDs.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
+        aggregation_mode: The aggregation mode.
+        - s: Considers activity instances that were started within the start and end activity instances.
+        - c: Considers activity instances that were completed within the start and end activity instances.
+        - sc: Considers activity instances that were either started or completed within the start and end activity instances.
+        - w: Considers all activity instances that were active within the start and end activity instances.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    sum_of_service_times: pd.Timedelta = pd.Timedelta(0)
+    for case_id in case_ids:
+        service_time = time_cases_indicators.service_time_from_activity_a_to_b(
+            event_log, case_id, activity_a, activity_b, aggregation_mode
+        )
+        if service_time is not None:
+            sum_of_service_times += service_time
+
+    return sum_of_service_times
 
 
 def expected_service_time_from_activity_a_to_b(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
+    event_log: pd.DataFrame,
+    case_ids: list[str] | set[str],
+    activity_a: str,
+    activity_b: str,
+    aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     The expected sum of elapsed times between the start and complete events of all activity instances of every case in the group of cases,
@@ -515,9 +581,20 @@ def expected_service_time_from_activity_a_to_b(
         case_ids: The case IDs.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
+        aggregation_mode: The aggregation mode.
+        - s: Considers activity instances that were started within the start and end activity instances.
+        - c: Considers activity instances that were completed within the start and end activity instances.
+        - sc: Considers activity instances that were either started or completed within the start and end activity instances.
+        - w: Considers all activity instances that were active within the start and end activity instances.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    cases_count = len(
+        {case_id for case_id in case_ids if cases_activities_utils.fi(event_log, case_id, activity_a, activity_b)}
+    )
+
+    return safe_division(
+        service_time_from_activity_a_to_b(event_log, case_ids, activity_a, activity_b, aggregation_mode), cases_count
+    )
 
 
 def expected_waiting_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
@@ -530,11 +607,18 @@ def expected_waiting_time(event_log: pd.DataFrame, case_ids: list[str] | set[str
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    sum_of_waiting_times: pd.Timedelta = pd.Timedelta(0)
+    for case_id in case_ids:
+        sum_of_waiting_times += time_cases_indicators.waiting_time(event_log, case_id)
+    return safe_division(sum_of_waiting_times, general_groups_indicators.case_count(event_log, case_ids))
 
 
 def expected_waiting_time_from_activity_a_to_b(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], activity_a: str, activity_b: str
+    event_log: pd.DataFrame,
+    case_ids: list[str] | set[str],
+    activity_a: str,
+    activity_b: str,
+    aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     The expected sum, for every activity instance in a case belonging to the group of cases, that occurs between the earliest
@@ -547,6 +631,23 @@ def expected_waiting_time_from_activity_a_to_b(
         case_ids: The case IDs.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
+        aggregation_mode: The aggregation mode.
+        - s: Considers activity instances that were started within the start and end activity instances.
+        - c: Considers activity instances that were completed within the start and end activity instances.
+        - sc: Considers activity instances that were either started or completed within the start and end activity instances.
+        - w: Considers all activity instances that were active within the start and end activity instances.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    sum_of_waiting_times: pd.Timedelta = pd.Timedelta(0)
+    for case_id in case_ids:
+        waiting_time = time_cases_indicators.waiting_time_from_activity_a_to_b(
+            event_log, case_id, activity_a, activity_b, aggregation_mode
+        )
+        if waiting_time is not None:
+            sum_of_waiting_times += waiting_time
+
+    case_counts = len(
+        {case_id for case_id in case_ids if cases_activities_utils.fi(event_log, case_id, activity_a, activity_b)}
+    )
+
+    return safe_division(sum_of_waiting_times, case_counts)

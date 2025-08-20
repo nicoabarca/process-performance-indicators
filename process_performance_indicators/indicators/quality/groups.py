@@ -4,6 +4,7 @@ import pandas as pd
 
 import process_performance_indicators.indicators.cost.groups as cost_groups_indicators
 import process_performance_indicators.indicators.flexibility.groups as flexibility_groups_indicators
+import process_performance_indicators.indicators.general.cases as general_cases_indicators
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.indicators.quality.cases as quality_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
@@ -164,11 +165,14 @@ def case_and_client_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | s
     The ratio between the number of cases belonging to the group of cases, and the number of distinct clients associated with cases in the group of cases.
 
     Args:
-        event_log (pd.DataFrame): The event log.
-        case_ids (list[str] | set[str]): The case IDs.
+        event_log: The event log.
+        case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return safe_division(
+        general_groups_indicators.case_count(event_log, case_ids),
+        flexibility_groups_indicators.client_count(event_log, case_ids),
+    )
 
 
 def case_count_where_activity_after_time_frame(
@@ -706,7 +710,7 @@ def expected_repeatability(event_log: pd.DataFrame, case_ids: list[str] | set[st
     sum_of_activity_counts = 0
 
     for case_id in case_ids:
-        sum_of_activity_counts += general_groups_indicators.activity_count(event_log, case_id)
+        sum_of_activity_counts += general_cases_indicators.activity_count(event_log, case_id)
 
     return 1 - safe_division(
         sum_of_activity_counts, general_groups_indicators.activity_instance_count(event_log, case_ids)
@@ -844,7 +848,7 @@ def expected_rework_percentage(event_log: pd.DataFrame, case_ids: list[str] | se
     return safe_division(numerator, denominator)
 
 
-def rework_percentage_by_value(event_log: pd.DataFrame, case_ids: list[str] | set[str], value: str) -> float:
+def rework_percentage_by_value(event_log: pd.DataFrame, case_ids: list[str] | set[str], value: float) -> float:
     """
     The percentage of times that any activity has been instantiated again, after it has been instantiated a certain number of times,
     in every case of the group of cases.
@@ -860,7 +864,7 @@ def rework_percentage_by_value(event_log: pd.DataFrame, case_ids: list[str] | se
     return safe_division(numerator, denominator)
 
 
-def expected_rework_percentage_by_value(event_log: pd.DataFrame, case_ids: list[str] | set[str], value: str) -> float:
+def expected_rework_percentage_by_value(event_log: pd.DataFrame, case_ids: list[str] | set[str], value: float) -> float:
     """
     The expected percentage of times that any activity has been instantiated again, after it has been instantiated a certain number of times, in a case belonging to the group of cases.
 
@@ -891,7 +895,10 @@ def rework_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.T
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_rework_times = pd.Timedelta(0)
+    for case_id in case_ids:
+        sum_of_rework_times += quality_cases_indicators.rework_time(event_log, case_id)
+    return sum_of_rework_times
 
 
 def expected_rework_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
@@ -904,7 +911,7 @@ def expected_rework_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return safe_division(rework_time(event_log, case_ids), general_groups_indicators.case_count(event_log, case_ids))
 
 
 def successful_outcome_unit_count(
@@ -1132,7 +1139,7 @@ def unwanted_activity_instance_count(
 
 def expected_unwanted_activity_instance_count(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], unwanted_activities: set[str]
-) -> int:
+) -> float:
     """
     The expected number of times that an unwanted activity is instantiated in a case belonging to the group of cases.
 

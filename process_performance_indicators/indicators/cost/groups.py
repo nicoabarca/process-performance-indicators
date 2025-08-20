@@ -3,9 +3,11 @@ from typing import Literal
 import pandas as pd
 
 import process_performance_indicators.indicators.cost.cases as cost_cases_indicators
-import process_performance_indicators.indicators.general.cases as cases_utils
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.indicators.quality.groups as quality_groups_indicators
+import process_performance_indicators.indicators.time.cases as time_cases_indicators
+import process_performance_indicators.indicators.time.groups as time_groups_indicators
+import process_performance_indicators.utils.cases as cases_utils
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -79,7 +81,7 @@ def desired_activity_count(
 
 def expected_desired_activity_count(
     event_log: pd.DataFrame, case_ids: list[str] | set[str], desired_activities: set[str]
-) -> int:
+) -> float:
     """
     The expected number of instantiated activities whose occurrence is desirable in a case belonging to the group of cases.
 
@@ -215,7 +217,7 @@ def human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     return count
 
 
-def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
     The expected number of human resources that are involved in the execution of cases
     belonging to the group of cases.
@@ -392,7 +394,7 @@ def expected_maintenance_cost(event_log: pd.DataFrame, case_ids: list[str] | set
     )
 
 
-def missed_deadline_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float | None:
+def missed_deadline_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
     The cost for missing deadlines associated with all cases in the group of cases.
 
@@ -409,7 +411,7 @@ def missed_deadline_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     return total_missed_deadline_cost
 
 
-def expected_missed_deadline_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int | float | None:
+def expected_missed_deadline_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
     The expected cost for missing deadlines associated with a case belonging to the group of cases.
 
@@ -509,7 +511,9 @@ def expected_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
     return safe_division(resource_count, general_groups_indicators.case_count(event_log, case_ids))
 
 
-def rework_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+def rework_cost(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
+) -> float:
     """
     The total cost of all times that any activity has been instantiated again, after its first
     instantiation, in every case of the group of cases.
@@ -517,12 +521,20 @@ def rework_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> floa
     Args:
         event_log: The event log.
         case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    _rework_cost = 0
+    for case_id in case_ids:
+        _rework_cost += cost_cases_indicators.rework_cost(event_log, case_id, aggregation_mode)
+    return _rework_cost
 
 
-def expected_rework_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
+def expected_rework_cost(
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
+) -> float:
     """
     The expected total cost of all times that any activity has been instantiated again, after
     its first instantiation, in a case belonging to the group of cases.
@@ -530,9 +542,15 @@ def expected_rework_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     Args:
         event_log: The event log.
         case_ids: The case ids.
+        aggregation_mode: The aggregation mode.
+            "sgl": Considers single events of activity instances for cost calculations.
+            "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    return safe_division(
+        rework_cost(event_log, case_ids, aggregation_mode),
+        general_groups_indicators.case_count(event_log, case_ids),
+    )
 
 
 def rework_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -647,7 +665,7 @@ def total_cost_and_lead_time_ratio(
 ) -> float:
     """
     The ratio between the total cost associated with all activity instances of the group of
-    cases, and the total elapsed time between the earliest and latest events in the group of cases.
+    cases, and the total elapsed time between the earliest and latest events in the group of cases. In cost per hour.
 
     Args:
         event_log: The event log.
@@ -657,11 +675,14 @@ def total_cost_and_lead_time_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    return safe_division(
+        total_cost(event_log, case_ids, aggregation_mode),
+        time_groups_indicators.lead_time(event_log, case_ids) / pd.Timedelta(hours=1),
+    )
 
 
 def expected_total_cost_and_lead_time_ratio(
-    event_log: pd.DataFrame, case_id: str, aggregation_mode: Literal["sgl", "sum"]
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], aggregation_mode: Literal["sgl", "sum"]
 ) -> float:
     """
     The ratio between the expected total cost associated with all activity instances of a case
@@ -670,13 +691,20 @@ def expected_total_cost_and_lead_time_ratio(
 
     Args:
         event_log: The event log.
-        case_id: The case id.
+        case_ids: The case ids.
         aggregation_mode: The aggregation mode.
             "sgl": Considers single events of activity instances for cost calculations.
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    sum_of_lead_times = pd.Timedelta(0)
+    for case_id in case_ids:
+        sum_of_lead_times += time_cases_indicators.lead_time(event_log, case_id)
+
+    return safe_division(
+        total_cost(event_log, case_ids, aggregation_mode),
+        sum_of_lead_times / pd.Timedelta(hours=1),
+    )
 
 
 def total_cost_and_outcome_unit_ratio(
@@ -738,7 +766,10 @@ def total_cost_and_service_time_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    return safe_division(
+        total_cost(event_log, case_ids, aggregation_mode),
+        time_groups_indicators.service_time(event_log, case_ids) / pd.Timedelta(hours=1),
+    )
 
 
 def expected_total_cost_and_service_time_ratio(
@@ -757,7 +788,10 @@ def expected_total_cost_and_service_time_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    return safe_division(
+        total_cost(event_log, case_ids, aggregation_mode),
+        time_groups_indicators.service_time(event_log, case_ids) / pd.Timedelta(hours=1),
+    )
 
 
 def transportation_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:

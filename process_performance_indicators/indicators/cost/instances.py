@@ -3,6 +3,7 @@ from typing import Literal
 import pandas as pd
 
 import process_performance_indicators.indicators.quality.instances as quality_instances_indicators
+import process_performance_indicators.indicators.time.instances as time_instances_indicators
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
 from process_performance_indicators.utils.safe_division import safe_division
@@ -115,6 +116,7 @@ def labor_cost_and_total_cost_ratio(
             "sum": The aggregation mode for the sum of all events of an activity instance.
 
     """
+    # TODO: ask here what to do when labor_cost or total_cost is None
     aggregation_functions = {
         "sgl": (
             labor_cost_for_single_events_of_activity_instances,
@@ -224,7 +226,7 @@ def total_cost_and_lead_time_ratio(
 ) -> float:
     """
     The ratio between the total cost associated with the activity instance, and the total elapsed
-    time of the activity instance.
+    time of the activity instance. In cost per hour.
 
     Args:
         event_log: The event log.
@@ -234,7 +236,16 @@ def total_cost_and_lead_time_ratio(
             "sum": The aggregation mode for the sum of all events of an activity instance.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    # TODO: ask here what to do when total_cost is None
+    total_cost_function = {
+        "sgl": total_cost_for_single_events_of_activity_instances,
+        "sum": total_cost_for_sum_of_all_events_of_activity_instances,
+    }
+
+    return safe_division(
+        total_cost_function[aggregation_mode](event_log, instance_id),
+        time_instances_indicators.lead_time(event_log, instance_id) / pd.Timedelta(hours=1),
+    )
 
 
 def total_cost_and_outcome_unit_ratio(
@@ -287,7 +298,15 @@ def total_cost_and_service_time_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    raise NotImplementedError("Not implemented yet")
+    # TODO: ask here what to do when total_cost is None
+    total_cost_function = {
+        "sgl": total_cost_for_single_events_of_activity_instances,
+        "sum": total_cost_for_sum_of_all_events_of_activity_instances,
+    }
+    return safe_division(
+        total_cost_function[aggregation_mode](event_log, instance_id),
+        time_instances_indicators.service_time(event_log, instance_id) / pd.Timedelta(hours=1),
+    )
 
 
 def variable_cost_for_single_events_of_activity_instances(event_log: pd.DataFrame, instance_id: str) -> float | None:

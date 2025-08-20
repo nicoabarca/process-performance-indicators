@@ -1,3 +1,5 @@
+from typing import Literal
+
 import pandas as pd
 
 from process_performance_indicators.constants import (
@@ -40,7 +42,8 @@ def stime(event_log: pd.DataFrame, instance_id: str) -> pd.Timestamp:
     """
     _is_instance_id_valid(event_log, instance_id)
     start_event = start(event_log, instance_id)
-    return start_event[StandardColumnNames.TIMESTAMP].unique()[0]
+    col: pd.Series[pd.Timestamp] = start_event[StandardColumnNames.TIMESTAMP]
+    return col.iloc[0]
 
 
 def ctime(event_log: pd.DataFrame, instance_id: str) -> pd.Timestamp:
@@ -49,7 +52,8 @@ def ctime(event_log: pd.DataFrame, instance_id: str) -> pd.Timestamp:
     """
     _is_instance_id_valid(event_log, instance_id)
     complete_event = cpl(event_log, instance_id)
-    return complete_event[StandardColumnNames.TIMESTAMP].unique()[0]
+    col: pd.Series[pd.Timestamp] = complete_event[StandardColumnNames.TIMESTAMP]
+    return col.iloc[0]
 
 
 def case(event_log: pd.DataFrame, instance_id: str) -> str:
@@ -58,7 +62,8 @@ def case(event_log: pd.DataFrame, instance_id: str) -> str:
     """
     _is_instance_id_valid(event_log, instance_id)
     complete_event = cpl(event_log, instance_id)
-    return complete_event[StandardColumnNames.CASE_ID].unique()[0]
+    col: pd.Series[str] = complete_event[StandardColumnNames.CASE_ID]
+    return col.iloc[0]
 
 
 def act(event_log: pd.DataFrame, instance_id: str) -> str:
@@ -67,7 +72,8 @@ def act(event_log: pd.DataFrame, instance_id: str) -> str:
     """
     _is_instance_id_valid(event_log, instance_id)
     complete_event = cpl(event_log, instance_id)
-    return complete_event[StandardColumnNames.ACTIVITY].unique()[0]
+    col: pd.Series[str] = complete_event[StandardColumnNames.ACTIVITY]
+    return col.iloc[0]
 
 
 def res(event_log: pd.DataFrame, instance_id: str) -> str:
@@ -82,7 +88,8 @@ def res(event_log: pd.DataFrame, instance_id: str) -> str:
         raise ColumnNotFoundError(error_message)
 
     complete_event = cpl(event_log, instance_id)
-    return complete_event[StandardColumnNames.ORG_RESOURCE].unique()[0]
+    col: pd.Series[str] = complete_event[StandardColumnNames.ORG_RESOURCE]
+    return col.iloc[0]
 
 
 def hres(event_log: pd.DataFrame, instance_id: str) -> str:
@@ -95,7 +102,8 @@ def hres(event_log: pd.DataFrame, instance_id: str) -> str:
         raise ColumnNotFoundError(error_message)
 
     complete_event = cpl(event_log, instance_id)
-    return complete_event[StandardColumnNames.HUMAN_RESOURCE].unique()[0]
+    col: pd.Series[str] = complete_event[StandardColumnNames.HUMAN_RESOURCE]
+    return col.iloc[0]
 
 
 def role(event_log: pd.DataFrame, instance_id: str) -> str:
@@ -108,7 +116,8 @@ def role(event_log: pd.DataFrame, instance_id: str) -> str:
         raise ColumnNotFoundError(error_message)
 
     complete_event = cpl(event_log, instance_id)
-    return complete_event[StandardColumnNames.ROLE].unique()[0]
+    col: pd.Series[str] = complete_event[StandardColumnNames.ROLE]
+    return col.iloc[0]
 
 
 def prev_instances(event_log: pd.DataFrame, instance_id: str) -> set[str]:
@@ -119,7 +128,7 @@ def prev_instances(event_log: pd.DataFrame, instance_id: str) -> set[str]:
     start_time = stime(event_log, instance_id)
     case_id_val = case(event_log, instance_id)
     instance_ids = cases_utils.inst(event_log, case_id_val)
-    completed_before = {}
+    completed_before: dict[str, pd.Timestamp] = {}
     for other in instance_ids:
         if other == instance_id:
             continue
@@ -140,7 +149,7 @@ def next_instances(event_log: pd.DataFrame, instance_id: str) -> set[str]:
     complete_time = ctime(event_log, instance_id)
     case_id_val = case(event_log, instance_id)
     instance_ids = cases_utils.inst(event_log, case_id_val)
-    started_after = {}
+    started_after: dict[str, pd.Timestamp] = {}
     for other in instance_ids:
         if other == instance_id:
             continue
@@ -159,7 +168,7 @@ def prevstr(event_log: pd.DataFrame, instance_id: str) -> set[str]:
     """
     _is_instance_id_valid(event_log, instance_id)
     instance_ids = cases_utils.inst(event_log, case(event_log, instance_id))
-    prevstr_instances = set()
+    prevstr_instances = set[str]()
     for other in instance_ids:
         if other == instance_id:
             continue
@@ -176,7 +185,7 @@ def concstr(event_log: pd.DataFrame, instance_id: str) -> set[str]:
     """
     _is_instance_id_valid(event_log, instance_id)
     instance_ids = cases_utils.inst(event_log, case(event_log, instance_id))
-    concurrent_instances = set()
+    concurrent_instances = set[str]()
     for other in instance_ids:
         if other == instance_id:
             continue
@@ -206,33 +215,182 @@ def dres(event_log: pd.DataFrame, instance_id: str) -> float:
     return safe_division(instances_with_different_human_resource, len(previous_instances))
 
 
-def instbetween_s(event_log: pd.DataFrame, instance_id_one: str, instance_id_two: str) -> set[str]: ...
+def instbetween_s(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> set[str]:
+    """
+    Get the activity instances that were started between two activity instances.
+    """
+    _is_instance_id_valid(event_log, instance_id_i)
+    _is_instance_id_valid(event_log, instance_id_prime)
+
+    instances = cases_utils.inst(event_log, case(event_log, instance_id_i))
+    instbetween_s_instances = set[str]()
+
+    start_time_i = stime(event_log, instance_id_i)
+    complete_time_prime = ctime(event_log, instance_id_prime)
+
+    for instance_double_prime in instances:
+        if instance_double_prime in {instance_id_i, instance_id_prime}:
+            continue
+
+        start_time_double_prime = stime(event_log, instance_double_prime)
+
+        if start_time_double_prime > start_time_i and start_time_double_prime < complete_time_prime:
+            instbetween_s_instances.add(instance_double_prime)
+
+    return instbetween_s_instances
 
 
-def instbetween_c(event_log: pd.DataFrame, instance_id_one: str, instance_id_two: str) -> set[str]: ...
+def instbetween_c(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> set[str]:
+    """
+    Get the activity instances that were completed between two activity instances.
+    """
+    _is_instance_id_valid(event_log, instance_id_i)
+    _is_instance_id_valid(event_log, instance_id_prime)
+
+    instances = cases_utils.inst(event_log, case(event_log, instance_id_i))
+    instbetween_c_instances = set[str]()
+
+    start_time_i = stime(event_log, instance_id_i)
+    complete_time_prime = ctime(event_log, instance_id_prime)
+
+    for instance_double_prime in instances:
+        if instance_double_prime in {instance_id_i, instance_id_prime}:
+            continue
+
+        complete_time_double_prime = ctime(event_log, instance_double_prime)
+
+        if complete_time_double_prime > start_time_i and complete_time_prime > complete_time_double_prime:
+            instbetween_c_instances.add(instance_double_prime)
+
+    return instbetween_c_instances
 
 
-def instbetween_sc(event_log: pd.DataFrame, instance_id_one: str, instance_id_two: str) -> set[str]: ...
+def instbetween_sc(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> set[str]:
+    """
+    Get the activity instances that were either started or completed between two activity instances.
+    """
+    return instbetween_s(event_log, instance_id_i, instance_id_prime) | instbetween_c(
+        event_log, instance_id_i, instance_id_prime
+    )
 
 
-def instbetween_w(event_log: pd.DataFrame, instance_id_one: str, instance_id_two: str) -> set[str]: ...
+def instbetween_w(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> set[str]:
+    """
+    Get the activity instances that were active between two activity instances
+    """
+    instances = cases_utils.inst(event_log, case(event_log, instance_id_i))
+    active_instances = set[str]()
+
+    start_time_i = stime(event_log, instance_id_i)
+    complete_time_prime = ctime(event_log, instance_id_prime)
+
+    for instance_double_prime in instances:
+        if instance_double_prime in {instance_id_i, instance_id_prime}:
+            continue
+
+        start_time_double_prime = stime(event_log, instance_double_prime)
+        complete_time_double_prime = ctime(event_log, instance_double_prime)
+
+        if start_time_i > start_time_double_prime and complete_time_double_prime > complete_time_prime:
+            active_instances.add(instance_double_prime)
+
+    return instbetween_sc(event_log, instance_id_i, instance_id_prime) | active_instances
 
 
-def timew(event_log: pd.DataFrame, first_pair: tuple[str, str], second_pair: tuple[str, str]) -> pd.Timedelta:
+def timew(
+    instance_x: pd.DataFrame,
+    instance_x_prime: pd.DataFrame,
+    instance_y: pd.DataFrame,
+    instance_y_prime: pd.DataFrame,
+) -> pd.Timedelta:
     """
     Time between pairs of activity instances
     """
+    col_instance_x_time: pd.Series[pd.Timestamp] = instance_x[StandardColumnNames.TIMESTAMP]
+    col_instance_x_prime_time: pd.Series[pd.Timestamp] = instance_x_prime[StandardColumnNames.TIMESTAMP]
+    col_instance_y_time: pd.Series[pd.Timestamp] = instance_y[StandardColumnNames.TIMESTAMP]
+    col_instance_y_prime_time: pd.Series[pd.Timestamp] = instance_y_prime[StandardColumnNames.TIMESTAMP]
+
+    instance_x_time: pd.Timestamp = col_instance_x_time.iloc[0]
+    instance_x_prime_time: pd.Timestamp = col_instance_x_prime_time.iloc[0]
+    instance_y_time: pd.Timestamp = col_instance_y_time.iloc[0]
+    instance_y_prime_time: pd.Timestamp = col_instance_y_prime_time.iloc[0]
+
+    return min(instance_x_prime_time, instance_y_prime_time) - max(instance_x_time, instance_y_time)
 
 
-def lt(event_log: pd.DataFrame, earliest_instance_id: str, latest_instance_id: str) -> pd.Timedelta:
+def lt(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> pd.Timedelta:
     """
     Lead time between pairs of activity instances.
     """
-    _is_instance_id_valid(event_log, earliest_instance_id)
-    _is_instance_id_valid(event_log, latest_instance_id)
-    earliest_instance_start_time = stime(event_log, earliest_instance_id)
-    latest_instance_complete_time = ctime(event_log, latest_instance_id)
-    return latest_instance_complete_time - earliest_instance_start_time
+    return ctime(event_log, instance_id_prime) - stime(event_log, instance_id_i)
+
+
+def st(
+    event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str, aggregation_mode: Literal["s", "c", "sc", "w"]
+) -> pd.Timedelta:
+    """
+    Get the start time of an activity instance based on the aggregation mode.
+    """
+    instances_between_options = {
+        "s": instbetween_s,
+        "c": instbetween_c,
+        "sc": instbetween_sc,
+        "w": instbetween_w,
+    }
+    instances_between = instances_between_options[aggregation_mode](event_log, instance_id_i, instance_id_prime)
+
+    time_between_instances: pd.Timedelta = pd.Timedelta(0)
+    start_instance_i = start(event_log, instance_id_i)
+    complete_instance_prime = cpl(event_log, instance_id_prime)
+
+    for instance_double_prime in instances_between:
+        start_instance_double_prime = start(event_log, instance_double_prime)
+        complete_instance_double_prime = cpl(event_log, instance_double_prime)
+        time_between_instances += timew(
+            start_instance_i,
+            complete_instance_prime,
+            start_instance_double_prime,
+            complete_instance_double_prime,
+        )
+
+    return time_between_instances
+
+
+def wt(
+    event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str, aggregation_mode: Literal["s", "c", "sc", "w"]
+) -> pd.Timedelta:
+    """
+    Get the waiting time between pairs of activity instances
+    """
+    instances_between_options = {
+        "s": instbetween_s,
+        "c": instbetween_c,
+        "sc": instbetween_sc,
+        "w": instbetween_w,
+    }
+    instances_between = instances_between_options[aggregation_mode](event_log, instance_id_i, instance_id_prime)
+
+    time_between_instances: pd.Timedelta = pd.Timedelta(0)
+    start_instance_i = start(event_log, instance_id_i)
+    complete_instance_prime = cpl(event_log, instance_id_prime)
+
+    for instance_double_prime in instances_between:
+        prev_instances_double_prime = prev_instances(event_log, instance_double_prime)
+        if not prev_instances_double_prime:
+            continue
+        random_prev_instance = next(iter(prev_instances_double_prime))
+
+        complete_instance_random_prev_instance = cpl(event_log, random_prev_instance)
+        start_instance_double_prime = start(event_log, instance_double_prime)
+
+        time_between_instances += timew(
+            start_instance_i,
+            complete_instance_prime,
+            complete_instance_random_prev_instance,
+            start_instance_double_prime,
+        )
+    return time_between_instances
 
 
 def _is_instance_id_valid(event_log: pd.DataFrame, instance_id: str) -> None:

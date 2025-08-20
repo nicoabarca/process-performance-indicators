@@ -3,6 +3,7 @@ from typing import Literal
 import pandas as pd
 
 import process_performance_indicators.indicators.cost.instances as cost_instances_indicators
+import process_performance_indicators.indicators.time.instances as time_instances_indicators
 from process_performance_indicators.constants import StandardColumnNames
 from process_performance_indicators.exceptions import (
     ActivityNameNotFoundError,
@@ -108,9 +109,25 @@ def fitc(event_log: pd.DataFrame, case_id: str, activity_name: str, aggregation_
 
     total_cost = 0
     for instance_id in first_ocurrences:
-        total_cost += aggregation_functions[aggregation_mode](event_log, instance_id)
+        cost = aggregation_functions[aggregation_mode](event_log, instance_id)
+        total_cost += cost or 0  # TODO : ask if this approach is ok when total_cost is None
 
     return safe_division(total_cost, len(first_ocurrences))
+
+
+def filt(event_log: pd.DataFrame, case_id: str, activity_name: str) -> pd.Timedelta:
+    """
+    Returns the average time of first occurrences of activities in case `case_id`.
+    """
+    first_occurrences = fi_s(event_log, case_id, activity_name)
+    if not first_occurrences:
+        return pd.Timedelta(0)
+
+    sum_of_lead_times: pd.Timedelta = pd.Timedelta(0)
+    for instance_id in first_occurrences:
+        sum_of_lead_times += time_instances_indicators.lead_time(event_log, instance_id)
+
+    return safe_division(sum_of_lead_times, len(first_occurrences))
 
 
 def _is_case_id_activity_name_valid(event_log: pd.DataFrame, case_id: str, activity_name: str) -> None:

@@ -2,6 +2,7 @@ import pandas as pd
 
 import process_performance_indicators.indicators.time.instances as time_instances_indicators
 import process_performance_indicators.utils.activities as activities_utils
+from process_performance_indicators.utils.safe_division import safe_division
 
 
 def lead_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
@@ -13,7 +14,10 @@ def lead_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
         activity_name: The name of the activity.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    total_lead_time: pd.Timedelta = pd.Timedelta(0)
+    for instance_id in activities_utils.inst(event_log, activity_name):
+        total_lead_time += time_instances_indicators.lead_time(event_log, instance_id)
+    return total_lead_time
 
 
 def service_and_lead_time_ratio(event_log: pd.DataFrame, activity_name: str) -> float:
@@ -27,7 +31,7 @@ def service_and_lead_time_ratio(event_log: pd.DataFrame, activity_name: str) -> 
         activity_name: The name of the activity.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return safe_division(service_time(event_log, activity_name), lead_time(event_log, activity_name))
 
 
 def service_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
@@ -57,4 +61,7 @@ def waiting_time(event_log: pd.DataFrame, activity_name: str) -> pd.Timedelta:
         activity_name: The name of the activity.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_waiting_times: pd.Timedelta = pd.Timedelta(0)
+    for instance_id in activities_utils.inst(event_log, activity_name):
+        sum_of_waiting_times += time_instances_indicators.waiting_time(event_log, instance_id)
+    return sum_of_waiting_times

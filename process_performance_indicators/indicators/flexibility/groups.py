@@ -4,6 +4,7 @@ import process_performance_indicators.indicators.flexibility.cases as cases_flex
 import process_performance_indicators.indicators.general.cases as general_cases_indicators
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.utils.cases as cases_utils
+import process_performance_indicators.utils.groups as groups_utils
 from process_performance_indicators.constants import StandardColumnNames
 from process_performance_indicators.utils.safe_division import safe_division
 
@@ -93,7 +94,7 @@ def client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int
     return len(clients)
 
 
-def expected_client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+def expected_client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
     The ratio between the number of distinct clients associated with cases in the group cases, and the number of cases belonging to the group of cases.
 
@@ -118,7 +119,10 @@ def directly_follows_relations_and_activity_count_ratio(
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return safe_division(
+        directly_follows_relations_count(event_log, case_ids),
+        general_groups_indicators.activity_count(event_log, case_ids),
+    )
 
 
 def expected_directly_follows_relations_and_activity_count_ratio(
@@ -132,7 +136,15 @@ def expected_directly_follows_relations_and_activity_count_ratio(
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_directly_follows_relations_counts = 0
+    sum_of_activities_counts = 0
+    for case_id in case_ids:
+        sum_of_directly_follows_relations_counts += cases_flexibility_indicators.directly_follows_relations_count(
+            event_log, case_id
+        )
+        sum_of_activities_counts += general_cases_indicators.activity_count(event_log, case_id)
+
+    return safe_division(sum_of_directly_follows_relations_counts, sum_of_activities_counts)
 
 
 def directly_follows_relations_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -144,10 +156,13 @@ def directly_follows_relations_count(event_log: pd.DataFrame, case_ids: list[str
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    relations = set()
+    for case_id in case_ids:
+        relations.update(cases_utils.dfrel(event_log, case_id))
+    return len(relations)
 
 
-def expected_directly_follows_relations_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+def expected_directly_follows_relations_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
     The expected number of activity pairs where one has been instantiated directly after the other in a case belonging to the group of cases.
 
@@ -156,7 +171,14 @@ def expected_directly_follows_relations_count(event_log: pd.DataFrame, case_ids:
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_directly_follows_relations_counts = 0
+    for case_id in case_ids:
+        sum_of_directly_follows_relations_counts += cases_flexibility_indicators.directly_follows_relations_count(
+            event_log, case_id
+        )
+    return safe_division(
+        sum_of_directly_follows_relations_counts, general_groups_indicators.case_count(event_log, case_ids)
+    )
 
 
 def human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -283,7 +305,10 @@ def role_and_variant_count_ratio(event_log: pd.DataFrame, case_ids: list[str] | 
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return safe_division(
+        general_groups_indicators.role_count(event_log, case_ids),
+        variant_count(event_log, case_ids),
+    )
 
 
 def role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -302,7 +327,7 @@ def role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
     return count
 
 
-def expected_role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+def expected_role_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
     The expected number of human resource roles that are involed in the execution of the group of cases.
 
@@ -329,7 +354,14 @@ def variant_case_coverage(event_log: pd.DataFrame, case_ids: list[str] | set[str
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    group_variants = groups_utils.variants(event_log, case_ids)
+    all_case_ids = set(event_log[StandardColumnNames.CASE_ID].unique())
+    count = 0
+    for c in all_case_ids:
+        # if group_variants and c's trace have any common activities
+        if group_variants.intersection(cases_utils.trace(event_log, c)):
+            count += 1
+    return safe_division(count, len(all_case_ids))
 
 
 def variant_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -341,7 +373,7 @@ def variant_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> in
         case_ids: The case IDs.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    return len(groups_utils.variants(event_log, case_ids))
 
 
 def _is_case_ids_empty(case_ids: list[str] | set[str]) -> None:

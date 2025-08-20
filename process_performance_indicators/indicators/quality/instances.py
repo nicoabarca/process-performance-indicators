@@ -90,6 +90,7 @@ def successful_outcome_unit_percentage(
             "sum": Considers the sum of all events of activity instances for outcome unit count calculations.
 
     """
+    # TODO: check here what to do if denominator is None
     outcome_unit_function = {
         "sgl": outcome_unit_count_for_single_events_of_activity_instances,
         "sum": outcome_unit_count_for_sum_of_all_events_of_activity_instances,
@@ -98,20 +99,3 @@ def successful_outcome_unit_percentage(
     numerator = successful_outcome_unit_count(event_log, instance_id, aggregation_mode)
     denominator = outcome_unit_function[aggregation_mode](event_log, instance_id)
     return safe_division(numerator, denominator)
-
-
-def total_cost_and_client_count_ratio(
-    event_log: pd.DataFrame, instance_id: str, aggregation_mode: Literal["sgl", "sum"]
-) -> float:
-    """
-    The ratio between the total cost associated with all instantiations of the activity, and the number of distinct clients associated with cases where the activity is instantiated.
-
-    Args:
-        event_log: The event log.
-        instance_id: The instance id.
-        aggregation_mode: The aggregation mode.
-            "sgl": Considers single events of activity instances for outcome unit count calculations.
-            "sum": Considers the sum of all events of activity instances for outcome unit count calculations.
-
-    """
-    raise NotImplementedError("Not implemented yet.")

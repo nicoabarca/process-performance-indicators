@@ -1,5 +1,8 @@
+import itertools
+
 import pandas as pd
 
+import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import LifecycleTransitionType, StandardColumnNames
 from process_performance_indicators.exceptions import (
     ColumnNotFoundError,
@@ -121,10 +124,12 @@ def startt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
     """
     _is_case_id_valid(event_log, case_id)
     earliest_instances_events = strin(event_log, case_id)
-    if earliest_instances_events.empty:
+    if not earliest_instances_events:
         raise NoStartEventFoundError(f"No start event found for case {case_id}.")
-
-    return earliest_instances_events[StandardColumnNames.TIMESTAMP].min()
+    col_timestamp: pd.Series[pd.Timestamp] = event_log[
+        event_log[StandardColumnNames.INSTANCE].isin(earliest_instances_events)
+    ][StandardColumnNames.TIMESTAMP]
+    return col_timestamp.min()
 
 
 def endt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
@@ -133,9 +138,81 @@ def endt(event_log: pd.DataFrame, case_id: str) -> pd.Timestamp:
     """
     _is_case_id_valid(event_log, case_id)
     latest_instances_events = endin(event_log, case_id)
-    if latest_instances_events.empty:
+    if not latest_instances_events:
         raise NoCompleteEventFoundError(f"No complete event found for case {case_id}.")
-    return latest_instances_events[StandardColumnNames.TIMESTAMP].max()
+    col_timestamp: pd.Series[pd.Timestamp] = event_log[
+        event_log[StandardColumnNames.INSTANCE].isin(latest_instances_events)
+    ][StandardColumnNames.TIMESTAMP]
+    return col_timestamp.max()
+
+
+def dfrel(event_log: pd.DataFrame, case_id: str) -> set[tuple[str, str]]:
+    """
+    Returns a set of tuples, where each tuple contains the activity name of the directly-follows relation.
+    """
+    _is_case_id_valid(event_log, case_id)
+    case_instances = inst(event_log, case_id)
+    directly_follows_relations = set()
+
+    for instance_i in case_instances:
+        activity_i = instances_utils.act(event_log, instance_i)
+        next_instances_of_i = instances_utils.next_instances(event_log, instance_i)
+
+        for instance_i_prime in next_instances_of_i:
+            activity_i_prime = instances_utils.act(event_log, instance_i_prime)
+            directly_follows_relations.add((activity_i, activity_i_prime))
+
+    return directly_follows_relations
+
+
+def seq(event_log: pd.DataFrame, case_id: str) -> set[tuple[str, ...]]:
+    """
+    Returns a list of sequences, where each sequence is a list of instance IDs sorted by start time.
+    When multiple instances have the same start time, multiple sequences are returned to represent
+    all possible orderings of those concurrent instances.
+
+    Example: If instances i1 and i2 start at the same time, followed by i3,
+    returns [["i1", "i2", "i3"], ["i2", "i1", "i3"]]
+    """
+    # TODO: check this function logic
+    case_instances = inst(event_log, case_id)
+
+    if not case_instances:
+        return set()
+
+    # Group instances by their start time
+    time_groups: dict[pd.Timestamp, list[str]] = {}
+    for instance_id in case_instances:
+        start_time = instances_utils.stime(event_log, instance_id)
+        if start_time not in time_groups:
+            time_groups[start_time] = []
+        time_groups[start_time].append(instance_id)
+
+    # Sort time groups by timestamp
+    sorted_times = sorted(time_groups.keys())
+
+    # Generate permutations for each time group of instances
+    instance_group_permutations: list[list[list[str]]] = []
+    for time in sorted_times:
+        instance_group = time_groups[time]
+        # Generate all permutations of concurrent instances
+        permutations = list(itertools.permutations(instance_group))
+        instance_group_permutations.append([list(perm) for perm in permutations])
+
+    # Generate all possible sequences by taking cartesian product of permutation groups
+    return {
+        tuple(instance for group in sequence_combination for instance in group)
+        for sequence_combination in itertools.product(*instance_group_permutations)
+    }
+
+
+def trace(event_log: pd.DataFrame, case_id: str) -> set[tuple[str, ...]]:
+    """
+    Return all sequences of activity names for a case, mapped from instance sequences.
+    """
+    # TODO: check this function logic
+    sequences = seq(event_log, case_id)
+    return {tuple(instances_utils.act(event_log, instance_id) for instance_id in sequence) for sequence in sequences}
 
 
 def _is_case_id_valid(event_log: pd.DataFrame, case_id: str) -> None:

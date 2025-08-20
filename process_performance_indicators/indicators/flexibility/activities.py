@@ -2,6 +2,7 @@ import pandas as pd
 
 import process_performance_indicators.indicators.general.activities as general_activities_indicators
 import process_performance_indicators.utils.activities as activities_utils
+import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
 from process_performance_indicators.utils.safe_division import safe_division
 
@@ -44,7 +45,15 @@ def directly_follows_relations_count(event_log: pd.DataFrame, activity_name: str
         activity_name: The name of the activity.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    relations = set()
+    for instance_id in activities_utils.inst(event_log, activity_name):
+        _next_instances = instances_utils.next_instances(event_log, instance_id)
+        next_activity_names = {
+            instances_utils.act(event_log, instance_id_prime) for instance_id_prime in _next_instances
+        }
+        relations.update(next_activity_names)
+
+    return len(relations)
 
 
 def human_resource_count(event_log: pd.DataFrame, activity_name: str) -> int:

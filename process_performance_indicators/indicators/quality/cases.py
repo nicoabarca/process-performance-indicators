@@ -4,6 +4,7 @@ import pandas as pd
 
 import process_performance_indicators.indicators.general.cases as general_cases_indicators
 import process_performance_indicators.indicators.quality.instances as quality_instances_indicators
+import process_performance_indicators.indicators.time.cases as time_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
@@ -156,7 +157,7 @@ def outcome_unit_count(event_log: pd.DataFrame, case_id: str, aggregation_mode: 
     }
     case_instances = cases_utils.inst(event_log, case_id)
 
-    outcome_unit_count = 0
+    outcome_unit_count: float = 0
     for instance_id in case_instances:
         outcome_unit = aggregation_function[aggregation_mode](event_log, instance_id)
         if outcome_unit is not None:
@@ -222,7 +223,7 @@ def rework_count_by_value(event_log: pd.DataFrame, case_id: str, value: float) -
 
     for activity_name in event_log[StandardColumnNames.ACTIVITY].unique():
         rework_count += max(0, cases_activities_utils.count(event_log, case_id, activity_name) - value)
-    return rework_count
+    return int(rework_count)
 
 
 def rework_of_activities_subset(event_log: pd.DataFrame, case_id: str, activities_subset: set[str]) -> int:
@@ -257,7 +258,7 @@ def rework_percentage(event_log: pd.DataFrame, case_id: str) -> float:
     return safe_division(numerator, denominator)
 
 
-def rework_percentage_by_value(event_log: pd.DataFrame, case_id: str, value: str) -> float:
+def rework_percentage_by_value(event_log: pd.DataFrame, case_id: str, value: float) -> float:
     """
     The percentage of times that any activity has been instantiated again, after it has been instantiated a certain number of times, in the case.
 
@@ -272,17 +273,19 @@ def rework_percentage_by_value(event_log: pd.DataFrame, case_id: str, value: str
     return safe_division(numerator, denominator)
 
 
-def rework_time(event_log: pd.DataFrame, case_id: str, activity_name: str) -> float:
+def rework_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     """
     The total elapsed time for all times that any activity has been instantiated again, after its first instantiation, in the case.
 
     Args:
         event_log: The event log.
         case_id: The case ID.
-        activity_name: The name of the activity.
 
     """
-    raise NotImplementedError("Not implemented yet.")
+    sum_of_first_occurrences_times = pd.Timedelta(0)
+    for activity_name in event_log[StandardColumnNames.ACTIVITY].unique():
+        sum_of_first_occurrences_times += cases_activities_utils.filt(event_log, case_id, activity_name)
+    return time_cases_indicators.lead_time(event_log, case_id) - sum_of_first_occurrences_times
 
 
 def successful_outcome_unit_count(
@@ -367,7 +370,7 @@ def unwanted_activity_instance_count(event_log: pd.DataFrame, case_id: str, unwa
     unwanted_activity_instances = {
         instance
         for instance in cases_utils.inst(event_log, case_id)
-        if instances_utils.act(instance) in unwanted_activities
+        if instances_utils.act(event_log, instance) in unwanted_activities
     }
     return len(unwanted_activity_instances)
 
