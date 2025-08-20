@@ -11,7 +11,7 @@ from process_performance_indicators.utils.safe_division import safe_division
 
 def active_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     """
-    Todo: Implement this function. Ask for explanation.
+    TODO: Ask for explanation.
     """
     return lead_time(event_log, case_id) - idle_time(event_log, case_id)
 
@@ -284,10 +284,10 @@ def service_time_from_activity_a_to_b(
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
         aggregation_mode: The aggregation mode.
-        - s: Considers activity instances that were started within the start and end activity instances.
-        - c: Considers activity instances that were completed within the start and end activity instances.
-        - sc: Considers activity instances that were either started or completed within the start and end activity instances.
-        - w: Considers all activity instances that were active within the start and end activity instances.
+            "s": Considers activity instances that were started within the start and end activity instances.
+            "c": Considers activity instances that were completed within the start and end activity instances.
+            "sc": Considers activity instances that were either started or completed within the start and end activity instances.
+            "w": Considers all activity instances that were active within the start and end activity instances.
 
     """
     instances_earliest_ocurrences_after_other = cases_activities_utils.fi(event_log, case_id, activity_a, activity_b)
@@ -332,10 +332,10 @@ def waiting_time_from_activity_a_to_b(
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
         aggregation_mode: The aggregation mode.
-        - s: Considers activity instances that were started within the start and end activity instances.
-        - c: Considers activity instances that were completed within the start and end activity instances.
-        - sc: Considers activity instances that were either started or completed within the start and end activity instances.
-        - w: Considers all activity instances that were active within the start and end activity instances.
+            "s": Considers activity instances that were started within the start and end activity instances.
+            "c": Considers activity instances that were completed within the start and end activity instances.
+            "sc": Considers activity instances that were either started or completed within the start and end activity instances.
+            "w": Considers all activity instances that were active within the start and end activity instances.
 
     """
     instances_earliest_ocurrences_after_other = cases_activities_utils.fi(event_log, case_id, activity_a, activity_b)

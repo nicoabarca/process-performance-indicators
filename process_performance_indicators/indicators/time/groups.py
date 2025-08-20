@@ -11,7 +11,7 @@ from process_performance_indicators.utils.safe_division import safe_division
 
 def expected_active_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    Todo: Implement this function.
+    TODO: Ask for explanation
     """
     total_active_time: pd.Timedelta = pd.Timedelta(0)
     for case_id in case_ids:
@@ -547,10 +547,10 @@ def service_time_from_activity_a_to_b(
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
         aggregation_mode: The aggregation mode.
-        - s: Considers activity instances that were started within the start and end activity instances.
-        - c: Considers activity instances that were completed within the start and end activity instances.
-        - sc: Considers activity instances that were either started or completed within the start and end activity instances.
-        - w: Considers all activity instances that were active within the start and end activity instances.
+            "s": Considers activity instances that were started within the start and end activity instances.
+            "c": Considers activity instances that were completed within the start and end activity instances.
+            "sc": Considers activity instances that were either started or completed within the start and end activity instances.
+            "w": Considers all activity instances that were active within the start and end activity instances.
 
     """
     sum_of_service_times: pd.Timedelta = pd.Timedelta(0)
@@ -582,10 +582,10 @@ def expected_service_time_from_activity_a_to_b(
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
         aggregation_mode: The aggregation mode.
-        - s: Considers activity instances that were started within the start and end activity instances.
-        - c: Considers activity instances that were completed within the start and end activity instances.
-        - sc: Considers activity instances that were either started or completed within the start and end activity instances.
-        - w: Considers all activity instances that were active within the start and end activity instances.
+            "s": Considers activity instances that were started within the start and end activity instances.
+            "c": Considers activity instances that were completed within the start and end activity instances.
+            "sc": Considers activity instances that were either started or completed within the start and end activity instances.
+            "w": Considers all activity instances that were active within the start and end activity instances.
 
     """
     cases_count = len(
@@ -632,10 +632,10 @@ def expected_waiting_time_from_activity_a_to_b(
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
         aggregation_mode: The aggregation mode.
-        - s: Considers activity instances that were started within the start and end activity instances.
-        - c: Considers activity instances that were completed within the start and end activity instances.
-        - sc: Considers activity instances that were either started or completed within the start and end activity instances.
-        - w: Considers all activity instances that were active within the start and end activity instances.
+            "s": Considers activity instances that were started within the start and end activity instances.
+            "c": Considers activity instances that were completed within the start and end activity instances.
+            "sc": Considers activity instances that were either started or completed within the start and end activity instances.
+            "w": Considers all activity instances that were active within the start and end activity instances.
 
     """
     sum_of_waiting_times: pd.Timedelta = pd.Timedelta(0)

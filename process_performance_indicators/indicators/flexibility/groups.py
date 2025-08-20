@@ -35,8 +35,8 @@ def expected_activity_and_role_count_ratio(event_log: pd.DataFrame, case_ids: li
     sum_of_activities_count = 0
     sum_of_roles_count = 0
     for case_id in case_ids:
-        sum_of_activities_count += general_groups_indicators.activity_count(event_log, case_id)
-        sum_of_roles_count += general_groups_indicators.role_count(event_log, case_id)
+        sum_of_activities_count += general_cases_indicators.activity_count(event_log, case_id)
+        sum_of_roles_count += general_cases_indicators.role_count(event_log, case_id)
 
     numerator = sum_of_activities_count
     denominator = sum_of_roles_count
@@ -197,7 +197,7 @@ def human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     return count
 
 
-def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
     The expected number of human resources that are involved in the execution of a case belonging to the group of cases.
 
@@ -210,7 +210,7 @@ def expected_human_resource_count(event_log: pd.DataFrame, case_ids: list[str] |
 
     sum_of_human_resources_counts = 0
     for case_id in case_ids:
-        sum_of_human_resources_counts += general_groups_indicators.human_resource_count(event_log, case_id)
+        sum_of_human_resources_counts += general_cases_indicators.human_resource_count(event_log, case_id)
 
     numerator = sum_of_human_resources_counts
     denominator = general_groups_indicators.case_count(event_log, case_ids)
@@ -226,6 +226,7 @@ def optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
         case_ids: The case IDs.
 
     """
+    # TODO: Fix this function logic
     filtered_log = event_log[event_log[StandardColumnNames.CASE_ID].isin(case_ids)]
 
     case_activity_sets = (
@@ -244,7 +245,7 @@ def optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
     return len(optional_activities)
 
 
-def expected_optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
+def expected_optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:
     """
     The expected number of optional activities that are instantiated in a case belonging to the group of cases. An activity is considered optional if there is at least one case in the event log where it does not occur.
 
