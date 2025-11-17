@@ -12,7 +12,11 @@ from process_performance_indicators.formatting.instance_id_generator import id_g
 
 
 def event_log_formatter(
-    event_log: pd.DataFrame, column_mapping: dict[str, str] | StandardColumnMapping
+    event_log: pd.DataFrame,
+    column_mapping: dict[str, str] | StandardColumnMapping,
+    date_format: str | None = None,
+    *,
+    dayfirst: bool = False,
 ) -> pd.DataFrame:
     """
     Format an event log into a pandas DataFrame with standardized column names.
@@ -24,6 +28,13 @@ def event_log_formatter(
         event_log: The event log to format.
         column_mapping: Either a dictionary mapping standard column names to log column names,
                         or a StandardColumnMapping instance.
+        date_format: The datetime format to use when parsing timestamp columns.
+                    Can be a specific format string (e.g., "%d-%m-%Y %H:%M:%S"),
+                    "ISO8601" for ISO8601 format, "mixed" for automatic inference,
+                    or None to use pandas default parsing.
+        dayfirst: Whether to interpret the first value in an ambiguous date
+                 (e.g., 01/05/09) as the day (True) or month (False).
+                 Only used when date_format is None or "mixed".
 
     Returns:
         pd.DataFrame: The formatted event log with standardized column names and split events.
@@ -39,12 +50,19 @@ def event_log_formatter(
     inverted_mapping = {v: k for k, v in standard_mapping.items()}
     standard_named_log = event_log.rename(columns=inverted_mapping)
 
+    # Convert case id to string
+    standard_named_log[StandardColumnNames.CASE_ID] = standard_named_log[StandardColumnNames.CASE_ID].astype(str)
+
+    # Convert activity name to string
+    standard_named_log[StandardColumnNames.ACTIVITY] = standard_named_log[StandardColumnNames.ACTIVITY].astype(str)
+
+    # Convert instance to string if present
+    if StandardColumnNames.INSTANCE in standard_named_log.columns:
+        standard_named_log[StandardColumnNames.INSTANCE] = standard_named_log[StandardColumnNames.INSTANCE].astype(str)
+
     # If start timestamp is not present, return the standard named log
     if StandardColumnNames.START_TIMESTAMP not in standard_named_log.columns:
         return standard_named_log
-
-    # Convert case id to string
-    standard_named_log[StandardColumnNames.CASE_ID] = standard_named_log[StandardColumnNames.CASE_ID].astype(str)
 
     # Add missing columns
     if StandardColumnNames.INSTANCE not in standard_named_log.columns:
@@ -52,13 +70,24 @@ def event_log_formatter(
             id_generator.get_next_id() for _ in range(len(standard_named_log))
         ]
 
+    # Convert instance to string
+    standard_named_log[StandardColumnNames.INSTANCE] = standard_named_log[StandardColumnNames.INSTANCE].astype(str)
+
     # Convert timestamp columns to datetime
-    standard_named_log[StandardColumnNames.TIMESTAMP] = pd.to_datetime(
-        standard_named_log[StandardColumnNames.TIMESTAMP], utc=True
-    )
-    standard_named_log[StandardColumnNames.START_TIMESTAMP] = pd.to_datetime(
-        standard_named_log[StandardColumnNames.START_TIMESTAMP], utc=True
-    )
+    if date_format is not None:
+        standard_named_log[StandardColumnNames.TIMESTAMP] = pd.to_datetime(
+            standard_named_log[StandardColumnNames.TIMESTAMP], format=date_format, utc=True
+        )
+        standard_named_log[StandardColumnNames.START_TIMESTAMP] = pd.to_datetime(
+            standard_named_log[StandardColumnNames.START_TIMESTAMP], format=date_format, utc=True
+        )
+    else:
+        standard_named_log[StandardColumnNames.TIMESTAMP] = pd.to_datetime(
+            standard_named_log[StandardColumnNames.TIMESTAMP], dayfirst=dayfirst, utc=True
+        )
+        standard_named_log[StandardColumnNames.START_TIMESTAMP] = pd.to_datetime(
+            standard_named_log[StandardColumnNames.START_TIMESTAMP], dayfirst=dayfirst, utc=True
+        )
 
     # Create a copy of the log for start events
     start_events_log = standard_named_log.copy()

@@ -23,12 +23,12 @@ class InstanceIdGenerator:
         Get the next unique instance ID.
 
         Returns:
-            str: A unique instance ID in the format 'instance_{number}'
+            str: A unique instance ID in the format 'i_{number}'
 
         """
         with self._lock:
             self._counter += 1
-            return f"instance_{self._counter}"
+            return f"i_{self._counter}"
 
 
 id_generator = InstanceIdGenerator()

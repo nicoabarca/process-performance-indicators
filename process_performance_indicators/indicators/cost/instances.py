@@ -6,6 +6,7 @@ import process_performance_indicators.indicators.quality.instances as quality_in
 import process_performance_indicators.indicators.time.instances as time_instances_indicators
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.utils import assert_column_exists
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -23,6 +24,8 @@ def fixed_cost_for_single_events_of_activity_instances(event_log: pd.DataFrame, 
         None: If no fixed cost is found.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.FIXED_COST)
+
     complete_event = instances_utils.cpl(event_log, instance_id)
     if not complete_event.empty:
         return float(complete_event[StandardColumnNames.FIXED_COST].unique()[0])
@@ -44,6 +47,8 @@ def fixed_cost_for_sum_of_all_events_of_activity_instances(event_log: pd.DataFra
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.FIXED_COST)
+
     start_event = instances_utils.start(event_log, instance_id)
     complete_event = instances_utils.cpl(event_log, instance_id)
 
@@ -66,6 +71,8 @@ def inventory_cost_for_single_events_of_activity_instances(event_log: pd.DataFra
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.INVENTORY_COST)
+
     complete_event = instances_utils.cpl(event_log, instance_id)
     if not complete_event.empty:
         return float(complete_event[StandardColumnNames.INVENTORY_COST].unique()[0])
@@ -89,6 +96,8 @@ def inventory_cost_for_sum_of_all_events_of_activity_instances(
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.INVENTORY_COST)
+
     start_event = instances_utils.start(event_log, instance_id)
     complete_event = instances_utils.cpl(event_log, instance_id)
 
@@ -117,6 +126,9 @@ def labor_cost_and_total_cost_ratio(
 
     """
     # TODO: ask here what to do when labor_cost or total_cost is None
+    assert_column_exists(event_log, StandardColumnNames.LABOR_COST)
+    assert_column_exists(event_log, StandardColumnNames.TOTAL_COST)
+
     aggregation_functions = {
         "sgl": (
             labor_cost_for_single_events_of_activity_instances,
@@ -145,6 +157,8 @@ def labor_cost_for_single_events_of_activity_instances(event_log: pd.DataFrame, 
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.LABOR_COST)
+
     complete_event = instances_utils.cpl(event_log, instance_id)
     if not complete_event.empty:
         return float(complete_event[StandardColumnNames.LABOR_COST].unique()[0])
@@ -166,6 +180,8 @@ def labor_cost_for_sum_of_all_events_of_activity_instances(event_log: pd.DataFra
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.LABOR_COST)
+
     start_event = instances_utils.start(event_log, instance_id)
     complete_event = instances_utils.cpl(event_log, instance_id)
 
@@ -188,6 +204,8 @@ def total_cost_for_single_events_of_activity_instances(event_log: pd.DataFrame, 
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.TOTAL_COST)
+
     complete_event = instances_utils.cpl(event_log, instance_id)
     if not complete_event.empty:
         return float(complete_event[StandardColumnNames.TOTAL_COST].unique()[0])
@@ -209,6 +227,8 @@ def total_cost_for_sum_of_all_events_of_activity_instances(event_log: pd.DataFra
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.TOTAL_COST)
+
     start_event = instances_utils.start(event_log, instance_id)
     complete_event = instances_utils.cpl(event_log, instance_id)
 
@@ -236,6 +256,8 @@ def total_cost_and_lead_time_ratio(
             "sum": The aggregation mode for the sum of all events of an activity instance.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.TOTAL_COST)
+
     # TODO: ask here what to do when total_cost is None
     total_cost_function = {
         "sgl": total_cost_for_single_events_of_activity_instances,
@@ -263,6 +285,8 @@ def total_cost_and_outcome_unit_ratio(
             "sum": Considers the sum of all events of activity instances for cost and outcome unit calculations.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.TOTAL_COST)
+
     aggregation_functions = {
         "sgl": {
             "cost": total_cost_for_single_events_of_activity_instances,
@@ -298,6 +322,8 @@ def total_cost_and_service_time_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.TOTAL_COST)
+
     # TODO: ask here what to do when total_cost is None
     total_cost_function = {
         "sgl": total_cost_for_single_events_of_activity_instances,
@@ -319,6 +345,8 @@ def variable_cost_for_single_events_of_activity_instances(event_log: pd.DataFram
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.VARIABLE_COST)
+
     complete_event = instances_utils.cpl(event_log, instance_id)
     if not complete_event.empty:
         return float(complete_event[StandardColumnNames.VARIABLE_COST].unique()[0])
@@ -342,6 +370,8 @@ def variable_cost_for_sum_of_all_events_of_activity_instances(
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.VARIABLE_COST)
+
     start_event = instances_utils.start(event_log, instance_id)
     complete_event = instances_utils.cpl(event_log, instance_id)
 

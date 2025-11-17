@@ -372,7 +372,7 @@ def maintenance_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) ->
         case_ids: The case ids.
 
     """
-    total_maintenance_cost = 0
+    total_maintenance_cost: float = 0
 
     for case_id in case_ids:
         total_maintenance_cost += cost_cases_indicators.maintenance_cost(event_log, case_id)

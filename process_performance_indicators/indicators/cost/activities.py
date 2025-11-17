@@ -29,9 +29,11 @@ def fixed_cost(event_log: pd.DataFrame, activity_name: str, aggregation_mode: Li
         "sum": cost_instances_indicators.fixed_cost_for_sum_of_all_events_of_activity_instances,
     }
     total_fixed_cost = 0
+    activity_instances = activities_utils.inst(event_log, activity_name)
 
-    for instance_id in activities_utils.inst(event_log, activity_name):
-        total_fixed_cost += aggregation_function[aggregation_mode](event_log, instance_id) or 0
+    for instance_id in activity_instances:
+        aggregate_value = aggregation_function[aggregation_mode](event_log, instance_id) or 0
+        total_fixed_cost += aggregate_value
 
     return total_fixed_cost
 

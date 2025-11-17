@@ -9,6 +9,7 @@ from process_performance_indicators.exceptions import (
     NoCompleteEventFoundError,
     NoStartEventFoundError,
 )
+from process_performance_indicators.utils.column_validation import assert_column_exists
 
 
 def events(event_log: pd.DataFrame, case_id: str) -> pd.DataFrame:
@@ -47,9 +48,7 @@ def hres(event_log: pd.DataFrame, case_id: str) -> set[str]:
     Get the human resources names set of a case.
     """
     _is_case_id_valid(event_log, case_id)
-    if StandardColumnNames.HUMAN_RESOURCE not in event_log.columns:
-        error_message = "HUMAN_RESOURCE column not found in event log. Check your event log for possible columns."
-        raise ColumnNotFoundError(error_message)
+    assert_column_exists(event_log, StandardColumnNames.HUMAN_RESOURCE)
 
     human_resources = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][
         StandardColumnNames.HUMAN_RESOURCE
@@ -62,9 +61,7 @@ def role(event_log: pd.DataFrame, case_id: str) -> set[str]:
     Get the roles names set of a case.
     """
     _is_case_id_valid(event_log, case_id)
-    if StandardColumnNames.ROLE not in event_log.columns:
-        error_message = "ROLE column not found in event log. Check your event log for possible columns."
-        raise ColumnNotFoundError(error_message)
+    assert_column_exists(event_log, StandardColumnNames.ROLE)
 
     roles = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][StandardColumnNames.ROLE].unique()
     return set(roles)
@@ -75,9 +72,7 @@ def inst(event_log: pd.DataFrame, case_id: str) -> set[str]:
     Get the instances ids set of a case.
     """
     _is_case_id_valid(event_log, case_id)
-    if StandardColumnNames.INSTANCE not in event_log.columns:
-        error_message = "INSTANCE column not found in event log. Check your event log for possible columns."
-        raise ColumnNotFoundError(error_message)
+    assert_column_exists(event_log, StandardColumnNames.INSTANCE)
 
     instances = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][StandardColumnNames.INSTANCE].unique()
     return set(instances)
