@@ -355,7 +355,11 @@ def variant_case_coverage(event_log: pd.DataFrame, case_ids: list[str] | set[str
         case_ids: The case IDs.
 
     """
+    from datetime import datetime
+
+    init_time = datetime.now()
     group_variants = groups_utils.variants(event_log, case_ids)
+    print(f"Time to generate variants: {datetime.now() - init_time}")
     all_case_ids = set(event_log[StandardColumnNames.CASE_ID].unique())
     count = 0
     for c in all_case_ids:

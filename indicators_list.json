@@ -1,0 +1,1476 @@
+{
+  "cost": {
+    "activities": {
+      "fixed_cost": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "activity_name"
+      ],
+      "inventory_cost": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "labor_cost": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "labor_cost_and_total_cost_ratio": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "resource_count": [
+        "event_log",
+        "activity_name"
+      ],
+      "rework_cost": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "rework_count": [
+        "event_log",
+        "activity_name"
+      ],
+      "rework_percentage": [
+        "event_log",
+        "activity_name"
+      ],
+      "total_cost": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "total_cost_and_lead_time_ratio": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "total_cost_and_outcome_unit_ratio": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "total_cost_and_service_time_ratio": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "variable_cost": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ]
+    },
+    "cases": {
+      "automated_activity_cost": [
+        "event_log",
+        "case_id",
+        "automated_activities",
+        "aggregation_mode"
+      ],
+      "desired_activity_count": [
+        "event_log",
+        "case_id",
+        "desired_activities"
+      ],
+      "direct_cost": [
+        "event_log",
+        "case_id",
+        "direct_costs_activities",
+        "aggregation_mode"
+      ],
+      "fixed_cost": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "case_id"
+      ],
+      "inventory_cost": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "labor_cost": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "labor_cost_and_total_cost_ratio": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "maintenance_cost": [
+        "event_log",
+        "case_id"
+      ],
+      "missed_deadline_cost": [
+        "event_log",
+        "case_id"
+      ],
+      "overhead_cost": [
+        "event_log",
+        "case_id",
+        "direct_cost_activities",
+        "aggregation_mode"
+      ],
+      "resource_count": [
+        "event_log",
+        "case_id"
+      ],
+      "rework_cost": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "rework_count": [
+        "event_log",
+        "case_id"
+      ],
+      "rework_percentage": [
+        "event_log",
+        "case_id"
+      ],
+      "total_cost": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "total_cost_and_lead_time_ratio": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "total_cost_and_outcome_unit_ratio": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "total_cost_and_service_time_ratio": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "transportation_cost": [
+        "event_log",
+        "case_id"
+      ],
+      "variable_cost": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "warehousing_cost": [
+        "event_log",
+        "case_id"
+      ]
+    },
+    "groups": {
+      "automated_activity_cost": [
+        "event_log",
+        "case_ids",
+        "automated_activities",
+        "aggregation_mode"
+      ],
+      "desired_activity_count": [
+        "event_log",
+        "case_ids",
+        "desired_activities"
+      ],
+      "direct_cost": [
+        "event_log",
+        "case_ids",
+        "direct_costs_activities",
+        "aggregation_mode"
+      ],
+      "expected_automated_activity_cost": [
+        "event_log",
+        "case_ids",
+        "automated_activities",
+        "aggregation_mode"
+      ],
+      "expected_desired_activity_count": [
+        "event_log",
+        "case_ids",
+        "desired_activities"
+      ],
+      "expected_direct_cost": [
+        "event_log",
+        "case_ids",
+        "direct_costs_activities",
+        "aggregation_mode"
+      ],
+      "expected_fixed_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_human_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_inventory_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_labor_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_labor_cost_and_total_cost_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_maintenance_cost": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_missed_deadline_cost": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_overhead_cost": [
+        "event_log",
+        "case_ids",
+        "direct_cost_activities",
+        "aggregation_mode"
+      ],
+      "expected_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_rework_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_rework_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_rework_percentage": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_total_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_total_cost_and_lead_time_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_total_cost_and_outcome_unit_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_total_cost_and_service_time_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_transportation_cost": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_variable_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_warehousing_cost": [
+        "event_log",
+        "case_ids"
+      ],
+      "fixed_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "human_resource_and_case_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "inventory_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "labor_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "labor_cost_and_total_cost_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "maintenance_cost": [
+        "event_log",
+        "case_ids"
+      ],
+      "missed_deadline_cost": [
+        "event_log",
+        "case_ids"
+      ],
+      "overhead_cost": [
+        "event_log",
+        "case_ids",
+        "direct_cost_activities",
+        "aggregation_mode"
+      ],
+      "resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "rework_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "rework_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "rework_percentage": [
+        "event_log",
+        "case_ids"
+      ],
+      "total_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "total_cost_and_lead_time_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "total_cost_and_outcome_unit_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "total_cost_and_service_time_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "transportation_cost": [
+        "event_log",
+        "case_ids"
+      ],
+      "variable_cost": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "warehousing_cost": [
+        "event_log",
+        "case_ids"
+      ]
+    },
+    "instances": {
+      "fixed_cost_for_single_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "fixed_cost_for_sum_of_all_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "inventory_cost_for_single_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "inventory_cost_for_sum_of_all_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "labor_cost_and_total_cost_ratio": [
+        "event_log",
+        "instance_id",
+        "aggregation_mode"
+      ],
+      "labor_cost_for_single_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "labor_cost_for_sum_of_all_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "total_cost_and_lead_time_ratio": [
+        "event_log",
+        "instance_id",
+        "aggregation_mode"
+      ],
+      "total_cost_and_outcome_unit_ratio": [
+        "event_log",
+        "instance_id",
+        "aggregation_mode"
+      ],
+      "total_cost_and_service_time_ratio": [
+        "event_log",
+        "instance_id",
+        "aggregation_mode"
+      ],
+      "total_cost_for_single_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "total_cost_for_sum_of_all_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "variable_cost_for_single_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "variable_cost_for_sum_of_all_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ]
+    }
+  },
+  "flexibility": {
+    "activities": {
+      "activity_instance_and_human_resource_count_ratio": [
+        "event_log",
+        "activity_name"
+      ],
+      "client_count": [
+        "event_log",
+        "activity_name"
+      ],
+      "directly_follows_relations_count": [
+        "event_log",
+        "activity_name"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "activity_name"
+      ]
+    },
+    "cases": {
+      "activity_and_role_count_ratio": [
+        "event_log",
+        "case_id"
+      ],
+      "activity_instance_and_human_resource_count_ratio": [
+        "event_log",
+        "case_id"
+      ],
+      "directly_follows_relations_and_activity_count_ratio": [
+        "event_log",
+        "case_id"
+      ],
+      "directly_follows_relations_count": [
+        "event_log",
+        "case_id"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "case_id"
+      ],
+      "optional_activity_count": [
+        "event_log",
+        "case_id"
+      ],
+      "optionality": [
+        "event_log",
+        "case_id"
+      ],
+      "role_count": [
+        "event_log",
+        "case_id"
+      ],
+      "variant_case_coverage": [
+        "event_log",
+        "case_id"
+      ]
+    },
+    "groups": {
+      "activity_and_role_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "activity_instance_and_human_resource_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "client_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "directly_follows_relations_and_activity_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "directly_follows_relations_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_activity_and_role_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_activity_instance_and_human_resource_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_client_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_directly_follows_relations_and_activity_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_directly_follows_relations_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_human_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_optional_activity_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_optionality": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_role_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "optional_activity_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "optionality": [
+        "event_log",
+        "case_ids"
+      ],
+      "role_and_variant_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "role_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "variant_case_coverage": [
+        "event_log",
+        "case_ids"
+      ],
+      "variant_count": [
+        "event_log",
+        "case_ids"
+      ]
+    }
+  },
+  "general": {
+    "activities": {
+      "activity_instance_count": [
+        "event_log",
+        "activity_name"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "activity_name"
+      ],
+      "resource_count": [
+        "event_log",
+        "activity_name"
+      ]
+    },
+    "cases": {
+      "activity_count": [
+        "event_log",
+        "case_id"
+      ],
+      "activity_instance_count": [
+        "event_log",
+        "case_id"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "case_id"
+      ],
+      "resource_count": [
+        "event_log",
+        "case_id"
+      ],
+      "role_count": [
+        "event_log",
+        "case_id"
+      ]
+    },
+    "groups": {
+      "activity_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "activity_instance_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "case_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_activity_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_activity_instance_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_human_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_role_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "role_count": [
+        "event_log",
+        "case_ids"
+      ]
+    }
+  },
+  "quality": {
+    "activities": {
+      "activity_instance_count_by_human_resource": [
+        "event_log",
+        "activity_name",
+        "human_resource_name"
+      ],
+      "client_count_and_total_cost_ratio": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "activity_name"
+      ],
+      "outcome_unit_count": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "rework_count": [
+        "event_log",
+        "activity_name"
+      ],
+      "rework_count_by_value": [
+        "event_log",
+        "activity_name",
+        "value"
+      ],
+      "rework_percentage": [
+        "event_log",
+        "activity_name"
+      ],
+      "rework_percentage_by_value": [
+        "event_log",
+        "activity_name",
+        "value"
+      ],
+      "rework_time": [
+        "event_log",
+        "activity_name"
+      ],
+      "successful_outcome_unit_count": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "successful_outcome_unit_percentage": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ],
+      "total_cost_and_client_count_ratio": [
+        "event_log",
+        "activity_name",
+        "aggregation_mode"
+      ]
+    },
+    "cases": {
+      "activity_instance_count_by_human_resource": [
+        "event_log",
+        "case_id",
+        "human_resource_name"
+      ],
+      "activity_instance_count_by_role": [
+        "event_log",
+        "case_id",
+        "role_name"
+      ],
+      "automated_activity_count": [
+        "event_log",
+        "case_id",
+        "automated_activities"
+      ],
+      "automated_activity_instance_count": [
+        "event_log",
+        "case_id",
+        "automated_activities"
+      ],
+      "desired_activity_count": [
+        "event_log",
+        "case_id",
+        "desired_activities"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "case_id"
+      ],
+      "non_automated_activity_count": [
+        "event_log",
+        "case_id",
+        "automated_activities"
+      ],
+      "non_automated_activity_instance_count": [
+        "event_log",
+        "case_id",
+        "automated_activities"
+      ],
+      "outcome_unit_count": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "overall_quality": [
+        "event_log",
+        "case_id"
+      ],
+      "repeatability": [
+        "event_log",
+        "case_id"
+      ],
+      "rework_count": [
+        "event_log",
+        "case_id"
+      ],
+      "rework_count_by_value": [
+        "event_log",
+        "case_id",
+        "value"
+      ],
+      "rework_of_activities_subset": [
+        "event_log",
+        "case_id",
+        "activities_subset"
+      ],
+      "rework_percentage": [
+        "event_log",
+        "case_id"
+      ],
+      "rework_percentage_by_value": [
+        "event_log",
+        "case_id",
+        "value"
+      ],
+      "rework_time": [
+        "event_log",
+        "case_id"
+      ],
+      "successful_outcome_unit_count": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "successful_outcome_unit_percentage": [
+        "event_log",
+        "case_id",
+        "aggregation_mode"
+      ],
+      "unwanted_activity_count": [
+        "event_log",
+        "case_id",
+        "unwanted_activities"
+      ],
+      "unwanted_activity_instance_count": [
+        "event_log",
+        "case_id",
+        "unwanted_activities"
+      ],
+      "unwanted_activity_instance_percentage": [
+        "event_log",
+        "case_id",
+        "unwanted_activities"
+      ],
+      "unwanted_activity_percentage": [
+        "event_log",
+        "case_id",
+        "unwanted_activities"
+      ]
+    },
+    "groups": {
+      "activity_instance_count_by_human_resource": [
+        "event_log",
+        "case_ids",
+        "human_resource_name"
+      ],
+      "activity_instance_count_by_role": [
+        "event_log",
+        "case_ids",
+        "role_name"
+      ],
+      "automated_activity_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "automated_activity_instance_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "case_and_client_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "case_count_where_activity_after_time_frame": [
+        "event_log",
+        "case_ids",
+        "activity_name",
+        "end_time"
+      ],
+      "case_count_where_activity_before_time_frame": [
+        "event_log",
+        "case_ids",
+        "activity_name",
+        "start_time"
+      ],
+      "case_count_where_activity_during_time_frame": [
+        "event_log",
+        "case_ids",
+        "activity_name",
+        "start_time",
+        "end_time"
+      ],
+      "case_count_where_end_activity_is_a": [
+        "event_log",
+        "case_ids",
+        "a_activity_name"
+      ],
+      "case_count_where_start_activity_is_a": [
+        "event_log",
+        "case_ids",
+        "a_activity_name"
+      ],
+      "case_count_with_rework": [
+        "event_log",
+        "case_ids"
+      ],
+      "case_percentage_where_activity_after_time_frame": [
+        "event_log",
+        "case_ids",
+        "activity_name",
+        "end_time"
+      ],
+      "case_percentage_where_activity_before_time_frame": [
+        "event_log",
+        "case_ids",
+        "activity_name",
+        "start_time"
+      ],
+      "case_percentage_where_activity_during_time_frame": [
+        "event_log",
+        "case_ids",
+        "activity_name",
+        "start_time",
+        "end_time"
+      ],
+      "case_percentage_where_end_activity_is_a": [
+        "event_log",
+        "case_ids",
+        "a_activity_name"
+      ],
+      "case_percentage_where_start_activity_is_a": [
+        "event_log",
+        "case_ids",
+        "a_activity_name"
+      ],
+      "case_percentage_with_missed_deadline": [
+        "event_log",
+        "case_ids",
+        "deadline"
+      ],
+      "case_percentage_with_rework": [
+        "event_log",
+        "case_ids"
+      ],
+      "client_count_and_total_cost_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "desired_activity_count": [
+        "event_log",
+        "case_ids",
+        "desired_activities"
+      ],
+      "expected_activity_instance_count_by_human_resource": [
+        "event_log",
+        "case_ids",
+        "human_resource_name"
+      ],
+      "expected_activity_instance_count_by_role": [
+        "event_log",
+        "case_ids",
+        "role_name"
+      ],
+      "expected_automated_activity_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "expected_automated_activity_instance_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "expected_client_count_and_total_cost_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_desired_activity_count": [
+        "event_log",
+        "case_ids",
+        "desired_activities"
+      ],
+      "expected_human_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_non_automated_activity_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "expected_non_automated_activity_instance_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "expected_outcome_unit_count": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_overall_quality": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_repeatability": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_rework_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_rework_count_by_value": [
+        "event_log",
+        "case_ids",
+        "value"
+      ],
+      "expected_rework_of_activities_subset": [
+        "event_log",
+        "case_ids",
+        "activities_subset"
+      ],
+      "expected_rework_percentage": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_rework_percentage_by_value": [
+        "event_log",
+        "case_ids",
+        "value"
+      ],
+      "expected_rework_time": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_successful_outcome_unit_count": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_successful_outcome_unit_percentage": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_total_cost_and_client_count_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "expected_unwanted_activity_count": [
+        "event_log",
+        "case_ids",
+        "unwanted_activities"
+      ],
+      "expected_unwanted_activity_instance_count": [
+        "event_log",
+        "case_ids",
+        "unwanted_activities"
+      ],
+      "expected_unwanted_activity_instance_percentage": [
+        "event_log",
+        "case_ids",
+        "unwanted_activities"
+      ],
+      "expected_unwanted_activity_percentage": [
+        "event_log",
+        "case_ids",
+        "unwanted_activities"
+      ],
+      "human_resource_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "non_automated_activity_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "non_automated_activity_instance_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "outcome_unit_count": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "repeatability": [
+        "event_log",
+        "case_ids"
+      ],
+      "rework_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "rework_count_by_value": [
+        "event_log",
+        "case_ids",
+        "value"
+      ],
+      "rework_of_activities_subset": [
+        "event_log",
+        "case_ids",
+        "activities_subset"
+      ],
+      "rework_percentage": [
+        "event_log",
+        "case_ids"
+      ],
+      "rework_percentage_by_value": [
+        "event_log",
+        "case_ids",
+        "value"
+      ],
+      "rework_time": [
+        "event_log",
+        "case_ids"
+      ],
+      "successful_outcome_unit_count": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "successful_outcome_unit_percentage": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "total_cost_and_client_count_ratio": [
+        "event_log",
+        "case_ids",
+        "aggregation_mode"
+      ],
+      "unwanted_activity_count": [
+        "event_log",
+        "case_ids",
+        "unwanted_activities"
+      ],
+      "unwanted_activity_instance_count": [
+        "event_log",
+        "case_ids",
+        "unwanted_activities"
+      ],
+      "unwanted_activity_instance_percentage": [
+        "event_log",
+        "case_ids",
+        "unwanted_activities"
+      ],
+      "unwanted_activity_percentage": [
+        "event_log",
+        "case_ids",
+        "unwanted_activities"
+      ]
+    },
+    "instances": {
+      "outcome_unit_count_for_single_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "outcome_unit_count_for_sum_of_all_events_of_activity_instances": [
+        "event_log",
+        "instance_id"
+      ],
+      "successful_outcome_unit_count": [
+        "event_log",
+        "instance_id",
+        "aggregation_mode"
+      ],
+      "successful_outcome_unit_percentage": [
+        "event_log",
+        "instance_id",
+        "aggregation_mode"
+      ]
+    }
+  },
+  "time": {
+    "activities": {
+      "lead_time": [
+        "event_log",
+        "activity_name"
+      ],
+      "service_and_lead_time_ratio": [
+        "event_log",
+        "activity_name"
+      ],
+      "service_time": [
+        "event_log",
+        "activity_name"
+      ],
+      "waiting_time": [
+        "event_log",
+        "activity_name"
+      ]
+    },
+    "cases": {
+      "active_time": [
+        "event_log",
+        "case_id"
+      ],
+      "activity_count": [
+        "event_log",
+        "case_id"
+      ],
+      "activity_instance_count": [
+        "event_log",
+        "case_id"
+      ],
+      "automated_activity_count": [
+        "event_log",
+        "case_id",
+        "automated_activities"
+      ],
+      "automated_activity_instance_count": [
+        "event_log",
+        "case_id",
+        "automated_activities"
+      ],
+      "automated_activity_service_time": [
+        "event_log",
+        "case_id",
+        "automated_activities"
+      ],
+      "handover_count": [
+        "event_log",
+        "case_id"
+      ],
+      "idle_time": [
+        "event_log",
+        "case_id"
+      ],
+      "lead_time": [
+        "event_log",
+        "case_id"
+      ],
+      "lead_time_deviation_from_deadline": [
+        "event_log",
+        "case_id",
+        "deadline"
+      ],
+      "lead_time_deviation_from_expectation": [
+        "event_log",
+        "case_id",
+        "expectation"
+      ],
+      "lead_time_from_activity_a": [
+        "event_log",
+        "case_id",
+        "activity_a"
+      ],
+      "lead_time_from_activity_a_to_b": [
+        "event_log",
+        "case_id",
+        "activity_a",
+        "activity_b"
+      ],
+      "lead_time_to_activity_a": [
+        "event_log",
+        "case_id",
+        "activity_a"
+      ],
+      "service_and_lead_time_ratio": [
+        "event_log",
+        "case_id"
+      ],
+      "service_time": [
+        "event_log",
+        "case_id"
+      ],
+      "service_time_from_activity_a_to_b": [
+        "event_log",
+        "case_id",
+        "activity_a",
+        "activity_b",
+        "aggregation_mode"
+      ],
+      "waiting_time": [
+        "event_log",
+        "case_id"
+      ],
+      "waiting_time_from_activity_a_to_b": [
+        "event_log",
+        "case_id",
+        "activity_a",
+        "activity_b",
+        "aggregation_mode"
+      ]
+    },
+    "groups": {
+      "activity_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "activity_instance_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "automated_activity_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "automated_activity_instance_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "automated_activity_service_time": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "case_count_lead_time_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "case_count_where_lead_time_over_value": [
+        "event_log",
+        "case_ids",
+        "value"
+      ],
+      "case_percentage_where_lead_time_over_value": [
+        "event_log",
+        "case_ids",
+        "value"
+      ],
+      "case_percentage_with_missed_deadline": [
+        "event_log",
+        "case_ids",
+        "value"
+      ],
+      "expected_active_time": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_activity_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_activity_instance_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_automated_activity_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "expected_automated_activity_instance_count": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "expected_automated_activity_service_time": [
+        "event_log",
+        "case_ids",
+        "automated_activities"
+      ],
+      "expected_handover_count": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_idle_time": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_lead_time": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_lead_time_deviation_from_deadline": [
+        "event_log",
+        "case_ids",
+        "deadline"
+      ],
+      "expected_lead_time_deviation_from_expectation": [
+        "event_log",
+        "case_ids",
+        "expectation"
+      ],
+      "expected_lead_time_from_activity_a": [
+        "event_log",
+        "case_ids",
+        "activity_a"
+      ],
+      "expected_lead_time_from_activity_a_to_b": [
+        "event_log",
+        "case_ids",
+        "activity_a",
+        "activity_b"
+      ],
+      "expected_lead_time_to_activity_a": [
+        "event_log",
+        "case_ids",
+        "activity_a"
+      ],
+      "expected_service_and_lead_time_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_service_time": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_service_time_from_activity_a_to_b": [
+        "event_log",
+        "case_ids",
+        "activity_a",
+        "activity_b",
+        "aggregation_mode"
+      ],
+      "expected_waiting_time": [
+        "event_log",
+        "case_ids"
+      ],
+      "expected_waiting_time_from_activity_a_to_b": [
+        "event_log",
+        "case_ids",
+        "activity_a",
+        "activity_b",
+        "aggregation_mode"
+      ],
+      "lead_time": [
+        "event_log",
+        "case_ids"
+      ],
+      "lead_time_and_case_count_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "service_and_lead_time_ratio": [
+        "event_log",
+        "case_ids"
+      ],
+      "service_time": [
+        "event_log",
+        "case_ids"
+      ],
+      "service_time_from_activity_a_to_b": [
+        "event_log",
+        "case_ids",
+        "activity_a",
+        "activity_b",
+        "aggregation_mode"
+      ]
+    },
+    "instances": {
+      "lead_time": [
+        "event_log",
+        "instance_id"
+      ],
+      "service_and_lead_time_ratio": [
+        "event_log",
+        "instance_id"
+      ],
+      "service_time": [
+        "event_log",
+        "instance_id"
+      ],
+      "waiting_time": [
+        "event_log",
+        "instance_id"
+      ]
+    }
+  }
+}

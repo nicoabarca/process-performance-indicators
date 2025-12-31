@@ -1,0 +1,311 @@
+dimension,granularity,indicator_name,result
+process_performance_indicators.indicators.cost.activities,fixed_cost,fixed_cost,Error: Column 'cost:fixed' is not present in event log.
+process_performance_indicators.indicators.cost.activities,human_resource_count,human_resource_count,4
+process_performance_indicators.indicators.cost.activities,inventory_cost,inventory_cost,Error: Column 'cost:inventory' is not present in event log.
+process_performance_indicators.indicators.cost.activities,labor_cost,labor_cost,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.activities,labor_cost_and_total_cost_ratio,labor_cost_and_total_cost_ratio,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.activities,resource_count,resource_count,1
+process_performance_indicators.indicators.cost.activities,rework_cost,rework_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.activities,rework_count,rework_count,58
+process_performance_indicators.indicators.cost.activities,rework_percentage,rework_percentage,0.6904761904761905
+process_performance_indicators.indicators.cost.activities,total_cost,total_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.activities,total_cost_and_lead_time_ratio,total_cost_and_lead_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.activities,total_cost_and_outcome_unit_ratio,total_cost_and_outcome_unit_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.activities,total_cost_and_service_time_ratio,total_cost_and_service_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.activities,variable_cost,variable_cost,Error: Column 'cost:variable' is not present in event log.
+process_performance_indicators.indicators.cost.cases,automated_activity_cost,automated_activity_cost,0
+process_performance_indicators.indicators.cost.cases,desired_activity_count,desired_activity_count,0
+process_performance_indicators.indicators.cost.cases,direct_cost,direct_cost,0
+process_performance_indicators.indicators.cost.cases,fixed_cost,fixed_cost,Error: Column 'cost:fixed' is not present in event log.
+process_performance_indicators.indicators.cost.cases,human_resource_count,human_resource_count,7
+process_performance_indicators.indicators.cost.cases,inventory_cost,inventory_cost,Error: Column 'cost:inventory' is not present in event log.
+process_performance_indicators.indicators.cost.cases,labor_cost,labor_cost,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.cases,labor_cost_and_total_cost_ratio,labor_cost_and_total_cost_ratio,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.cases,maintenance_cost,maintenance_cost,Error: <StandardColumnNames.MAINTENANCE_COST: 'cost:maintenance'>
+process_performance_indicators.indicators.cost.cases,missed_deadline_cost,missed_deadline_cost,Error: <StandardColumnNames.MISSED_DEADLINE_COST: 'cost:missed_deadline'>
+process_performance_indicators.indicators.cost.cases,overhead_cost,overhead_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.cases,resource_count,resource_count,8
+process_performance_indicators.indicators.cost.cases,rework_cost,rework_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.cases,rework_count,rework_count,7
+process_performance_indicators.indicators.cost.cases,rework_percentage,rework_percentage,0.4375
+process_performance_indicators.indicators.cost.cases,total_cost,total_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.cases,total_cost_and_lead_time_ratio,total_cost_and_lead_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.cases,total_cost_and_outcome_unit_ratio,total_cost_and_outcome_unit_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.cases,total_cost_and_service_time_ratio,total_cost_and_service_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.cases,transportation_cost,transportation_cost,Error: <StandardColumnNames.TRANSPORTATION_COST: 'cost:transportation'>
+process_performance_indicators.indicators.cost.cases,variable_cost,variable_cost,Error: Column 'cost:variable' is not present in event log.
+process_performance_indicators.indicators.cost.cases,warehousing_cost,warehousing_cost,Error: <StandardColumnNames.WAREHOUSING_COST: 'cost:warehousing'>
+process_performance_indicators.indicators.cost.groups,automated_activity_cost,automated_activity_cost,0
+process_performance_indicators.indicators.cost.groups,desired_activity_count,desired_activity_count,0
+process_performance_indicators.indicators.cost.groups,direct_cost,direct_cost,0
+process_performance_indicators.indicators.cost.groups,expected_automated_activity_cost,expected_automated_activity_cost,0.0
+process_performance_indicators.indicators.cost.groups,expected_desired_activity_count,expected_desired_activity_count,0.0
+process_performance_indicators.indicators.cost.groups,expected_direct_cost,expected_direct_cost,0.0
+process_performance_indicators.indicators.cost.groups,expected_fixed_cost,expected_fixed_cost,Error: Column 'cost:fixed' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_human_resource_count,expected_human_resource_count,7.333333333333333
+process_performance_indicators.indicators.cost.groups,expected_inventory_cost,expected_inventory_cost,Error: Column 'cost:inventory' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_labor_cost,expected_labor_cost,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_labor_cost_and_total_cost_ratio,expected_labor_cost_and_total_cost_ratio,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_maintenance_cost,expected_maintenance_cost,Error: <StandardColumnNames.MAINTENANCE_COST: 'cost:maintenance'>
+process_performance_indicators.indicators.cost.groups,expected_missed_deadline_cost,expected_missed_deadline_cost,Error: <StandardColumnNames.MISSED_DEADLINE_COST: 'cost:missed_deadline'>
+process_performance_indicators.indicators.cost.groups,expected_overhead_cost,expected_overhead_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_resource_count,expected_resource_count,6.333333333333333
+process_performance_indicators.indicators.cost.groups,expected_rework_cost,expected_rework_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_rework_count,expected_rework_count,6.0
+process_performance_indicators.indicators.cost.groups,expected_rework_percentage,expected_rework_percentage,0.4513888888888889
+process_performance_indicators.indicators.cost.groups,expected_total_cost,expected_total_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_total_cost_and_lead_time_ratio,expected_total_cost_and_lead_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_total_cost_and_outcome_unit_ratio,expected_total_cost_and_outcome_unit_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_total_cost_and_service_time_ratio,expected_total_cost_and_service_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_transportation_cost,expected_transportation_cost,Error: <StandardColumnNames.TRANSPORTATION_COST: 'cost:transportation'>
+process_performance_indicators.indicators.cost.groups,expected_variable_cost,expected_variable_cost,Error: Column 'cost:variable' is not present in event log.
+process_performance_indicators.indicators.cost.groups,expected_warehousing_cost,expected_warehousing_cost,Error: <StandardColumnNames.WAREHOUSING_COST: 'cost:warehousing'>
+process_performance_indicators.indicators.cost.groups,fixed_cost,fixed_cost,Error: Column 'cost:fixed' is not present in event log.
+process_performance_indicators.indicators.cost.groups,human_resource_and_case_count_ratio,human_resource_and_case_count_ratio,7.333333333333333
+process_performance_indicators.indicators.cost.groups,human_resource_count,human_resource_count,22
+process_performance_indicators.indicators.cost.groups,inventory_cost,inventory_cost,Error: Column 'cost:inventory' is not present in event log.
+process_performance_indicators.indicators.cost.groups,labor_cost,labor_cost,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.groups,labor_cost_and_total_cost_ratio,labor_cost_and_total_cost_ratio,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.groups,maintenance_cost,maintenance_cost,Error: <StandardColumnNames.MAINTENANCE_COST: 'cost:maintenance'>
+process_performance_indicators.indicators.cost.groups,missed_deadline_cost,missed_deadline_cost,Error: <StandardColumnNames.MISSED_DEADLINE_COST: 'cost:missed_deadline'>
+process_performance_indicators.indicators.cost.groups,overhead_cost,overhead_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,resource_count,resource_count,10
+process_performance_indicators.indicators.cost.groups,rework_cost,rework_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,rework_count,rework_count,18
+process_performance_indicators.indicators.cost.groups,rework_percentage,rework_percentage,0.45
+process_performance_indicators.indicators.cost.groups,total_cost,total_cost,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,total_cost_and_lead_time_ratio,total_cost_and_lead_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,total_cost_and_outcome_unit_ratio,total_cost_and_outcome_unit_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,total_cost_and_service_time_ratio,total_cost_and_service_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.groups,transportation_cost,transportation_cost,Error: <StandardColumnNames.TRANSPORTATION_COST: 'cost:transportation'>
+process_performance_indicators.indicators.cost.groups,variable_cost,variable_cost,Error: Column 'cost:variable' is not present in event log.
+process_performance_indicators.indicators.cost.groups,warehousing_cost,warehousing_cost,Error: <StandardColumnNames.WAREHOUSING_COST: 'cost:warehousing'>
+process_performance_indicators.indicators.cost.instances,fixed_cost_for_single_events_of_activity_instances,fixed_cost_for_single_events_of_activity_instances,Error: Column 'cost:fixed' is not present in event log.
+process_performance_indicators.indicators.cost.instances,fixed_cost_for_sum_of_all_events_of_activity_instances,fixed_cost_for_sum_of_all_events_of_activity_instances,Error: Column 'cost:fixed' is not present in event log.
+process_performance_indicators.indicators.cost.instances,inventory_cost_for_single_events_of_activity_instances,inventory_cost_for_single_events_of_activity_instances,Error: Column 'cost:inventory' is not present in event log.
+process_performance_indicators.indicators.cost.instances,inventory_cost_for_sum_of_all_events_of_activity_instances,inventory_cost_for_sum_of_all_events_of_activity_instances,Error: Column 'cost:inventory' is not present in event log.
+process_performance_indicators.indicators.cost.instances,labor_cost_and_total_cost_ratio,labor_cost_and_total_cost_ratio,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.instances,labor_cost_for_single_events_of_activity_instances,labor_cost_for_single_events_of_activity_instances,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.instances,labor_cost_for_sum_of_all_events_of_activity_instances,labor_cost_for_sum_of_all_events_of_activity_instances,Error: Column 'cost:labor' is not present in event log.
+process_performance_indicators.indicators.cost.instances,total_cost_and_lead_time_ratio,total_cost_and_lead_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.instances,total_cost_and_outcome_unit_ratio,total_cost_and_outcome_unit_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.instances,total_cost_and_service_time_ratio,total_cost_and_service_time_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.instances,total_cost_for_single_events_of_activity_instances,total_cost_for_single_events_of_activity_instances,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.instances,total_cost_for_sum_of_all_events_of_activity_instances,total_cost_for_sum_of_all_events_of_activity_instances,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.cost.instances,variable_cost_for_single_events_of_activity_instances,variable_cost_for_single_events_of_activity_instances,Error: Column 'cost:variable' is not present in event log.
+process_performance_indicators.indicators.cost.instances,variable_cost_for_sum_of_all_events_of_activity_instances,variable_cost_for_sum_of_all_events_of_activity_instances,Error: Column 'cost:variable' is not present in event log.
+process_performance_indicators.indicators.time.activities,lead_time,lead_time,74 days 17:26:00
+process_performance_indicators.indicators.time.activities,service_and_lead_time_ratio,service_and_lead_time_ratio,0.1683828039328662
+process_performance_indicators.indicators.time.activities,service_time,service_time,12 days 13:59:00
+process_performance_indicators.indicators.time.activities,waiting_time,waiting_time,62 days 03:27:00
+process_performance_indicators.indicators.time.cases,active_time,active_time,"Error: Error performing indicator division. Numerator value=0 days 00:01:00, denominator value=0"
+process_performance_indicators.indicators.time.cases,activity_count,activity_count,9
+process_performance_indicators.indicators.time.cases,activity_instance_count,activity_instance_count,16
+process_performance_indicators.indicators.time.cases,automated_activity_count,automated_activity_count,0
+process_performance_indicators.indicators.time.cases,automated_activity_instance_count,automated_activity_instance_count,0
+process_performance_indicators.indicators.time.cases,automated_activity_service_time,automated_activity_service_time,0 days 00:00:00
+process_performance_indicators.indicators.time.cases,handover_count,handover_count,8.0
+process_performance_indicators.indicators.time.cases,idle_time,idle_time,"Error: Error performing indicator division. Numerator value=0 days 00:01:00, denominator value=0"
+process_performance_indicators.indicators.time.cases,lead_time,lead_time,28 days 21:36:00
+process_performance_indicators.indicators.time.cases,lead_time_deviation_from_deadline,lead_time_deviation_from_deadline,Error: unsupported operand type(s) for -: 'int' and 'Timedelta'
+process_performance_indicators.indicators.time.cases,lead_time_deviation_from_expectation,lead_time_deviation_from_expectation,Error: unsupported operand type(s) for -: 'int' and 'Timedelta'
+process_performance_indicators.indicators.time.cases,lead_time_from_activity_a,lead_time_from_activity_a,
+process_performance_indicators.indicators.time.cases,lead_time_from_activity_a_to_b,lead_time_from_activity_a_to_b,
+process_performance_indicators.indicators.time.cases,lead_time_to_activity_a,lead_time_to_activity_a,
+process_performance_indicators.indicators.time.cases,service_and_lead_time_ratio,service_and_lead_time_ratio,0.06329296424452134
+process_performance_indicators.indicators.time.cases,service_time,service_time,1 days 19:54:00
+process_performance_indicators.indicators.time.cases,service_time_from_activity_a_to_b,service_time_from_activity_a_to_b,
+process_performance_indicators.indicators.time.cases,waiting_time,waiting_time,30 days 22:52:00
+process_performance_indicators.indicators.time.cases,waiting_time_from_activity_a_to_b,waiting_time_from_activity_a_to_b,
+process_performance_indicators.indicators.time.groups,activity_count,activity_count,12
+process_performance_indicators.indicators.time.groups,activity_instance_count,activity_instance_count,40
+process_performance_indicators.indicators.time.groups,automated_activity_count,automated_activity_count,0
+process_performance_indicators.indicators.time.groups,automated_activity_instance_count,automated_activity_instance_count,0
+process_performance_indicators.indicators.time.groups,automated_activity_service_time,automated_activity_service_time,0 days 00:00:00
+process_performance_indicators.indicators.time.groups,case_count_lead_time_ratio,case_count_lead_time_ratio,0.0036307890914958852
+process_performance_indicators.indicators.time.groups,case_count_where_lead_time_over_value,case_count_where_lead_time_over_value,Error: '>' not supported between instances of 'Timedelta' and 'str'
+process_performance_indicators.indicators.time.groups,case_percentage_where_lead_time_over_value,case_percentage_where_lead_time_over_value,Error: '>' not supported between instances of 'Timedelta' and 'str'
+process_performance_indicators.indicators.time.groups,case_percentage_with_missed_deadline,case_percentage_with_missed_deadline,Error: '>' not supported between instances of 'Timestamp' and 'str'
+process_performance_indicators.indicators.time.groups,expected_active_time,expected_active_time,"Error: Error performing indicator division. Numerator value=0 days 01:12:00, denominator value=0"
+process_performance_indicators.indicators.time.groups,expected_activity_count,expected_activity_count,7.333333333333333
+process_performance_indicators.indicators.time.groups,expected_activity_instance_count,expected_activity_instance_count,13.333333333333334
+process_performance_indicators.indicators.time.groups,expected_automated_activity_count,expected_automated_activity_count,0.0
+process_performance_indicators.indicators.time.groups,expected_automated_activity_instance_count,expected_automated_activity_instance_count,0.0
+process_performance_indicators.indicators.time.groups,expected_automated_activity_service_time,expected_automated_activity_service_time,0 days 00:00:00
+process_performance_indicators.indicators.time.groups,expected_handover_count,expected_handover_count,9.333333333333334
+process_performance_indicators.indicators.time.groups,expected_idle_time,expected_idle_time,"Error: Error performing indicator division. Numerator value=0 days 01:12:00, denominator value=0"
+process_performance_indicators.indicators.time.groups,expected_lead_time,expected_lead_time,18 days 14:33:40
+process_performance_indicators.indicators.time.groups,expected_lead_time_deviation_from_deadline,expected_lead_time_deviation_from_deadline,Error: unsupported operand type(s) for -: 'int' and 'Timedelta'
+process_performance_indicators.indicators.time.groups,expected_lead_time_deviation_from_expectation,expected_lead_time_deviation_from_expectation,Error: unsupported operand type(s) for -: 'int' and 'Timedelta'
+process_performance_indicators.indicators.time.groups,expected_lead_time_from_activity_a,expected_lead_time_from_activity_a,"Error: Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
+process_performance_indicators.indicators.time.groups,expected_lead_time_from_activity_a_to_b,expected_lead_time_from_activity_a_to_b,"Error: Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
+process_performance_indicators.indicators.time.groups,expected_lead_time_to_activity_a,expected_lead_time_to_activity_a,"Error: Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
+process_performance_indicators.indicators.time.groups,expected_service_and_lead_time_ratio,expected_service_and_lead_time_ratio,0.27562483671514415
+process_performance_indicators.indicators.time.groups,expected_service_time,expected_service_time,1 days 17:01:40
+process_performance_indicators.indicators.time.groups,expected_service_time_from_activity_a_to_b,expected_service_time_from_activity_a_to_b,"Error: Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
+process_performance_indicators.indicators.time.groups,expected_waiting_time,expected_waiting_time,20 days 00:35:00
+process_performance_indicators.indicators.time.groups,expected_waiting_time_from_activity_a_to_b,expected_waiting_time_from_activity_a_to_b,"Error: Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
+process_performance_indicators.indicators.time.groups,lead_time,lead_time,34 days 10:16:00
+process_performance_indicators.indicators.time.groups,lead_time_and_case_count_ratio,lead_time_and_case_count_ratio,11 days 11:25:20
+process_performance_indicators.indicators.time.groups,service_and_lead_time_ratio,service_and_lead_time_ratio,0.14896320800387283
+process_performance_indicators.indicators.time.groups,service_time,service_time,5 days 03:05:00
+process_performance_indicators.indicators.time.groups,service_time_from_activity_a_to_b,service_time_from_activity_a_to_b,0 days 00:00:00
+process_performance_indicators.indicators.time.instances,lead_time,lead_time,0 days 00:04:00
+process_performance_indicators.indicators.time.instances,service_and_lead_time_ratio,service_and_lead_time_ratio,0.75
+process_performance_indicators.indicators.time.instances,service_time,service_time,0 days 00:03:00
+process_performance_indicators.indicators.time.instances,waiting_time,waiting_time,0 days 00:01:00
+process_performance_indicators.indicators.quality.activities,activity_instance_count_by_human_resource,activity_instance_count_by_human_resource,0
+process_performance_indicators.indicators.quality.activities,client_count_and_total_cost_ratio,client_count_and_total_cost_ratio,Error: <StandardColumnNames.CLIENT: 'client'>
+process_performance_indicators.indicators.quality.activities,human_resource_count,human_resource_count,4
+process_performance_indicators.indicators.quality.activities,outcome_unit_count,outcome_unit_count,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.activities,rework_count,rework_count,58
+process_performance_indicators.indicators.quality.activities,rework_count_by_value,rework_count_by_value,Error: unsupported operand type(s) for -: 'int' and 'str'
+process_performance_indicators.indicators.quality.activities,rework_percentage,rework_percentage,0.6904761904761905
+process_performance_indicators.indicators.quality.activities,rework_percentage_by_value,rework_percentage_by_value,Error: unsupported operand type(s) for -: 'int' and 'str'
+process_performance_indicators.indicators.quality.activities,rework_time,rework_time,46 days 19:36:00
+process_performance_indicators.indicators.quality.activities,successful_outcome_unit_count,successful_outcome_unit_count,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.activities,successful_outcome_unit_percentage,successful_outcome_unit_percentage,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.activities,total_cost_and_client_count_ratio,total_cost_and_client_count_ratio,Error: Column 'cost:total' is not present in event log.
+process_performance_indicators.indicators.quality.cases,activity_instance_count_by_human_resource,activity_instance_count_by_human_resource,0
+process_performance_indicators.indicators.quality.cases,activity_instance_count_by_role,activity_instance_count_by_role,Error: ROLE column not found in event log. Please ensure the event log contains the role column.
+process_performance_indicators.indicators.quality.cases,automated_activity_count,automated_activity_count,0
+process_performance_indicators.indicators.quality.cases,automated_activity_instance_count,automated_activity_instance_count,0
+process_performance_indicators.indicators.quality.cases,desired_activity_count,desired_activity_count,0
+process_performance_indicators.indicators.quality.cases,human_resource_count,human_resource_count,7
+process_performance_indicators.indicators.quality.cases,non_automated_activity_count,non_automated_activity_count,9
+process_performance_indicators.indicators.quality.cases,non_automated_activity_instance_count,non_automated_activity_instance_count,16
+process_performance_indicators.indicators.quality.cases,outcome_unit_count,outcome_unit_count,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.cases,overall_quality,overall_quality,Error: <StandardColumnNames.QUALITY: 'quality'>
+process_performance_indicators.indicators.quality.cases,repeatability,repeatability,0.4375
+process_performance_indicators.indicators.quality.cases,rework_count,rework_count,7
+process_performance_indicators.indicators.quality.cases,rework_count_by_value,rework_count_by_value,Error: unsupported operand type(s) for -: 'int' and 'str'
+process_performance_indicators.indicators.quality.cases,rework_of_activities_subset,rework_of_activities_subset,0
+process_performance_indicators.indicators.quality.cases,rework_percentage,rework_percentage,0.4375
+process_performance_indicators.indicators.quality.cases,rework_percentage_by_value,rework_percentage_by_value,Error: unsupported operand type(s) for -: 'int' and 'str'
+process_performance_indicators.indicators.quality.cases,rework_time,rework_time,12 days 00:22:00
+process_performance_indicators.indicators.quality.cases,successful_outcome_unit_count,successful_outcome_unit_count,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.cases,successful_outcome_unit_percentage,successful_outcome_unit_percentage,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.cases,unwanted_activity_count,unwanted_activity_count,0
+process_performance_indicators.indicators.quality.cases,unwanted_activity_instance_count,unwanted_activity_instance_count,0
+process_performance_indicators.indicators.quality.cases,unwanted_activity_instance_percentage,unwanted_activity_instance_percentage,0.0
+process_performance_indicators.indicators.quality.cases,unwanted_activity_percentage,unwanted_activity_percentage,0.0
+process_performance_indicators.indicators.quality.groups,activity_instance_count_by_human_resource,activity_instance_count_by_human_resource,0
+process_performance_indicators.indicators.quality.groups,activity_instance_count_by_role,activity_instance_count_by_role,Error: ROLE column not found in event log. Please ensure the event log contains the role column.
+process_performance_indicators.indicators.quality.groups,automated_activity_count,automated_activity_count,0
+process_performance_indicators.indicators.quality.groups,automated_activity_instance_count,automated_activity_instance_count,0
+process_performance_indicators.indicators.quality.groups,case_and_client_count_ratio,case_and_client_count_ratio,Error: <StandardColumnNames.CLIENT: 'client'>
+process_performance_indicators.indicators.quality.groups,case_count_where_activity_after_time_frame,case_count_where_activity_after_time_frame,0
+process_performance_indicators.indicators.quality.groups,case_count_where_activity_before_time_frame,case_count_where_activity_before_time_frame,0
+process_performance_indicators.indicators.quality.groups,case_count_where_activity_during_time_frame,case_count_where_activity_during_time_frame,0
+process_performance_indicators.indicators.quality.groups,case_count_where_end_activity_is_a,case_count_where_end_activity_is_a,Error: case_count_where_end_activity_is_a() missing 1 required positional argument: 'a_activity_name'
+process_performance_indicators.indicators.quality.groups,case_count_where_start_activity_is_a,case_count_where_start_activity_is_a,Error: case_count_where_start_activity_is_a() missing 1 required positional argument: 'a_activity_name'
+process_performance_indicators.indicators.quality.groups,case_count_with_rework,case_count_with_rework,3
+process_performance_indicators.indicators.quality.groups,case_percentage_where_activity_after_time_frame,case_percentage_where_activity_after_time_frame,0.0
+process_performance_indicators.indicators.quality.groups,case_percentage_where_activity_before_time_frame,case_percentage_where_activity_before_time_frame,0.0
+process_performance_indicators.indicators.quality.groups,case_percentage_where_activity_during_time_frame,case_percentage_where_activity_during_time_frame,0.0
+process_performance_indicators.indicators.quality.groups,case_percentage_where_end_activity_is_a,case_percentage_where_end_activity_is_a,Error: case_percentage_where_end_activity_is_a() missing 1 required positional argument: 'a_activity_name'
+process_performance_indicators.indicators.quality.groups,case_percentage_where_start_activity_is_a,case_percentage_where_start_activity_is_a,Error: case_percentage_where_start_activity_is_a() missing 1 required positional argument: 'a_activity_name'
+process_performance_indicators.indicators.quality.groups,case_percentage_with_missed_deadline,case_percentage_with_missed_deadline,Error: '>' not supported between instances of 'Timestamp' and 'int'
+process_performance_indicators.indicators.quality.groups,case_percentage_with_rework,case_percentage_with_rework,1.0
+process_performance_indicators.indicators.quality.groups,client_count_and_total_cost_ratio,client_count_and_total_cost_ratio,Error: <StandardColumnNames.CLIENT: 'client'>
+process_performance_indicators.indicators.quality.groups,desired_activity_count,desired_activity_count,0
+process_performance_indicators.indicators.quality.groups,expected_activity_instance_count_by_human_resource,expected_activity_instance_count_by_human_resource,0.0
+process_performance_indicators.indicators.quality.groups,expected_activity_instance_count_by_role,expected_activity_instance_count_by_role,Error: ROLE column not found in event log. Please ensure the event log contains the role column.
+process_performance_indicators.indicators.quality.groups,expected_automated_activity_count,expected_automated_activity_count,0.0
+process_performance_indicators.indicators.quality.groups,expected_automated_activity_instance_count,expected_automated_activity_instance_count,0.0
+process_performance_indicators.indicators.quality.groups,expected_client_count_and_total_cost_ratio,expected_client_count_and_total_cost_ratio,Error: <StandardColumnNames.CLIENT: 'client'>
+process_performance_indicators.indicators.quality.groups,expected_desired_activity_count,expected_desired_activity_count,0.0
+process_performance_indicators.indicators.quality.groups,expected_human_resource_count,expected_human_resource_count,0.55
+process_performance_indicators.indicators.quality.groups,expected_non_automated_activity_count,expected_non_automated_activity_count,0.55
+process_performance_indicators.indicators.quality.groups,expected_non_automated_activity_instance_count,expected_non_automated_activity_instance_count,13.333333333333334
+process_performance_indicators.indicators.quality.groups,expected_outcome_unit_count,expected_outcome_unit_count,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.groups,expected_overall_quality,expected_overall_quality,Error: <StandardColumnNames.QUALITY: 'quality'>
+process_performance_indicators.indicators.quality.groups,expected_repeatability,expected_repeatability,0.44999999999999996
+process_performance_indicators.indicators.quality.groups,expected_rework_count,expected_rework_count,6.0
+process_performance_indicators.indicators.quality.groups,expected_rework_count_by_value,expected_rework_count_by_value,Error: unsupported operand type(s) for -: 'int' and 'str'
+process_performance_indicators.indicators.quality.groups,expected_rework_of_activities_subset,expected_rework_of_activities_subset,0.0
+process_performance_indicators.indicators.quality.groups,expected_rework_percentage,expected_rework_percentage,0.4513888888888889
+process_performance_indicators.indicators.quality.groups,expected_rework_percentage_by_value,expected_rework_percentage_by_value,Error: unsupported operand type(s) for -: 'int' and 'str'
+process_performance_indicators.indicators.quality.groups,expected_rework_time,expected_rework_time,3 days 14:54:40
+process_performance_indicators.indicators.quality.groups,expected_successful_outcome_unit_count,expected_successful_outcome_unit_count,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.groups,expected_successful_outcome_unit_percentage,expected_successful_outcome_unit_percentage,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.groups,expected_total_cost_and_client_count_ratio,expected_total_cost_and_client_count_ratio,Error: <StandardColumnNames.CLIENT: 'client'>
+process_performance_indicators.indicators.quality.groups,expected_unwanted_activity_count,expected_unwanted_activity_count,0
+process_performance_indicators.indicators.quality.groups,expected_unwanted_activity_instance_count,expected_unwanted_activity_instance_count,0.0
+process_performance_indicators.indicators.quality.groups,expected_unwanted_activity_instance_percentage,expected_unwanted_activity_instance_percentage,0.0
+process_performance_indicators.indicators.quality.groups,expected_unwanted_activity_percentage,expected_unwanted_activity_percentage,0.0
+process_performance_indicators.indicators.quality.groups,human_resource_count,human_resource_count,14
+process_performance_indicators.indicators.quality.groups,non_automated_activity_count,non_automated_activity_count,12
+process_performance_indicators.indicators.quality.groups,non_automated_activity_instance_count,non_automated_activity_instance_count,40
+process_performance_indicators.indicators.quality.groups,outcome_unit_count,outcome_unit_count,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.groups,repeatability,repeatability,0.44999999999999996
+process_performance_indicators.indicators.quality.groups,rework_count,rework_count,18
+process_performance_indicators.indicators.quality.groups,rework_count_by_value,rework_count_by_value,Error: unsupported operand type(s) for -: 'int' and 'str'
+process_performance_indicators.indicators.quality.groups,rework_of_activities_subset,rework_of_activities_subset,0
+process_performance_indicators.indicators.quality.groups,rework_percentage,rework_percentage,0.45
+process_performance_indicators.indicators.quality.groups,rework_percentage_by_value,rework_percentage_by_value,Error: unsupported operand type(s) for -: 'int' and 'str'
+process_performance_indicators.indicators.quality.groups,rework_time,rework_time,10 days 20:44:00
+process_performance_indicators.indicators.quality.groups,successful_outcome_unit_count,successful_outcome_unit_count,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.groups,successful_outcome_unit_percentage,successful_outcome_unit_percentage,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.groups,total_cost_and_client_count_ratio,total_cost_and_client_count_ratio,Error: <StandardColumnNames.CLIENT: 'client'>
+process_performance_indicators.indicators.quality.groups,unwanted_activity_count,unwanted_activity_count,0
+process_performance_indicators.indicators.quality.groups,unwanted_activity_instance_count,unwanted_activity_instance_count,0
+process_performance_indicators.indicators.quality.groups,unwanted_activity_instance_percentage,unwanted_activity_instance_percentage,0.0
+process_performance_indicators.indicators.quality.groups,unwanted_activity_percentage,unwanted_activity_percentage,0.0
+process_performance_indicators.indicators.quality.instances,outcome_unit_count_for_single_events_of_activity_instances,outcome_unit_count_for_single_events_of_activity_instances,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.instances,successful_outcome_unit_count,successful_outcome_unit_count,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.quality.instances,successful_outcome_unit_percentage,successful_outcome_unit_percentage,Error: <StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+process_performance_indicators.indicators.flexibility.activities,activity_instance_and_human_resource_count_ratio,activity_instance_and_human_resource_count_ratio,21.0
+process_performance_indicators.indicators.flexibility.activities,client_count,client_count,Error: <StandardColumnNames.CLIENT: 'client'>
+process_performance_indicators.indicators.flexibility.activities,directly_follows_relations_count,directly_follows_relations_count,10
+process_performance_indicators.indicators.flexibility.activities,human_resource_count,human_resource_count,4
+process_performance_indicators.indicators.flexibility.cases,activity_and_role_count_ratio,activity_and_role_count_ratio,Error: Column 'org:role' is not present in event log.
+process_performance_indicators.indicators.flexibility.cases,activity_instance_and_human_resource_count_ratio,activity_instance_and_human_resource_count_ratio,2.2857142857142856
+process_performance_indicators.indicators.flexibility.cases,directly_follows_relations_and_activity_count_ratio,directly_follows_relations_and_activity_count_ratio,1.2222222222222223
+process_performance_indicators.indicators.flexibility.cases,directly_follows_relations_count,directly_follows_relations_count,11
+process_performance_indicators.indicators.flexibility.cases,human_resource_count,human_resource_count,7
+process_performance_indicators.indicators.flexibility.cases,optional_activity_count,optional_activity_count,9
+process_performance_indicators.indicators.flexibility.cases,optionality,optionality,1.0
+process_performance_indicators.indicators.flexibility.cases,role_count,role_count,Error: Column 'org:role' is not present in event log.
+process_performance_indicators.indicators.flexibility.cases,variant_case_coverage,variant_case_coverage,0.0044444444444444444
+process_performance_indicators.indicators.flexibility.groups,activity_and_role_count_ratio,activity_and_role_count_ratio,Error: Column 'org:role' is not present in event log.
+process_performance_indicators.indicators.flexibility.groups,activity_instance_and_human_resource_count_ratio,activity_instance_and_human_resource_count_ratio,1.8181818181818181
+process_performance_indicators.indicators.flexibility.groups,client_count,client_count,Error: <StandardColumnNames.CLIENT: 'client'>
+process_performance_indicators.indicators.flexibility.groups,directly_follows_relations_and_activity_count_ratio,directly_follows_relations_and_activity_count_ratio,0.9545454545454546
+process_performance_indicators.indicators.flexibility.groups,directly_follows_relations_count,directly_follows_relations_count,21
+process_performance_indicators.indicators.flexibility.groups,expected_activity_and_role_count_ratio,expected_activity_and_role_count_ratio,Error: Column 'org:role' is not present in event log.
+process_performance_indicators.indicators.flexibility.groups,expected_activity_instance_and_human_resource_count_ratio,expected_activity_instance_and_human_resource_count_ratio,1.8181818181818181
+process_performance_indicators.indicators.flexibility.groups,expected_client_count,expected_client_count,Error: <StandardColumnNames.CLIENT: 'client'>
+process_performance_indicators.indicators.flexibility.groups,expected_directly_follows_relations_and_activity_count_ratio,expected_directly_follows_relations_and_activity_count_ratio,1.1363636363636365
+process_performance_indicators.indicators.flexibility.groups,expected_directly_follows_relations_count,expected_directly_follows_relations_count,8.333333333333334
+process_performance_indicators.indicators.flexibility.groups,expected_human_resource_count,expected_human_resource_count,7.333333333333333
+process_performance_indicators.indicators.flexibility.groups,expected_optional_activity_count,expected_optional_activity_count,7.333333333333333
+process_performance_indicators.indicators.flexibility.groups,expected_optionality,expected_optionality,1.0
+process_performance_indicators.indicators.flexibility.groups,expected_role_count,expected_role_count,Error: Column 'org:role' is not present in event log.
+process_performance_indicators.indicators.flexibility.groups,human_resource_count,human_resource_count,22
+process_performance_indicators.indicators.flexibility.groups,optional_activity_count,optional_activity_count,"Error: ""value"" parameter must be a scalar, dict or Series, but you passed a ""set"""
+process_performance_indicators.indicators.flexibility.groups,optionality,optionality,"Error: ""value"" parameter must be a scalar, dict or Series, but you passed a ""set"""
+process_performance_indicators.indicators.flexibility.groups,role_and_variant_count_ratio,role_and_variant_count_ratio,Error: Column 'org:role' is not present in event log.
+process_performance_indicators.indicators.flexibility.groups,role_count,role_count,Error: Column 'org:role' is not present in event log.
+process_performance_indicators.indicators.flexibility.groups,variant_case_coverage,variant_case_coverage,0.013333333333333334
+process_performance_indicators.indicators.flexibility.groups,variant_count,variant_count,3
+process_performance_indicators.indicators.general.activities,activity_instance_count,activity_instance_count,84
+process_performance_indicators.indicators.general.activities,human_resource_count,human_resource_count,4
+process_performance_indicators.indicators.general.activities,resource_count,resource_count,1
+process_performance_indicators.indicators.general.cases,activity_count,activity_count,9
+process_performance_indicators.indicators.general.cases,activity_instance_count,activity_instance_count,16
+process_performance_indicators.indicators.general.cases,human_resource_count,human_resource_count,7
+process_performance_indicators.indicators.general.cases,resource_count,resource_count,8
+process_performance_indicators.indicators.general.cases,role_count,role_count,Error: Column 'org:role' is not present in event log.
+process_performance_indicators.indicators.general.groups,activity_count,activity_count,22
+process_performance_indicators.indicators.general.groups,activity_instance_count,activity_instance_count,40
+process_performance_indicators.indicators.general.groups,case_count,case_count,3
+process_performance_indicators.indicators.general.groups,expected_activity_count,expected_activity_count,7.333333333333333
+process_performance_indicators.indicators.general.groups,expected_activity_instance_count,expected_activity_instance_count,13.333333333333334
+process_performance_indicators.indicators.general.groups,expected_human_resource_count,expected_human_resource_count,7.333333333333333
+process_performance_indicators.indicators.general.groups,expected_resource_count,expected_resource_count,6.333333333333333
+process_performance_indicators.indicators.general.groups,expected_role_count,expected_role_count,Error: Column 'org:role' is not present in event log.
+process_performance_indicators.indicators.general.groups,human_resource_count,human_resource_count,22
+process_performance_indicators.indicators.general.groups,resource_count,resource_count,19
+process_performance_indicators.indicators.general.groups,role_count,role_count,Error: Column 'org:role' is not present in event log.

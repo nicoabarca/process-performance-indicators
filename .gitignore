@@ -4,6 +4,9 @@ sample_logs/
 # Ignore MacOS generated files
 .DS_Store
 
+# Ignore VSCode generated files
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

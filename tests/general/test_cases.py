@@ -1,7 +1,7 @@
 import pytest
 
 from process_performance_indicators.exceptions import ColumnNotFoundError
-from process_performance_indicators.general.cases import (
+from process_performance_indicators.indicators.general.cases import (
     activity_count,
     activity_instance_count,
     human_resource_count,
