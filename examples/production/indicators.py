@@ -1,12 +1,13 @@
 import pandas as pd
 
 from process_performance_indicators import StandardColumnMapping, StandardColumnNames, event_log_formatter
-from process_performance_indicators.execution import IndicatorArguments, run_indicators_to_csv
+from process_performance_indicators.execution import IndicatorArguments, run_indicators_to_csv, summary_to_csv
 
 # DATASET PARAMETERS
 DATASET_PATH = "production.csv"
 FORMATTED_DATASET_PATH = "production_formatted.csv"
 RESULTS_CSV_PATH = "production_results.csv"
+SUMMARY_CSV_PATH = "production_summary.csv"
 
 # COLUMN MAPPING (keep dataset-specific details here)
 COLUMN_MAPPING = StandardColumnMapping(
@@ -46,7 +47,7 @@ def build_indicator_arguments(event_log: pd.DataFrame) -> IndicatorArguments:
         automated_activities=sample(StandardColumnNames.ACTIVITY, n=3),
         desired_activities=sample(StandardColumnNames.ACTIVITY, n=3),
         unwanted_activities=sample(StandardColumnNames.ACTIVITY, n=3),
-        direct_costs_activities=sample(StandardColumnNames.ACTIVITY, n=3),
+        direct_cost_activities=sample(StandardColumnNames.ACTIVITY, n=3),
         activities_subset=sample(StandardColumnNames.ACTIVITY, n=3),
         value="rework_value",
         deadline=500000,
@@ -72,6 +73,12 @@ def main() -> None:
         csv_path=RESULTS_CSV_PATH,
         dimension=DIMENSIONS,
         granularity=GRANULARITIES,
+        verbose=True,
+    )
+    summary_to_csv(
+        results_csv_path=RESULTS_CSV_PATH,
+        output_csv_path=SUMMARY_CSV_PATH,
+        formatted_event_log_path=FORMATTED_DATASET_PATH,
     )
 
 

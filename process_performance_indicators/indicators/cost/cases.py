@@ -10,6 +10,7 @@ import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.utils.column_validation import assert_column_exists
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -58,7 +59,7 @@ def desired_activity_count(event_log: pd.DataFrame, case_id: str, desired_activi
 
 
 def direct_cost(
-    event_log: pd.DataFrame, case_id: str, direct_costs_activities: set[str], aggregation_mode: Literal["sgl", "sum"]
+    event_log: pd.DataFrame, case_id: str, direct_cost_activities: set[str], aggregation_mode: Literal["sgl", "sum"]
 ) -> int | float:
     """
     The total cost associated with all instantiations of activities that have a direct effect
@@ -67,7 +68,7 @@ def direct_cost(
     Args:
         event_log: The event log.
         case_id: The case id.
-        direct_costs_activities: The set of activities that have a direct effect
+        direct_cost_activities: The set of activities that have a direct effect
             on the outcome of the case.
         aggregation_mode: The aggregation mode.
             "sgl": Considers single events of activity instances for cost calculations.
@@ -81,7 +82,7 @@ def direct_cost(
 
     total_cost = 0
     for instance_id in cases_utils.inst(event_log, case_id):
-        if instances_utils.act(event_log, instance_id) in direct_costs_activities:
+        if instances_utils.act(event_log, instance_id) in direct_cost_activities:
             total_cost += aggregation_function[aggregation_mode](event_log, instance_id) or 0
 
     return total_cost
@@ -201,6 +202,7 @@ def maintenance_cost(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.MAINTENANCE_COST)
     case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
     if not case_events[StandardColumnNames.MAINTENANCE_COST].empty:
         return float(case_events[StandardColumnNames.MAINTENANCE_COST].unique()[0])
@@ -216,6 +218,7 @@ def missed_deadline_cost(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.MISSED_DEADLINE_COST)
     case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
     if not case_events[StandardColumnNames.MISSED_DEADLINE_COST].empty:
         return float(case_events[StandardColumnNames.MISSED_DEADLINE_COST].unique()[0])
@@ -407,6 +410,7 @@ def transportation_cost(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.TRANSPORTATION_COST)
     case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
     if not case_events[StandardColumnNames.TRANSPORTATION_COST].empty:
         return float(case_events[StandardColumnNames.TRANSPORTATION_COST].unique()[0])
@@ -445,6 +449,7 @@ def warehousing_cost(event_log: pd.DataFrame, case_id: str) -> float:
         case_id: The case id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.WAREHOUSING_COST)
     case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
     if not case_events[StandardColumnNames.WAREHOUSING_COST].empty:
         return float(case_events[StandardColumnNames.WAREHOUSING_COST].unique()[0])

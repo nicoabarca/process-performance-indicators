@@ -99,7 +99,7 @@ def expected_desired_activity_count(
 def direct_cost(
     event_log: pd.DataFrame,
     case_ids: list[str] | set[str],
-    direct_costs_activities: set[str],
+    direct_cost_activities: set[str],
     aggregation_mode: Literal["sgl", "sum"],
 ) -> int | float:
     """
@@ -109,7 +109,7 @@ def direct_cost(
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        direct_costs_activities: The set of activities that have a direct effect on the outcome of the group of cases.
+        direct_cost_activities: The set of activities that have a direct effect on the outcome of the group of cases.
         aggregation_mode: The aggregation mode.
             "sgl": Considers single events of activity instances for cost calculations.
             "sum": Considers the sum of all events of activity instances for cost calculations.
@@ -117,14 +117,14 @@ def direct_cost(
     """
     total_cost = 0
     for case_id in case_ids:
-        total_cost += cost_cases_indicators.direct_cost(event_log, case_id, direct_costs_activities, aggregation_mode)
+        total_cost += cost_cases_indicators.direct_cost(event_log, case_id, direct_cost_activities, aggregation_mode)
     return total_cost
 
 
 def expected_direct_cost(
     event_log: pd.DataFrame,
     case_ids: list[str] | set[str],
-    direct_costs_activities: set[str],
+    direct_cost_activities: set[str],
     aggregation_mode: Literal["sgl", "sum"],
 ) -> int | float:
     """
@@ -134,13 +134,13 @@ def expected_direct_cost(
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        direct_costs_activities: The set of activities that have a direct effect on the outcome of the group of cases.
+        direct_cost_activities: The set of activities that have a direct effect on the outcome of the group of cases.
         aggregation_mode: The aggregation mode.
             "sgl": Considers single events of activity instances for cost calculations.
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    numerator = direct_cost(event_log, case_ids, direct_costs_activities, aggregation_mode)
+    numerator = direct_cost(event_log, case_ids, direct_cost_activities, aggregation_mode)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
     return safe_division(numerator, denominator)
 

@@ -6,6 +6,7 @@ import process_performance_indicators.indicators.general.groups as general_group
 import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.groups as groups_utils
 from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.utils.column_validation import assert_column_exists
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -86,6 +87,7 @@ def client_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int
         case_ids: The case IDs.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.CLIENT)
     clients = set()
     for case_id in case_ids:
         clients.update(
@@ -226,20 +228,18 @@ def optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
         case_ids: The case IDs.
 
     """
-    # TODO: Fix this function logic
-    filtered_log = event_log[event_log[StandardColumnNames.CASE_ID].isin(case_ids)]
+    group_case_ids_log = event_log[event_log[StandardColumnNames.CASE_ID].isin(case_ids)]
+    group_activities = group_case_ids_log.groupby(StandardColumnNames.CASE_ID)[StandardColumnNames.ACTIVITY]
 
-    case_activity_sets = (
-        filtered_log.groupby(StandardColumnNames.CASE_ID)[StandardColumnNames.ACTIVITY]
-        .apply(set)
-        .reindex(case_ids)
-        .fillna(set())
+    other_cases = event_log[~event_log[StandardColumnNames.CASE_ID].isin(case_ids)]
+    other_cases_activities = (
+        other_cases.groupby(StandardColumnNames.CASE_ID)[StandardColumnNames.ACTIVITY].apply(set).tolist()
     )
 
-    all_activities = set.union(*case_activity_sets)
-
     optional_activities = {
-        activity for activity in all_activities if any(activity not in activities for activities in case_activity_sets)
+        activity
+        for activity in group_activities
+        if any(activity not in activities for activities in other_cases_activities)
     }
 
     return len(optional_activities)
