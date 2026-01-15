@@ -4,47 +4,16 @@ from pathlib import Path
 
 import pandas as pd
 
+from process_performance_indicators.constants import StandardColumnNames
+
 
 def _identify_relevant_columns(formatted_event_log: pd.DataFrame) -> set[str]:
     """Identify columns in the event log that are used by indicators."""
-    # Define known column patterns that indicators may use
-    known_columns = {
-        # Core columns
-        "case:concept:name",
-        "time:timestamp",
-        "lifecycle:transition",
-        # Resource columns
-        "org:resource",
-        "org:role",
-        "org:group",
-        # Cost columns
-        "cost:total",
-        "cost:fixed",
-        "cost:variable",
-        "cost:labor",
-        "cost:inventory",
-        "cost:maintenance",
-        "cost:transportation",
-        "cost:warehousing",
-        "cost:missed_deadline",
-        # Quality columns
-        "quality:conformance",
-        "quality:accuracy",
-        # Custom columns
-        "instance_id",
-        "outcome:unit",
-    }
+    known_columns = {e.value for e in StandardColumnNames}
 
     # Find which known columns exist in the event log
     existing_columns = set(formatted_event_log.columns)
-    relevant = known_columns.intersection(existing_columns)
-
-    # Also check for any quality:* columns that might not be in our predefined list
-    for col in existing_columns:
-        if col.startswith(("quality:", "cost:")):
-            relevant.add(col)
-
-    return relevant
+    return known_columns.intersection(existing_columns)
 
 
 def _count_by_dimension(results_df: pd.DataFrame, dimension: str) -> tuple[int, int]:
@@ -96,7 +65,7 @@ def summary_to_csv(
 
     # Identify relevant columns
     relevant_cols = _identify_relevant_columns(event_log_df)
-    total_cols = len(event_log_df.columns)
+    total_attributes = 21
     relevant_count = len(relevant_cols)
 
     # Calculate dimension statistics
@@ -128,7 +97,7 @@ def summary_to_csv(
     # Build the summary row
     summary_row = {
         "event_log": event_log_name,
-        "relevant_attributes": f"{relevant_count} / {total_cols}",
+        "relevant_attributes": f"{relevant_count} / {total_attributes}",
         **dimension_stats,
         **granularity_stats,
         "overall": f"{total_success} / {total_indicators} ({overall_percentage:.1f}%)",

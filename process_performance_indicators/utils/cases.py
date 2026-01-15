@@ -1,5 +1,4 @@
 import itertools
-from datetime import datetime
 
 import pandas as pd
 
@@ -184,7 +183,6 @@ def seq(event_log: pd.DataFrame, case_id: str) -> set[tuple[str, ...]]:
         trace_cache.save_sequence(event_log, case_id, result)
         return result
 
-    init_time = datetime.now()  # Group instances by their start time
     time_groups: dict[pd.Timestamp, list[str]] = {}
     for instance_id in case_instances:
         start_time = instances_utils.stime(event_log, instance_id)
@@ -192,35 +190,22 @@ def seq(event_log: pd.DataFrame, case_id: str) -> set[tuple[str, ...]]:
             time_groups[start_time] = []
         time_groups[start_time].append(instance_id)
 
-    print(f"Time to group instances by start time: {datetime.now() - init_time}")
-
     # Sort time groups by timestamp
     sorted_times = sorted(time_groups.keys())
 
-    init_time = datetime.now()
     # Generate permutations for each time group of instances
     instance_group_permutations: list[list[list[str]]] = []
     for time in sorted_times:
         instance_group = time_groups[time]
         # Generate all permutations of concurrent instances
         permutations = list(itertools.permutations(instance_group))
-        print(f"permutations: {permutations}")
         instance_group_permutations.append([list(perm) for perm in permutations])
 
-    print(f"instance_group_permutations: {instance_group_permutations}")
-
-    print(f"Time to generate permutations: {datetime.now() - init_time}")
-
-    print(f"Number of permutations: {len(instance_group_permutations)}")
-
     # Generate all possible sequences by taking cartesian product of permutation groups
-    init_time = datetime.now()
     result = {
         tuple(instance for group in sequence_combination for instance in group)
         for sequence_combination in itertools.product(*instance_group_permutations)
     }
-    print(f"result: {result}")
-    print(f"Time to generate sequences: {datetime.now() - init_time}")
 
     # Save to cache
     trace_cache.save_sequence(event_log, case_id, result)

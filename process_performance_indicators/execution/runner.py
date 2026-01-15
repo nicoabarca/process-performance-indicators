@@ -49,7 +49,6 @@ def run_indicators(
     rows: list[dict[str, Any]] = []
     total = len(selected)
 
-    # Wrap selected in tqdm for progress bar (disabled if not verbose)
     iterator = tqdm(
         selected,
         total=total,
@@ -59,7 +58,6 @@ def run_indicators(
     )
 
     for spec in iterator:
-        # Update progress bar description with current indicator name
         if verbose:
             iterator.set_postfix_str(f"Calculating {spec.name}")
 

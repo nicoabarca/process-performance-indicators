@@ -27,7 +27,7 @@ class IndicatorArguments:
 
     # Core entities
     case_id: str | None = None
-    case_ids: list[str] | set[str] | None = None
+    case_ids: set[str] | None = None
     activity_name: str | None = None
     instance_id: str | None = None
 
@@ -49,8 +49,8 @@ class IndicatorArguments:
     activities_subset: set[str] | None = None
 
     # Thresholds / expectations
-    deadline: int | float | None = None
-    expectation: int | float | None = None
+    deadline: pd.Timedelta | None = None
+    expectation: pd.Timedelta | None = None
     value: str | int | float | None = None
 
     # Generic modes
