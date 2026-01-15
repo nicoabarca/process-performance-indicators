@@ -1,5 +1,5 @@
 """
-Italian Help Desk Event Log - Indicator Analysis Example
+IT Incident Event Log - Indicator Analysis Example
 
 This script demonstrates how to:
 1. Load and format your event log
@@ -27,27 +27,29 @@ from process_performance_indicators.execution import IndicatorArguments, run_ind
 # =============================================================================
 
 # Step 1: Define file paths
-DATASET_PATH = "italian-help-desk_100.csv"  # <-- CHANGE THIS to your CSV file
-FORMATTED_DATASET_PATH = "italian-help-desk_formatted.csv"
-RESULTS_CSV_PATH = "italian-help-desk_results.csv"
-SUMMARY_CSV_PATH = "italian-help-desk_summary.csv"
+DATASET_PATH = "it-incident_100.csv"  # <-- CHANGE THIS to your CSV file
+FORMATTED_DATASET_PATH = "it-incident_formatted.csv"
+RESULTS_CSV_PATH = "it-incident_results.csv"
+SUMMARY_CSV_PATH = "it-incident_summary.csv"
 
 # Step 2: Map your column names to standard names
 # Only include columns that exist in YOUR dataset
 COLUMN_MAPPING = StandardColumnMapping(
-    case_id_key="Case ID",
-    activity_key="Activity",
-    timestamp_key="Complete Timestamp",
-    human_resource_key="Resource",
-    client_key="customer",
-    role_key="workgroup",
+    case_id_key="number",
+    activity_key="incident_state",
+    timestamp_key="sys_updated_at",
+    human_resource_key="sys_updated_by",
+    client_key="caller_id",
+    role_key="assignment_group",
 )
 
 # Step 3: Filter which indicators to run (None = run all)
 DIMENSIONS: list[str] | None = None
+# Options: ["cost", "time", "quality", "flexibility", "general"]
 # Example: ["time", "quality"] to run only time and quality indicators
 
 GRANULARITIES: list[str] | None = None
+# Options: ["activities", "cases", "groups", "instances"]
 # Example: ["cases", "activities"] to run case-level and activity-level indicators
 
 # Step 4: Choose which approach to use for indicator arguments
@@ -91,29 +93,29 @@ def build_indicator_arguments_simple() -> IndicatorArguments:
     """
     return IndicatorArguments(
         # Single entity identifiers - for entity-specific indicators
-        case_id="Case 1",  # Replace with an actual case ID from your log
-        activity_name="Resolve ticket",  # Replace with an activity from your log
+        case_id="INC0000045",  # Replace with an actual incident number from your log
+        activity_name="Resolved",  # Replace with a state from your log (New, Active, Resolved, Closed, etc.)
         instance_id=None,  # Replace with an instance ID (usually auto-generated)
-        human_resource_name="Value 1",  # Replace with a resource name from your log
+        human_resource_name=None,  # Not available in this dataset unless mapped
         # Multiple entities - for subset/comparison indicators
-        case_ids={"Case 1", "Case 2", "Case 3"},
-        automated_activities=set(),  # Add automated activities if any
-        desired_activities={"Resolve ticket", "Closed"},  # Activities you want to see
-        unwanted_activities=set(),  # Activities to avoid
+        case_ids={"INC0000045", "INC0000047", "INC0000057"},
+        automated_activities=set(),  # Add automated states if any
+        desired_activities={"Resolved", "Closed"},  # States you want incidents to reach
+        unwanted_activities={"Awaiting User Info"},  # States you want to minimize
         direct_cost_activities=set(),  # Not applicable for this dataset
-        activities_subset={"Assign seriousness", "Take in charge ticket", "Resolve ticket"},  # Subset for analysis
+        activities_subset={"New", "Active", "Resolved"},  # Subset for specific analysis
         # Cross-activity parameters - for sequence/relationship indicators
-        activity_a="Assign seriousness",  # First activity in a sequence
-        activity_b="Closed",  # Second activity in a sequence
+        activity_a="New",  # First state in a sequence
+        activity_b="Resolved",  # Second state in a sequence
         # Time window parameters - for time-bounded indicators
-        start_time=None,  # Optional: pd.Timestamp("2012-01-01") to filter events after this
-        end_time=None,  # Optional: pd.Timestamp("2012-12-31") to filter events before this
+        start_time=None,  # Optional: pd.Timestamp("2016-02-29") to filter events after this
+        end_time=None,  # Optional: pd.Timestamp("2016-03-31") to filter events before this
         # Organizational parameters
-        role_name=None,  # Optional: Not available in this dataset
+        role_name=None,  # Optional: Could use assignment_group values if mapped
         # Threshold/expectation parameters - for compliance indicators
-        deadline=pd.Timedelta(days=14),  # Expected maximum time to close tickets
-        expectation=pd.Timedelta(days=7),  # Expected typical closure time
-        value=1,  # Threshold value for rework counting (e.g., tickets reopened > 1 time)
+        deadline=pd.Timedelta(days=7),  # Expected maximum time to resolve incidents
+        expectation=pd.Timedelta(days=3),  # Expected typical resolution time
+        value=1,  # Threshold value for rework counting (e.g., incidents reopened > 1 time)
         # Aggregation mode
         aggregation_mode="sgl",  # "sgl" (single event per instance) or "sum" (sum across events)
     )
@@ -201,7 +203,7 @@ def main() -> None:
     raw_event_log = pd.read_csv(DATASET_PATH)
     print(f"✓ Loaded {len(raw_event_log)} events from {DATASET_PATH}")
 
-    formatted_event_log = event_log_formatter(raw_event_log, column_mapping=COLUMN_MAPPING)
+    formatted_event_log = event_log_formatter(raw_event_log, column_mapping=COLUMN_MAPPING, dayfirst=True)
     formatted_event_log.to_csv(FORMATTED_DATASET_PATH, index=False)
     print(f"✓ Formatted log saved to {FORMATTED_DATASET_PATH}")
     print(f"  Cases: {formatted_event_log[StandardColumnNames.CASE_ID].nunique()}")

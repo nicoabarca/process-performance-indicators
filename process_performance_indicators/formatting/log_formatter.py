@@ -334,5 +334,4 @@ def event_log_formatter(
     if log_type == EventLogType.PRODUCTION_STYLE:
         return _process_production_style_log(standard_named_log, date_format, dayfirst=dayfirst)
 
-    # ATOMIC log type
     return _process_atomic_log(standard_named_log, date_format, dayfirst=dayfirst)

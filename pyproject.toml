@@ -24,6 +24,8 @@ docs = [
 ]
 misc = [
     "ipykernel>=6.29.5",
+    "pm4py>=2.7.19.5",
+    "rustxes>=0.2.11"
 ]
 
 [tool.setuptools]

@@ -54,12 +54,11 @@ def summary_to_csv(
     event_log_df = pd.read_csv(formatted_event_log_path)
 
     # Derive event log name from results CSV filename
-    # e.g., "production_results.csv" -> "production"
     results_filename = Path(results_csv_path).name
     if results_filename.endswith("_results.csv"):
-        event_log_name = results_filename[:-12]  # Remove "_results.csv"
+        event_log_name = results_filename[:-12]
     elif results_filename.endswith(".csv"):
-        event_log_name = results_filename[:-4]  # Remove ".csv"
+        event_log_name = results_filename[:-4]
     else:
         event_log_name = results_filename
 

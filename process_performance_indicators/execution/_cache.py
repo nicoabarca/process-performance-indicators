@@ -86,7 +86,7 @@ def create_cached_wrapper(func: F, cache: dict) -> F:
     return wrapper
 
 
-def wrap_module_functions(module, cache: dict, exclude_private: bool = True) -> dict:
+def wrap_module_functions(module, cache: dict) -> dict:
     """
     Wraps all functions in a module with caching.
 
@@ -97,7 +97,6 @@ def wrap_module_functions(module, cache: dict, exclude_private: bool = True) -> 
     Args:
         module: The module containing functions to wrap
         cache: Shared cache dictionary
-        exclude_private: If True, skip functions starting with _
 
     Returns:
         Dictionary mapping function names to their original (unwrapped) versions
@@ -107,7 +106,7 @@ def wrap_module_functions(module, cache: dict, exclude_private: bool = True) -> 
 
     for name, obj in inspect.getmembers(module):
         # Skip private functions
-        if exclude_private and name.startswith("_"):
+        if name.startswith("_"):
             continue
 
         # Only wrap functions defined in this module

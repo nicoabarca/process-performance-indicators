@@ -84,9 +84,8 @@ def run_indicators(
             rows.append(
                 {
                     **base_row,
-                    "status": "error",
-                    "error": f"Missing required args: {missing}",
                     **normalize_result(None),
+                    "status": f"Missing required args: {missing}",
                 }
             )
             continue
@@ -96,18 +95,16 @@ def run_indicators(
             rows.append(
                 {
                     **base_row,
-                    "status": "success",
-                    "error": "",
                     **normalize_result(result),
+                    "status": "Success",
                 }
             )
         except Exception as e:  # noqa: BLE001
             rows.append(
                 {
                     **base_row,
-                    "status": "error",
-                    "error": str(e),
                     **normalize_result(None),
+                    "status": str(e),
                 }
             )
 

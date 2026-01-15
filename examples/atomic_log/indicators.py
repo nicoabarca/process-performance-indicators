@@ -1,20 +1,14 @@
 """
-Italian Help Desk Event Log - Indicator Analysis Example
+Atomic Event Log - Indicator Analysis Example
 
-This script demonstrates how to:
-1. Load and format your event log
-2. Configure column mappings for your specific dataset
-3. Set up indicator arguments
-4. Run indicators and generate results
+This script demonstrates indicator analysis on an atomic event log,
+where each event represents a completed activity (no start/complete lifecycle transitions).
 
-QUICK START FOR YOUR OWN DATA:
--------------------------------
-1. Update DATASET_PATH to point to your CSV file
-2. Update COLUMN_MAPPING with your actual column names
-3. Choose which indicators to run (DIMENSIONS, GRANULARITIES)
-4. Customize indicator arguments in build_indicator_arguments_simple()
-5. Run: python indicators.py
-6. Check output files: *_formatted.csv, *_results.csv, *_summary.csv
+Dataset characteristics:
+- Atomic events (no lifecycle transitions)
+- No explicit instance IDs
+- Has human resources, roles, and organizational resources
+- Has outcome units and costs
 """
 
 import pandas as pd
@@ -27,20 +21,33 @@ from process_performance_indicators.execution import IndicatorArguments, run_ind
 # =============================================================================
 
 # Step 1: Define file paths
-DATASET_PATH = "italian-help-desk_100.csv"  # <-- CHANGE THIS to your CSV file
-FORMATTED_DATASET_PATH = "italian-help-desk_formatted.csv"
-RESULTS_CSV_PATH = "italian-help-desk_results.csv"
-SUMMARY_CSV_PATH = "italian-help-desk_summary.csv"
+DATASET_PATH = "atomic_event_log.csv"
+FORMATTED_DATASET_PATH = "atomic_event_log_formatted.csv"
+RESULTS_CSV_PATH = "atomic_event_log_results.csv"
+SUMMARY_CSV_PATH = "atomic_event_log_summary.csv"
 
 # Step 2: Map your column names to standard names
-# Only include columns that exist in YOUR dataset
+# Atomic log: no lifecycle transitions, no start timestamps
 COLUMN_MAPPING = StandardColumnMapping(
-    case_id_key="Case ID",
-    activity_key="Activity",
-    timestamp_key="Complete Timestamp",
-    human_resource_key="Resource",
-    client_key="customer",
-    role_key="workgroup",
+    case_id_key="case:concept:name",
+    activity_key="concept:name",
+    timestamp_key="time:timestamp",
+    resource_key="org:resource",
+    human_resource_key="human_resource",
+    role_key="org:role",
+    outcome_unit_key="outcome_unit",
+    unsuccessful_outcome_unit_key="unsuccessful_outcome_unit",
+    total_cost_key="cost:total",
+    fixed_cost_key="cost:fixed",
+    variable_cost_key="cost:variable",
+    labor_cost_key="cost:labor",
+    inventory_cost_key="cost:inventory",
+    maintenance_cost_key="cost:maintenance",
+    missed_deadline_cost_key="cost:missed_deadline",
+    transportation_cost_key="cost:transportation",
+    warehousing_cost_key="cost:warehousing",
+    client_key="client",
+    quality_key="quality",
 )
 
 # Step 3: Filter which indicators to run (None = run all)
@@ -51,7 +58,7 @@ GRANULARITIES: list[str] | None = None
 # Example: ["cases", "activities"] to run case-level and activity-level indicators
 
 # Step 4: Choose which approach to use for indicator arguments
-USE_AUTO_SAMPLING = True  # Set to False to use hard-coded values instead
+USE_AUTO_SAMPLING = False  # Set to False to use hard-coded values instead
 
 
 # =============================================================================
@@ -91,29 +98,29 @@ def build_indicator_arguments_simple() -> IndicatorArguments:
     """
     return IndicatorArguments(
         # Single entity identifiers - for entity-specific indicators
-        case_id="Case 1",  # Replace with an actual case ID from your log
-        activity_name="Resolve ticket",  # Replace with an activity from your log
-        instance_id=None,  # Replace with an instance ID (usually auto-generated)
-        human_resource_name="Value 1",  # Replace with a resource name from your log
+        case_id="0",  # Replace with an actual case ID from your log
+        activity_name="A",  # Replace with an activity from your log
+        instance_id="i_1",  # Atomic logs may not have explicit instances
+        human_resource_name="Ed",  # Replace with a resource name
         # Multiple entities - for subset/comparison indicators
-        case_ids={"Case 1", "Case 2", "Case 3"},
-        automated_activities=set(),  # Add automated activities if any
-        desired_activities={"Resolve ticket", "Closed"},  # Activities you want to see
+        case_ids={"0", "1", "2"},
+        automated_activities={"A", "B"},  # Activities performed by machines
+        desired_activities={"C", "D"},  # Activities you want to see
         unwanted_activities=set(),  # Activities to avoid
-        direct_cost_activities=set(),  # Not applicable for this dataset
-        activities_subset={"Assign seriousness", "Take in charge ticket", "Resolve ticket"},  # Subset for analysis
+        direct_cost_activities={"A", "C"},  # Activities with direct costs
+        activities_subset={"A", "C"},  # Subset for specific analysis
         # Cross-activity parameters - for sequence/relationship indicators
-        activity_a="Assign seriousness",  # First activity in a sequence
-        activity_b="Closed",  # Second activity in a sequence
+        activity_a="A",  # First activity in a sequence
+        activity_b="C",  # Second activity in a sequence
         # Time window parameters - for time-bounded indicators
-        start_time=None,  # Optional: pd.Timestamp("2012-01-01") to filter events after this
-        end_time=None,  # Optional: pd.Timestamp("2012-12-31") to filter events before this
+        start_time=pd.Timestamp("2025-01-01 10:00:00"),  # Dataset starts at 2025-01-01 10:00:05
+        end_time=pd.Timestamp("2025-01-01 10:22:00"),  # Dataset ends at 2025-01-01 10:21:25
         # Organizational parameters
-        role_name=None,  # Optional: Not available in this dataset
+        role_name="Boss",  # Optional: "Manager" or "Operator" (if you have role column)
         # Threshold/expectation parameters - for compliance indicators
-        deadline=pd.Timedelta(days=14),  # Expected maximum time to close tickets
-        expectation=pd.Timedelta(days=7),  # Expected typical closure time
-        value=1,  # Threshold value for rework counting (e.g., tickets reopened > 1 time)
+        deadline=pd.Timedelta(days=1),  # Expected maximum time
+        expectation=pd.Timedelta(hours=12),  # Expected typical time
+        value=1,  # Threshold value for rework counting
         # Aggregation mode
         aggregation_mode="sgl",  # "sgl" (single event per instance) or "sum" (sum across events)
     )
@@ -198,7 +205,7 @@ def main() -> None:
     print("=" * 70)
     print("STEP 1: Loading and formatting event log...")
     print("=" * 70)
-    raw_event_log = pd.read_csv(DATASET_PATH)
+    raw_event_log = pd.read_csv(DATASET_PATH, sep=";")
     print(f"✓ Loaded {len(raw_event_log)} events from {DATASET_PATH}")
 
     formatted_event_log = event_log_formatter(raw_event_log, column_mapping=COLUMN_MAPPING)
@@ -206,7 +213,8 @@ def main() -> None:
     print(f"✓ Formatted log saved to {FORMATTED_DATASET_PATH}")
     print(f"  Cases: {formatted_event_log[StandardColumnNames.CASE_ID].nunique()}")
     print(f"  Activities: {formatted_event_log[StandardColumnNames.ACTIVITY].nunique()}")
-    print(f"  Activity instances: {formatted_event_log[StandardColumnNames.INSTANCE].nunique()}")
+    if StandardColumnNames.INSTANCE in formatted_event_log.columns:
+        print(f"  Activity instances: {formatted_event_log[StandardColumnNames.INSTANCE].nunique()}")
     print()
 
     print("=" * 70)
@@ -217,7 +225,7 @@ def main() -> None:
         indicator_args = build_indicator_arguments_auto(formatted_event_log)
     else:
         print("Using hard-coded approach")
-        indicator_args = build_indicator_arguments_simple(formatted_event_log)
+        indicator_args = build_indicator_arguments_simple()
         print("✓ Indicator arguments configured")
     print()
 
