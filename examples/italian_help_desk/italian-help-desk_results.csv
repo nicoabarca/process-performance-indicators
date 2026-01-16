@@ -1,0 +1,311 @@
+dimension,granularity,indicator_name,status,result
+cost,activities,fixed_cost,Column 'cost:fixed' is not present in event log.,
+cost,activities,human_resource_count,success,15
+cost,activities,inventory_cost,Column 'cost:inventory' is not present in event log.,
+cost,activities,labor_cost,Column 'cost:labor' is not present in event log.,
+cost,activities,labor_cost_and_total_cost_ratio,Column 'cost:labor' is not present in event log.,
+cost,activities,resource_count,Column 'org:resource' is not present in event log.,
+cost,activities,rework_cost,Column 'cost:total' is not present in event log.,
+cost,activities,rework_count,success,3
+cost,activities,rework_percentage,success,0.02912621359223301
+cost,activities,total_cost,Column 'cost:total' is not present in event log.,
+cost,activities,total_cost_and_lead_time_ratio,Column 'cost:total' is not present in event log.,
+cost,activities,total_cost_and_outcome_unit_ratio,Column 'cost:total' is not present in event log.,
+cost,activities,total_cost_and_service_time_ratio,Column 'cost:total' is not present in event log.,
+cost,activities,variable_cost,Column 'cost:variable' is not present in event log.,
+cost,cases,automated_activity_cost,Column 'cost:total' is not present in event log.,
+cost,cases,desired_activity_count,success,2
+cost,cases,direct_cost,Column 'cost:total' is not present in event log.,
+cost,cases,fixed_cost,Column 'cost:fixed' is not present in event log.,
+cost,cases,human_resource_count,success,4
+cost,cases,inventory_cost,Column 'cost:inventory' is not present in event log.,
+cost,cases,labor_cost,Column 'cost:labor' is not present in event log.,
+cost,cases,labor_cost_and_total_cost_ratio,Column 'cost:labor' is not present in event log.,
+cost,cases,maintenance_cost,Column 'cost:maintenance' is not present in event log.,
+cost,cases,missed_deadline_cost,Column 'cost:missed_deadline' is not present in event log.,
+cost,cases,overhead_cost,Column 'cost:total' is not present in event log.,
+cost,cases,resource_count,RESOURCE column not found in event log.,
+cost,cases,rework_cost,Column 'cost:total' is not present in event log.,
+cost,cases,rework_count,success,0
+cost,cases,rework_percentage,success,0.0
+cost,cases,total_cost,Column 'cost:total' is not present in event log.,
+cost,cases,total_cost_and_lead_time_ratio,Column 'cost:total' is not present in event log.,
+cost,cases,total_cost_and_outcome_unit_ratio,Column 'cost:total' is not present in event log.,
+cost,cases,total_cost_and_service_time_ratio,Column 'cost:total' is not present in event log.,
+cost,cases,transportation_cost,Column 'cost:transportation' is not present in event log.,
+cost,cases,variable_cost,Column 'cost:variable' is not present in event log.,
+cost,cases,warehousing_cost,Column 'cost:warehousing' is not present in event log.,
+cost,groups,automated_activity_cost,Column 'cost:total' is not present in event log.,
+cost,groups,desired_activity_count,success,6
+cost,groups,direct_cost,Column 'cost:total' is not present in event log.,
+cost,groups,expected_automated_activity_cost,Column 'cost:total' is not present in event log.,
+cost,groups,expected_desired_activity_count,success,2.0
+cost,groups,expected_direct_cost,Column 'cost:total' is not present in event log.,
+cost,groups,expected_fixed_cost,Column 'cost:fixed' is not present in event log.,
+cost,groups,expected_human_resource_count,success,3.3333333333333335
+cost,groups,expected_inventory_cost,Column 'cost:inventory' is not present in event log.,
+cost,groups,expected_labor_cost,Column 'cost:labor' is not present in event log.,
+cost,groups,expected_labor_cost_and_total_cost_ratio,Column 'cost:labor' is not present in event log.,
+cost,groups,expected_maintenance_cost,Column 'cost:maintenance' is not present in event log.,
+cost,groups,expected_missed_deadline_cost,Column 'cost:missed_deadline' is not present in event log.,
+cost,groups,expected_overhead_cost,Column 'cost:total' is not present in event log.,
+cost,groups,expected_resource_count,RESOURCE column not found in event log.,
+cost,groups,expected_rework_cost,Column 'cost:total' is not present in event log.,
+cost,groups,expected_rework_count,success,0.0
+cost,groups,expected_rework_percentage,success,0.0
+cost,groups,expected_total_cost,Column 'cost:total' is not present in event log.,
+cost,groups,expected_total_cost_and_lead_time_ratio,Column 'cost:total' is not present in event log.,
+cost,groups,expected_total_cost_and_outcome_unit_ratio,Column 'cost:total' is not present in event log.,
+cost,groups,expected_total_cost_and_service_time_ratio,Column 'cost:total' is not present in event log.,
+cost,groups,expected_transportation_cost,Column 'cost:transportation' is not present in event log.,
+cost,groups,expected_variable_cost,Column 'cost:variable' is not present in event log.,
+cost,groups,expected_warehousing_cost,Column 'cost:warehousing' is not present in event log.,
+cost,groups,fixed_cost,Column 'cost:fixed' is not present in event log.,
+cost,groups,human_resource_and_case_count_ratio,success,3.3333333333333335
+cost,groups,human_resource_count,success,10
+cost,groups,inventory_cost,Column 'cost:inventory' is not present in event log.,
+cost,groups,labor_cost,Column 'cost:labor' is not present in event log.,
+cost,groups,labor_cost_and_total_cost_ratio,Column 'cost:labor' is not present in event log.,
+cost,groups,maintenance_cost,Column 'cost:maintenance' is not present in event log.,
+cost,groups,missed_deadline_cost,Column 'cost:missed_deadline' is not present in event log.,
+cost,groups,overhead_cost,Column 'cost:total' is not present in event log.,
+cost,groups,resource_count,RESOURCE column not found in event log.,
+cost,groups,rework_cost,Column 'cost:total' is not present in event log.,
+cost,groups,rework_count,success,0
+cost,groups,rework_percentage,success,0.0
+cost,groups,total_cost,Column 'cost:total' is not present in event log.,
+cost,groups,total_cost_and_lead_time_ratio,Column 'cost:total' is not present in event log.,
+cost,groups,total_cost_and_outcome_unit_ratio,Column 'cost:total' is not present in event log.,
+cost,groups,total_cost_and_service_time_ratio,Column 'cost:total' is not present in event log.,
+cost,groups,transportation_cost,Column 'cost:transportation' is not present in event log.,
+cost,groups,variable_cost,Column 'cost:variable' is not present in event log.,
+cost,groups,warehousing_cost,Column 'cost:warehousing' is not present in event log.,
+cost,instances,fixed_cost_for_single_events_of_activity_instances,Column 'cost:fixed' is not present in event log.,
+cost,instances,fixed_cost_for_sum_of_all_events_of_activity_instances,Column 'cost:fixed' is not present in event log.,
+cost,instances,inventory_cost_for_single_events_of_activity_instances,Column 'cost:inventory' is not present in event log.,
+cost,instances,inventory_cost_for_sum_of_all_events_of_activity_instances,Column 'cost:inventory' is not present in event log.,
+cost,instances,labor_cost_and_total_cost_ratio,Column 'cost:labor' is not present in event log.,
+cost,instances,labor_cost_for_single_events_of_activity_instances,Column 'cost:labor' is not present in event log.,
+cost,instances,labor_cost_for_sum_of_all_events_of_activity_instances,Column 'cost:labor' is not present in event log.,
+cost,instances,total_cost_and_lead_time_ratio,Column 'cost:total' is not present in event log.,
+cost,instances,total_cost_and_outcome_unit_ratio,Column 'cost:total' is not present in event log.,
+cost,instances,total_cost_and_service_time_ratio,Column 'cost:total' is not present in event log.,
+cost,instances,total_cost_for_single_events_of_activity_instances,Column 'cost:total' is not present in event log.,
+cost,instances,total_cost_for_sum_of_all_events_of_activity_instances,Column 'cost:total' is not present in event log.,
+cost,instances,variable_cost_for_single_events_of_activity_instances,Column 'cost:variable' is not present in event log.,
+cost,instances,variable_cost_for_sum_of_all_events_of_activity_instances,Column 'cost:variable' is not present in event log.,
+flexibility,activities,activity_instance_and_human_resource_count_ratio,success,6.866666666666666
+flexibility,activities,client_count,success,61
+flexibility,activities,directly_follows_relations_count,success,3
+flexibility,activities,human_resource_count,success,15
+flexibility,cases,activity_and_role_count_ratio,success,4.0
+flexibility,cases,activity_instance_and_human_resource_count_ratio,success,1.0
+flexibility,cases,directly_follows_relations_and_activity_count_ratio,success,0.75
+flexibility,cases,directly_follows_relations_count,success,3
+flexibility,cases,human_resource_count,success,4
+flexibility,cases,optional_activity_count,success,1
+flexibility,cases,optionality,success,0.25
+flexibility,cases,role_count,success,1
+flexibility,cases,variant_case_coverage,success,0.55
+flexibility,groups,activity_and_role_count_ratio,success,4.333333333333333
+flexibility,groups,activity_instance_and_human_resource_count_ratio,success,1.3
+flexibility,groups,client_count,success,3
+flexibility,groups,directly_follows_relations_and_activity_count_ratio,success,0.38461538461538464
+flexibility,groups,directly_follows_relations_count,success,5
+flexibility,groups,expected_activity_and_role_count_ratio,success,4.333333333333333
+flexibility,groups,expected_activity_instance_and_human_resource_count_ratio,success,1.3
+flexibility,groups,expected_client_count,success,1.0
+flexibility,groups,expected_directly_follows_relations_and_activity_count_ratio,success,0.7692307692307693
+flexibility,groups,expected_directly_follows_relations_count,success,3.3333333333333335
+flexibility,groups,expected_human_resource_count,success,3.3333333333333335
+flexibility,groups,expected_optional_activity_count,success,1.3333333333333333
+flexibility,groups,expected_optionality,success,0.3076923076923077
+flexibility,groups,expected_role_count,success,1.0
+flexibility,groups,human_resource_count,success,10
+flexibility,groups,optional_activity_count,unhashable type: 'Series',
+flexibility,groups,optionality,unhashable type: 'Series',
+flexibility,groups,role_and_variant_count_ratio,success,1.5
+flexibility,groups,role_count,success,3
+flexibility,groups,variant_case_coverage,success,0.69
+flexibility,groups,variant_count,success,2
+general,activities,activity_instance_count,success,103
+general,activities,human_resource_count,success,15
+general,activities,resource_count,Column 'org:resource' is not present in event log.,
+general,cases,activity_count,success,4
+general,cases,activity_instance_count,success,4
+general,cases,human_resource_count,success,4
+general,cases,resource_count,RESOURCE column not found in event log.,
+general,cases,role_count,success,1
+general,groups,activity_count,success,13
+general,groups,activity_instance_count,success,13
+general,groups,case_count,success,3
+general,groups,expected_activity_count,success,4.333333333333333
+general,groups,expected_activity_instance_count,success,4.333333333333333
+general,groups,expected_human_resource_count,success,3.3333333333333335
+general,groups,expected_resource_count,RESOURCE column not found in event log.,
+general,groups,expected_role_count,success,1.0
+general,groups,human_resource_count,success,10
+general,groups,resource_count,RESOURCE column not found in event log.,
+general,groups,role_count,success,3
+quality,activities,activity_instance_count_by_human_resource,success,6
+quality,activities,client_count_and_total_cost_ratio,Column 'cost:total' is not present in event log.,
+quality,activities,human_resource_count,success,15
+quality,activities,outcome_unit_count,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,activities,rework_count,success,3
+quality,activities,rework_count_by_value,success,3
+quality,activities,rework_percentage,success,0.02912621359223301
+quality,activities,rework_percentage_by_value,success,0.02912621359223301
+quality,activities,rework_time,success,12 days 02:55:55
+quality,activities,successful_outcome_unit_count,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,activities,successful_outcome_unit_percentage,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,activities,total_cost_and_client_count_ratio,Column 'cost:total' is not present in event log.,
+quality,cases,activity_instance_count_by_human_resource,success,0
+quality,cases,activity_instance_count_by_role,success,0
+quality,cases,automated_activity_count,success,2
+quality,cases,automated_activity_instance_count,success,2
+quality,cases,desired_activity_count,success,2
+quality,cases,human_resource_count,success,4
+quality,cases,non_automated_activity_count,success,2
+quality,cases,non_automated_activity_instance_count,success,2
+quality,cases,outcome_unit_count,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,cases,overall_quality,<StandardColumnNames.QUALITY: 'quality'>,
+quality,cases,repeatability,success,0.0
+quality,cases,rework_count,success,0
+quality,cases,rework_count_by_value,success,0
+quality,cases,rework_of_activities_subset,success,0
+quality,cases,rework_percentage,success,0.0
+quality,cases,rework_percentage_by_value,success,0.0
+quality,cases,rework_time,success,0 days 00:00:00
+quality,cases,successful_outcome_unit_count,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,cases,successful_outcome_unit_percentage,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,cases,unwanted_activity_count,success,2
+quality,cases,unwanted_activity_instance_count,success,2
+quality,cases,unwanted_activity_instance_percentage,success,0.5
+quality,cases,unwanted_activity_percentage,success,0.5
+quality,groups,activity_instance_count_by_human_resource,success,1
+quality,groups,activity_instance_count_by_role,success,4
+quality,groups,automated_activity_count,success,2
+quality,groups,automated_activity_instance_count,success,6
+quality,groups,case_and_client_count_ratio,success,1.0
+quality,groups,case_count_where_activity_after_time_frame,Missing required args: ['end_time'],
+quality,groups,case_count_where_activity_before_time_frame,Missing required args: ['start_time'],
+quality,groups,case_count_where_activity_during_time_frame,"Missing required args: ['start_time', 'end_time']",
+quality,groups,case_count_where_end_activity_is_a,Missing required args: ['a_activity_name'],
+quality,groups,case_count_where_start_activity_is_a,Missing required args: ['a_activity_name'],
+quality,groups,case_count_with_rework,success,0
+quality,groups,case_percentage_where_activity_after_time_frame,Missing required args: ['end_time'],
+quality,groups,case_percentage_where_activity_before_time_frame,Missing required args: ['start_time'],
+quality,groups,case_percentage_where_activity_during_time_frame,"Missing required args: ['start_time', 'end_time']",
+quality,groups,case_percentage_where_end_activity_is_a,Missing required args: ['a_activity_name'],
+quality,groups,case_percentage_where_start_activity_is_a,Missing required args: ['a_activity_name'],
+quality,groups,case_percentage_with_missed_deadline,'>' not supported between instances of 'Timestamp' and 'Timedelta',
+quality,groups,case_percentage_with_rework,success,0.0
+quality,groups,client_count_and_total_cost_ratio,Column 'cost:total' is not present in event log.,
+quality,groups,desired_activity_count,success,2
+quality,groups,expected_activity_instance_count_by_human_resource,success,0.3333333333333333
+quality,groups,expected_activity_instance_count_by_role,success,1.3333333333333333
+quality,groups,expected_automated_activity_count,success,2.0
+quality,groups,expected_automated_activity_instance_count,success,2.0
+quality,groups,expected_client_count_and_total_cost_ratio,Column 'cost:total' is not present in event log.,
+quality,groups,expected_desired_activity_count,success,0.46153846153846156
+quality,groups,expected_human_resource_count,success,0.7692307692307693
+quality,groups,expected_non_automated_activity_count,success,0.5384615384615384
+quality,groups,expected_non_automated_activity_instance_count,success,2.3333333333333335
+quality,groups,expected_outcome_unit_count,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,groups,expected_overall_quality,<StandardColumnNames.QUALITY: 'quality'>,
+quality,groups,expected_repeatability,success,0.0
+quality,groups,expected_rework_count,success,0.0
+quality,groups,expected_rework_count_by_value,success,0.0
+quality,groups,expected_rework_of_activities_subset,success,0.0
+quality,groups,expected_rework_percentage,success,0.0
+quality,groups,expected_rework_percentage_by_value,success,0.0
+quality,groups,expected_rework_time,success,0 days 00:00:00
+quality,groups,expected_successful_outcome_unit_count,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,groups,expected_successful_outcome_unit_percentage,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,groups,expected_total_cost_and_client_count_ratio,Column 'cost:total' is not present in event log.,
+quality,groups,expected_unwanted_activity_count,success,6
+quality,groups,expected_unwanted_activity_instance_count,success,2.0
+quality,groups,expected_unwanted_activity_instance_percentage,success,0.4666666666666666
+quality,groups,expected_unwanted_activity_percentage,success,0.4666666666666666
+quality,groups,human_resource_count,success,7
+quality,groups,non_automated_activity_count,success,3
+quality,groups,non_automated_activity_instance_count,success,7
+quality,groups,outcome_unit_count,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,groups,repeatability,success,0.0
+quality,groups,rework_count,success,0
+quality,groups,rework_count_by_value,success,0
+quality,groups,rework_of_activities_subset,success,0
+quality,groups,rework_percentage,success,0.0
+quality,groups,rework_percentage_by_value,success,0.0
+quality,groups,rework_time,success,0 days 00:00:00
+quality,groups,successful_outcome_unit_count,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,groups,successful_outcome_unit_percentage,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,groups,total_cost_and_client_count_ratio,Column 'cost:total' is not present in event log.,
+quality,groups,unwanted_activity_count,success,2
+quality,groups,unwanted_activity_instance_count,success,6
+quality,groups,unwanted_activity_instance_percentage,success,0.46153846153846156
+quality,groups,unwanted_activity_percentage,success,0.15384615384615385
+quality,instances,outcome_unit_count_for_single_events_of_activity_instances,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,instances,successful_outcome_unit_count,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+quality,instances,successful_outcome_unit_percentage,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>,
+time,activities,lead_time,success,437 days 14:05:28
+time,activities,service_and_lead_time_ratio,success,0.0
+time,activities,service_time,success,0 days 00:00:00
+time,activities,waiting_time,success,437 days 14:05:28
+time,cases,active_time,"Error performing indicator division. Numerator value=14 days 23:00:12, denominator value=0",
+time,cases,activity_count,success,4
+time,cases,activity_instance_count,success,4
+time,cases,automated_activity_count,success,2
+time,cases,automated_activity_instance_count,success,2
+time,cases,automated_activity_service_time,success,0 days 00:00:00
+time,cases,handover_count,success,3.0
+time,cases,idle_time,"Error performing indicator division. Numerator value=14 days 23:00:12, denominator value=0",
+time,cases,lead_time,success,49 days 22:31:00
+time,cases,lead_time_deviation_from_deadline,success,-23 days +19:13:07.440000
+time,cases,lead_time_deviation_from_expectation,success,36 days 01:38:56.280000
+time,cases,lead_time_from_activity_a,success,14 days 23:00:12
+time,cases,lead_time_from_activity_a_to_b,success,
+time,cases,lead_time_to_activity_a,success,34 days 23:30:48
+time,cases,service_and_lead_time_ratio,success,0.0
+time,cases,service_time,success,0 days 00:00:00
+time,cases,service_time_from_activity_a_to_b,success,
+time,cases,waiting_time,success,49 days 22:31:00
+time,cases,waiting_time_from_activity_a_to_b,success,
+time,groups,activity_count,success,5
+time,groups,activity_instance_count,success,13
+time,groups,automated_activity_count,success,2
+time,groups,automated_activity_instance_count,success,6
+time,groups,automated_activity_service_time,success,0 days 00:00:00
+time,groups,case_count_lead_time_ratio,success,0.00039095502384626547
+time,groups,case_count_where_lead_time_over_value,'>' not supported between instances of 'Timedelta' and 'int',
+time,groups,case_percentage_where_lead_time_over_value,'>' not supported between instances of 'Timedelta' and 'int',
+time,groups,case_percentage_with_missed_deadline,'>' not supported between instances of 'Timestamp' and 'int',
+time,groups,expected_active_time,"Error performing indicator division. Numerator value=3 days 01:28:57, denominator value=0",
+time,groups,expected_activity_count,success,4.333333333333333
+time,groups,expected_activity_instance_count,success,4.333333333333333
+time,groups,expected_automated_activity_count,success,2.0
+time,groups,expected_automated_activity_instance_count,success,2.0
+time,groups,expected_automated_activity_service_time,success,0 days 00:00:00
+time,groups,expected_handover_count,success,2.3333333333333335
+time,groups,expected_idle_time,"Error performing indicator division. Numerator value=3 days 01:28:57, denominator value=0",
+time,groups,expected_lead_time,success,42 days 17:38:46
+time,groups,expected_lead_time_deviation_from_deadline,success,-15 days +00:05:21.440000
+time,groups,expected_lead_time_deviation_from_expectation,success,28 days 20:46:42.280000
+time,groups,expected_lead_time_from_activity_a,success,23 days 10:12:04.333333333
+time,groups,expected_lead_time_from_activity_a_to_b,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0",
+time,groups,expected_lead_time_to_activity_a,success,19 days 07:26:41.666666666
+time,groups,expected_service_and_lead_time_ratio,success,0.0
+time,groups,expected_service_time,success,0 days 00:00:00
+time,groups,expected_service_time_from_activity_a_to_b,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0",
+time,groups,expected_waiting_time,success,42 days 17:38:46
+time,groups,expected_waiting_time_from_activity_a_to_b,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0",
+time,groups,lead_time,success,319 days 17:31:01
+time,groups,lead_time_and_case_count_ratio,success,106 days 13:50:20.333333332
+time,groups,service_and_lead_time_ratio,success,0.0
+time,groups,service_time,success,0 days 00:00:00
+time,groups,service_time_from_activity_a_to_b,success,0 days 00:00:00
+time,instances,lead_time,success,0 days 00:00:00
+time,instances,service_and_lead_time_ratio,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0 days 00:00:00",
+time,instances,service_time,success,0 days 00:00:00
+time,instances,waiting_time,success,0 days 00:00:00
