@@ -1,7 +1,7 @@
 import pytest
 
 from process_performance_indicators.exceptions import ColumnNotFoundError
-from process_performance_indicators.general.groups import (
+from process_performance_indicators.indicators.general.groups import (
     activity_count,
     activity_instance_count,
     case_count,
@@ -20,9 +20,7 @@ class TestGroups:
     def test_activity_count(self, sample_event_log):
         """Test counting activities for a group of cases"""
         # Test with multiple cases
-        assert (
-            activity_count(sample_event_log, ["case1", "case2"]) == 4
-        )  # 2 from case1 + 2 from case2
+        assert activity_count(sample_event_log, ["case1", "case2"]) == 4  # 2 from case1 + 2 from case2
 
         # Test with a single case
         assert activity_count(sample_event_log, ["case3"]) == 1
@@ -31,9 +29,7 @@ class TestGroups:
         assert activity_count(sample_event_log, {"case1", "case3"}) == 3
 
         # Test with non-existent case
-        with pytest.raises(
-            ValueError, match="CASE_ID = 'non_existent_case' not found in event log"
-        ):
+        with pytest.raises(ValueError, match="CASE_ID = 'non_existent_case' not found in event log"):
             activity_count(sample_event_log, ["case1", "non_existent_case"])
 
     def test_expected_activity_count(self, sample_event_log):
@@ -47,9 +43,7 @@ class TestGroups:
     def test_activity_instance_count(self, sample_event_log):
         """Test counting activity instances for a group of cases"""
         # Test with multiple cases
-        assert (
-            activity_instance_count(sample_event_log, ["case1", "case2"]) == 5
-        )  # 3 from case1 + 2 from case2
+        assert activity_instance_count(sample_event_log, ["case1", "case2"]) == 5  # 3 from case1 + 2 from case2
 
         # Test with a single case
         assert activity_instance_count(sample_event_log, ["case3"]) == 1
@@ -62,9 +56,7 @@ class TestGroups:
     def test_expected_activity_instance_count(self, sample_event_log):
         """Test expected activity instance count for a group of cases"""
         # Test with multiple cases
-        assert (
-            expected_activity_instance_count(sample_event_log, ["case1", "case2"]) == 2.5
-        )  # (3+2)/2
+        assert expected_activity_instance_count(sample_event_log, ["case1", "case2"]) == 2.5  # (3+2)/2
 
         # Test with a single case
         assert expected_activity_instance_count(sample_event_log, ["case3"]) == 1.0
@@ -151,12 +143,8 @@ class TestGroups:
 
     def test_group_with_empty_cases(self, sample_event_log):
         """Test group functions with empty case list"""
-        with pytest.raises(
-            ValueError, match="case_ids is empty. Please provide a valid list of case ids."
-        ):
+        with pytest.raises(ValueError, match="case_ids is empty. Please provide a valid list of case ids."):
             activity_count(sample_event_log, [])
 
-        with pytest.raises(
-            ValueError, match="case_ids is empty. Please provide a valid list of case ids."
-        ):
+        with pytest.raises(ValueError, match="case_ids is empty. Please provide a valid list of case ids."):
             activity_instance_count(sample_event_log, [])

@@ -8,30 +8,24 @@ class StandardColumnNames(str, Enum):
     ACTIVITY = "concept:name"
     TIMESTAMP = "time:timestamp"
     START_TIMESTAMP = "start_timestamp"
-    TOTAL_COST = "cost:total"
+    LIFECYCLE_TRANSITION = "lifecycle:transition"
+    INSTANCE = "concept:instance"
     HUMAN_RESOURCE = "human_resource"
     ROLE = "org:role"
     ORG_RESOURCE = "org:resource"
     OUTCOME_UNIT = "outcome_unit"
     UNSUCCESSFUL_OUTCOME_UNIT = "unsuccessful_outcome_unit"
+    TOTAL_COST = "cost:total"
     FIXED_COST = "cost:fixed"
     VARIABLE_COST = "cost:variable"
     LABOR_COST = "cost:labor"
     INVENTORY_COST = "cost:inventory"
-    CLIENT = "client"
     MAINTENANCE_COST = "cost:maintenance"
     MISSED_DEADLINE_COST = "cost:missed_deadline"
     TRANSPORTATION_COST = "cost:transportation"
     WAREHOUSING_COST = "cost:warehousing"
+    CLIENT = "client"
     QUALITY = "quality"
-    LIFECYCLE_TRANSITION = "lifecycle:transition"
-    INSTANCE = "concept:instance"
-
-    def __str__(self) -> str:
-        return self.value
-
-    def to_string(self) -> str:
-        return self.__str__()
 
 
 class LifecycleTransitionType(str, Enum):
@@ -39,9 +33,3 @@ class LifecycleTransitionType(str, Enum):
 
     START = "start"
     COMPLETE = "complete"
-
-    def __str__(self) -> str:
-        return self.value
-
-    def to_string(self) -> str:
-        return self.__str__()

@@ -4,6 +4,7 @@ import process_performance_indicators.indicators.general.activities as general_a
 import process_performance_indicators.utils.activities as activities_utils
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.utils.column_validation import assert_column_exists
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -30,6 +31,7 @@ def client_count(event_log: pd.DataFrame, activity_name: str) -> int:
         activity_name: The name of the activity.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.CLIENT)
     activity_events = event_log[event_log[StandardColumnNames.ACTIVITY] == activity_name]
     case_ids = set(activity_events[StandardColumnNames.CASE_ID].unique())
     cases_events = event_log[event_log[StandardColumnNames.CASE_ID].isin(case_ids)]

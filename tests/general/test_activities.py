@@ -2,7 +2,7 @@ import pytest
 
 from process_performance_indicators.constants import StandardColumnNames
 from process_performance_indicators.exceptions import ActivityNameNotFoundError, ColumnNotFoundError
-from process_performance_indicators.general.activities import (
+from process_performance_indicators.indicators.general.activities import (
     activity_instance_count,
     human_resource_count,
     resource_count,

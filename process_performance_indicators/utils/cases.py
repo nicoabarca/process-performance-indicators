@@ -9,6 +9,7 @@ from process_performance_indicators.exceptions import (
     NoCompleteEventFoundError,
     NoStartEventFoundError,
 )
+from process_performance_indicators.utils import trace_cache
 from process_performance_indicators.utils.column_validation import assert_column_exists
 
 
@@ -36,7 +37,7 @@ def res(event_log: pd.DataFrame, case_id: str) -> set[str]:
     """
     _is_case_id_valid(event_log, case_id)
     if StandardColumnNames.ORG_RESOURCE not in event_log.columns:
-        error_message = "RESOURCE column not found in event log. Check your event log for possible columns."
+        error_message = "RESOURCE column not found in event log."
         raise ColumnNotFoundError(error_message)
 
     resources = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][StandardColumnNames.ORG_RESOURCE].unique()
@@ -169,13 +170,19 @@ def seq(event_log: pd.DataFrame, case_id: str) -> set[tuple[str, ...]]:
     Example: If instances i1 and i2 start at the same time, followed by i3,
     returns [["i1", "i2", "i3"], ["i2", "i1", "i3"]]
     """
-    # TODO: check this function logic
+    # Check cache first
+    cached_sequence = trace_cache.get_sequence(event_log, case_id)
+    if cached_sequence is not None:
+        return cached_sequence
+
+    # Compute sequence
     case_instances = inst(event_log, case_id)
 
     if not case_instances:
-        return set()
+        result = set()
+        trace_cache.save_sequence(event_log, case_id, result)
+        return result
 
-    # Group instances by their start time
     time_groups: dict[pd.Timestamp, list[str]] = {}
     for instance_id in case_instances:
         start_time = instances_utils.stime(event_log, instance_id)
@@ -195,17 +202,39 @@ def seq(event_log: pd.DataFrame, case_id: str) -> set[tuple[str, ...]]:
         instance_group_permutations.append([list(perm) for perm in permutations])
 
     # Generate all possible sequences by taking cartesian product of permutation groups
-    return {
+    result = {
         tuple(instance for group in sequence_combination for instance in group)
         for sequence_combination in itertools.product(*instance_group_permutations)
     }
+
+    # Save to cache
+    trace_cache.save_sequence(event_log, case_id, result)
+    return result
 
 
 def trace(event_log: pd.DataFrame, case_id: str) -> set[tuple[str, ...]]:
     """
     Return all sequences of activity names for a case, mapped from instance sequences.
+    Uses cached values if available, otherwise computes and caches.
     """
-    # TODO: check this function logic
+    # Check cache first
+    cached_trace = trace_cache.get_trace(event_log, case_id)
+    if cached_trace is not None:
+        return cached_trace
+
+    # Compute trace
+    result = _compute_trace(event_log, case_id)
+
+    # Save to cache
+    trace_cache.save_trace(event_log, case_id, result)
+    return result
+
+
+def _compute_trace(event_log: pd.DataFrame, case_id: str) -> set[tuple[str, ...]]:
+    """
+    Internal function that computes the trace for a case.
+    Maps instance sequences to activity name sequences.
+    """
     sequences = seq(event_log, case_id)
     return {tuple(instances_utils.act(event_log, instance_id) for instance_id in sequence) for sequence in sequences}
 

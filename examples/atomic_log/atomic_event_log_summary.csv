@@ -1,0 +1,2 @@
+event_log,relevant_attributes,general_dimension,time_dimension,cost_dimension,quality_dimension,flexibility_dimension,activity_instance_granularity,activity_granularity,case_granularity,group_of_cases_granularity,overall
+atomic_event_log,21 / 21,19 / 19 (100.0%),47 / 60 (78.3%),87 / 95 (91.6%),90 / 102 (88.2%),32 / 34 (94.1%),16 / 22 (72.7%),36 / 37 (97.3%),73 / 78 (93.6%),150 / 173 (86.7%),275 / 310 (88.7%)

@@ -1,0 +1,2 @@
+event_log,relevant_attributes,general_dimension,time_dimension,cost_dimension,quality_dimension,flexibility_dimension,activity_instance_granularity,activity_granularity,case_granularity,group_of_cases_granularity,overall
+derivable_interval_event_log,21 / 21,19 / 19 (100.0%),47 / 60 (78.3%),92 / 95 (96.8%),90 / 102 (88.2%),32 / 34 (94.1%),17 / 22 (77.3%),37 / 37 (100.0%),74 / 78 (94.9%),152 / 173 (87.9%),280 / 310 (90.3%)
