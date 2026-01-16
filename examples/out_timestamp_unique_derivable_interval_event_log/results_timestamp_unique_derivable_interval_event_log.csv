@@ -1,0 +1,311 @@
+dimension,granularity,indicator_name,result,status
+cost,activities,fixed_cost,51.0,Success
+cost,activities,human_resource_count,3,Success
+cost,activities,inventory_cost,40.0,Success
+cost,activities,labor_cost,29.0,Success
+cost,activities,labor_cost_and_total_cost_ratio,0.242,Success
+cost,activities,resource_count,2,Success
+cost,activities,rework_cost,31.0,Success
+cost,activities,rework_count,7,Success
+cost,activities,rework_percentage,0.389,Success
+cost,activities,total_cost,120.0,Success
+cost,activities,total_cost_and_lead_time_ratio,1559.567,Success
+cost,activities,total_cost_and_outcome_unit_ratio,0.649,Success
+cost,activities,total_cost_and_service_time_ratio,3042.254,Success
+cost,activities,variable_cost,69.0,Success
+cost,cases,automated_activity_cost,13.0,Success
+cost,cases,desired_activity_count,2,Success
+cost,cases,direct_cost,13.0,Success
+cost,cases,fixed_cost,8.0,Success
+cost,cases,human_resource_count,3,Success
+cost,cases,inventory_cost,4.0,Success
+cost,cases,labor_cost,16.0,Success
+cost,cases,labor_cost_and_total_cost_ratio,0.571,Success
+cost,cases,maintenance_cost,0.0,Success
+cost,cases,missed_deadline_cost,86.0,Success
+cost,cases,overhead_cost,15.0,Success
+cost,cases,resource_count,2,Success
+cost,cases,rework_cost,17.0,Success
+cost,cases,rework_count,3,Success
+cost,cases,rework_percentage,0.5,Success
+cost,cases,total_cost,28.0,Success
+cost,cases,total_cost_and_lead_time_ratio,1275.949,Success
+cost,cases,total_cost_and_outcome_unit_ratio,1.75,Success
+cost,cases,total_cost_and_service_time_ratio,1214.458,Success
+cost,cases,transportation_cost,0.0,Success
+cost,cases,variable_cost,20.0,Success
+cost,cases,warehousing_cost,86.0,Success
+cost,groups,automated_activity_cost,31.0,Success
+cost,groups,desired_activity_count,3,Success
+cost,groups,direct_cost,31.0,Success
+cost,groups,expected_automated_activity_cost,10.333,Success
+cost,groups,expected_desired_activity_count,1.0,Success
+cost,groups,expected_direct_cost,10.333,Success
+cost,groups,expected_fixed_cost,8.0,Success
+cost,groups,expected_human_resource_count,2.0,Success
+cost,groups,expected_inventory_cost,7.667,Success
+cost,groups,expected_labor_cost,7.333,Success
+cost,groups,expected_labor_cost_and_total_cost_ratio,0.319,Success
+cost,groups,expected_maintenance_cost,59.333,Success
+cost,groups,expected_missed_deadline_cost,28.667,Success
+cost,groups,expected_overhead_cost,12.667,Success
+cost,groups,expected_resource_count,1.667,Success
+cost,groups,expected_rework_cost,13.0,Success
+cost,groups,expected_rework_count,1.667,Success
+cost,groups,expected_rework_percentage,0.333,Success
+cost,groups,expected_total_cost,23.0,Success
+cost,groups,expected_total_cost_and_lead_time_ratio,,No start event found for case 10.
+cost,groups,expected_total_cost_and_outcome_unit_ratio,2.029,Success
+cost,groups,expected_total_cost_and_service_time_ratio,2855.172,Success
+cost,groups,expected_transportation_cost,23.333,Success
+cost,groups,expected_variable_cost,15.0,Success
+cost,groups,expected_warehousing_cost,35.667,Success
+cost,groups,fixed_cost,24.0,Success
+cost,groups,human_resource_and_case_count_ratio,2.0,Success
+cost,groups,human_resource_count,6,Success
+cost,groups,inventory_cost,23.0,Success
+cost,groups,labor_cost,22.0,Success
+cost,groups,labor_cost_and_total_cost_ratio,0.319,Success
+cost,groups,maintenance_cost,178.0,Success
+cost,groups,missed_deadline_cost,86.0,Success
+cost,groups,overhead_cost,38.0,Success
+cost,groups,resource_count,2,Success
+cost,groups,rework_cost,39.0,Success
+cost,groups,rework_count,5,Success
+cost,groups,rework_percentage,0.455,Success
+cost,groups,total_cost,69.0,Success
+cost,groups,total_cost_and_lead_time_ratio,,No start event found for case 10.
+cost,groups,total_cost_and_outcome_unit_ratio,2.029,Success
+cost,groups,total_cost_and_service_time_ratio,2855.172,Success
+cost,groups,transportation_cost,70.0,Success
+cost,groups,variable_cost,45.0,Success
+cost,groups,warehousing_cost,107.0,Success
+cost,instances,fixed_cost_for_single_events_of_activity_instances,9.0,Success
+cost,instances,fixed_cost_for_sum_of_all_events_of_activity_instances,27.0,Success
+cost,instances,inventory_cost_for_single_events_of_activity_instances,0.0,Success
+cost,instances,inventory_cost_for_sum_of_all_events_of_activity_instances,2.0,Success
+cost,instances,labor_cost_and_total_cost_ratio,0.182,Success
+cost,instances,labor_cost_for_single_events_of_activity_instances,2.0,Success
+cost,instances,labor_cost_for_sum_of_all_events_of_activity_instances,2.0,Success
+cost,instances,total_cost_and_lead_time_ratio,1131.429,Success
+cost,instances,total_cost_and_outcome_unit_ratio,,"Error performing indicator division. Numerator value=11.0, denominator value=0"
+cost,instances,total_cost_and_service_time_ratio,1414.286,Success
+cost,instances,total_cost_for_single_events_of_activity_instances,11.0,Success
+cost,instances,total_cost_for_sum_of_all_events_of_activity_instances,31.0,Success
+cost,instances,variable_cost_for_single_events_of_activity_instances,2.0,Success
+cost,instances,variable_cost_for_sum_of_all_events_of_activity_instances,4.0,Success
+flexibility,activities,activity_instance_and_human_resource_count_ratio,6.0,Success
+flexibility,activities,client_count,4,Success
+flexibility,activities,directly_follows_relations_count,4,Success
+flexibility,activities,human_resource_count,3,Success
+flexibility,cases,activity_and_role_count_ratio,1.5,Success
+flexibility,cases,activity_instance_and_human_resource_count_ratio,2.0,Success
+flexibility,cases,directly_follows_relations_and_activity_count_ratio,1.333,Success
+flexibility,cases,directly_follows_relations_count,4,Success
+flexibility,cases,human_resource_count,3,Success
+flexibility,cases,optional_activity_count,3,Success
+flexibility,cases,optionality,1.0,Success
+flexibility,cases,role_count,2,Success
+flexibility,cases,variant_case_coverage,0.05,Success
+flexibility,groups,activity_and_role_count_ratio,1.2,Success
+flexibility,groups,activity_instance_and_human_resource_count_ratio,1.833,Success
+flexibility,groups,client_count,3,Success
+flexibility,groups,directly_follows_relations_and_activity_count_ratio,1.0,Success
+flexibility,groups,directly_follows_relations_count,6,Success
+flexibility,groups,expected_activity_and_role_count_ratio,1.2,Success
+flexibility,groups,expected_activity_instance_and_human_resource_count_ratio,1.833,Success
+flexibility,groups,expected_client_count,1.0,Success
+flexibility,groups,expected_directly_follows_relations_and_activity_count_ratio,1.167,Success
+flexibility,groups,expected_directly_follows_relations_count,2.333,Success
+flexibility,groups,expected_human_resource_count,2.0,Success
+flexibility,groups,expected_optional_activity_count,2.0,Success
+flexibility,groups,expected_optionality,1.0,Success
+flexibility,groups,expected_role_count,1.667,Success
+flexibility,groups,human_resource_count,6,Success
+flexibility,groups,optional_activity_count,4,Success
+flexibility,groups,optionality,0.667,Success
+flexibility,groups,role_and_variant_count_ratio,1.667,Success
+flexibility,groups,role_count,5,Success
+flexibility,groups,variant_case_coverage,0.2,Success
+flexibility,groups,variant_count,3,Success
+general,activities,activity_instance_count,18,Success
+general,activities,human_resource_count,3,Success
+general,activities,resource_count,2,Success
+general,cases,activity_count,3,Success
+general,cases,activity_instance_count,6,Success
+general,cases,human_resource_count,3,Success
+general,cases,resource_count,2,Success
+general,cases,role_count,2,Success
+general,groups,activity_count,6,Success
+general,groups,activity_instance_count,11,Success
+general,groups,case_count,3,Success
+general,groups,expected_activity_count,2.0,Success
+general,groups,expected_activity_instance_count,3.667,Success
+general,groups,expected_human_resource_count,2.0,Success
+general,groups,expected_resource_count,1.667,Success
+general,groups,expected_role_count,1.667,Success
+general,groups,human_resource_count,6,Success
+general,groups,resource_count,5,Success
+general,groups,role_count,5,Success
+quality,activities,activity_instance_count_by_human_resource,6,Success
+quality,activities,client_count_and_total_cost_ratio,0.033,Success
+quality,activities,human_resource_count,3,Success
+quality,activities,outcome_unit_count,185.0,Success
+quality,activities,rework_count,7,Success
+quality,activities,rework_count_by_value,7,Success
+quality,activities,rework_percentage,0.389,Success
+quality,activities,rework_percentage_by_value,0.389,Success
+quality,activities,rework_time,0 days 00:01:43,Success
+quality,activities,successful_outcome_unit_count,174.0,Success
+quality,activities,successful_outcome_unit_percentage,0.941,Success
+quality,activities,total_cost_and_client_count_ratio,30.0,Success
+quality,cases,activity_instance_count_by_human_resource,3,Success
+quality,cases,activity_instance_count_by_role,3,Success
+quality,cases,automated_activity_count,2,Success
+quality,cases,automated_activity_instance_count,3,Success
+quality,cases,desired_activity_count,2,Success
+quality,cases,human_resource_count,3,Success
+quality,cases,non_automated_activity_count,1,Success
+quality,cases,non_automated_activity_instance_count,3,Success
+quality,cases,outcome_unit_count,16.0,Success
+quality,cases,overall_quality,3.0,Success
+quality,cases,repeatability,0.5,Success
+quality,cases,rework_count,3,Success
+quality,cases,rework_count_by_value,3,Success
+quality,cases,rework_of_activities_subset,1,Success
+quality,cases,rework_percentage,0.5,Success
+quality,cases,rework_percentage_by_value,0.5,Success
+quality,cases,rework_time,0 days 00:00:40,Success
+quality,cases,successful_outcome_unit_count,13.0,Success
+quality,cases,successful_outcome_unit_percentage,0.812,Success
+quality,cases,unwanted_activity_count,2,Success
+quality,cases,unwanted_activity_instance_count,3,Success
+quality,cases,unwanted_activity_instance_percentage,0.5,Success
+quality,cases,unwanted_activity_percentage,0.667,Success
+quality,groups,activity_instance_count_by_human_resource,5,Success
+quality,groups,activity_instance_count_by_role,5,Success
+quality,groups,automated_activity_count,3,Success
+quality,groups,automated_activity_instance_count,4,Success
+quality,groups,case_and_client_count_ratio,1.0,Success
+quality,groups,case_count_where_activity_after_time_frame,0,Success
+quality,groups,case_count_where_activity_before_time_frame,1,Success
+quality,groups,case_count_where_activity_during_time_frame,0,Success
+quality,groups,case_count_where_end_activity_is_a,0,Success
+quality,groups,case_count_where_start_activity_is_a,1,Success
+quality,groups,case_count_with_rework,2,Success
+quality,groups,case_percentage_where_activity_after_time_frame,0.0,Success
+quality,groups,case_percentage_where_activity_before_time_frame,0.333,Success
+quality,groups,case_percentage_where_activity_during_time_frame,0.0,Success
+quality,groups,case_percentage_where_end_activity_is_a,0.0,Success
+quality,groups,case_percentage_where_start_activity_is_a,0.333,Success
+quality,groups,case_percentage_with_missed_deadline,,'>' not supported between instances of 'Timestamp' and 'Timedelta'
+quality,groups,case_percentage_with_rework,0.667,Success
+quality,groups,client_count_and_total_cost_ratio,0.043,Success
+quality,groups,desired_activity_count,3,Success
+quality,groups,expected_activity_instance_count_by_human_resource,1.667,Success
+quality,groups,expected_activity_instance_count_by_role,1.667,Success
+quality,groups,expected_automated_activity_count,1.0,Success
+quality,groups,expected_automated_activity_instance_count,1.333,Success
+quality,groups,expected_client_count_and_total_cost_ratio,0.043,Success
+quality,groups,expected_desired_activity_count,0.273,Success
+quality,groups,expected_human_resource_count,0.545,Success
+quality,groups,expected_non_automated_activity_count,0.273,Success
+quality,groups,expected_non_automated_activity_instance_count,2.333,Success
+quality,groups,expected_outcome_unit_count,11.333,Success
+quality,groups,expected_overall_quality,3.0,Success
+quality,groups,expected_repeatability,0.45499999999999996,Success
+quality,groups,expected_rework_count,1.667,Success
+quality,groups,expected_rework_count_by_value,1.667,Success
+quality,groups,expected_rework_of_activities_subset,0.333,Success
+quality,groups,expected_rework_percentage,0.333,Success
+quality,groups,expected_rework_percentage_by_value,0.333,Success
+quality,groups,expected_rework_time,,No start event found for case 10.
+quality,groups,expected_successful_outcome_unit_count,6.667,Success
+quality,groups,expected_successful_outcome_unit_percentage,,"Error performing indicator division. Numerator value=0.0, denominator value=0.0"
+quality,groups,expected_total_cost_and_client_count_ratio,0.043,Success
+quality,groups,expected_unwanted_activity_count,3,Success
+quality,groups,expected_unwanted_activity_instance_count,1.333,Success
+quality,groups,expected_unwanted_activity_instance_percentage,0.25,Success
+quality,groups,expected_unwanted_activity_percentage,0.389,Success
+quality,groups,human_resource_count,3,Success
+quality,groups,non_automated_activity_count,1,Success
+quality,groups,non_automated_activity_instance_count,7,Success
+quality,groups,outcome_unit_count,34.0,Success
+quality,groups,repeatability,0.45499999999999996,Success
+quality,groups,rework_count,5,Success
+quality,groups,rework_count_by_value,5,Success
+quality,groups,rework_of_activities_subset,1,Success
+quality,groups,rework_percentage,0.455,Success
+quality,groups,rework_percentage_by_value,0.455,Success
+quality,groups,rework_time,,No start event found for case 10.
+quality,groups,successful_outcome_unit_count,20.0,Success
+quality,groups,successful_outcome_unit_percentage,0.588,Success
+quality,groups,total_cost_and_client_count_ratio,0.043,Success
+quality,groups,unwanted_activity_count,3,Success
+quality,groups,unwanted_activity_instance_count,4,Success
+quality,groups,unwanted_activity_instance_percentage,0.364,Success
+quality,groups,unwanted_activity_percentage,0.5,Success
+quality,instances,outcome_unit_count_for_single_events_of_activity_instances,0.0,Success
+quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,71.0,Success
+quality,instances,successful_outcome_unit_count,0.0,Success
+quality,instances,successful_outcome_unit_percentage,,"Error performing indicator division. Numerator value=0.0, denominator value=0.0"
+time,activities,lead_time,0 days 00:04:37,Success
+time,activities,service_and_lead_time_ratio,0.5126353790613718,Success
+time,activities,service_time,0 days 00:02:22,Success
+time,activities,waiting_time,0 days 00:02:15,Success
+time,cases,active_time,,"Error performing indicator division. Numerator value=0 days 00:00:05, denominator value=0"
+time,cases,activity_count,3,Success
+time,cases,activity_instance_count,6,Success
+time,cases,automated_activity_count,2,Success
+time,cases,automated_activity_instance_count,3,Success
+time,cases,automated_activity_service_time,0 days 00:00:28,Success
+time,cases,handover_count,4.0,Success
+time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:05, denominator value=0"
+time,cases,lead_time,0 days 00:01:19,Success
+time,cases,lead_time_deviation_from_deadline,0 days 00:00:32.400000,Success
+time,cases,lead_time_deviation_from_expectation,0 days 00:00:23.300000,Success
+time,cases,lead_time_from_activity_a,0 days 00:01:19,Success
+time,cases,lead_time_from_activity_a_to_b,,Success
+time,cases,lead_time_to_activity_a,0 days 00:00:08,Success
+time,cases,service_and_lead_time_ratio,1.0506329113924051,Success
+time,cases,service_time,0 days 00:01:23,Success
+time,cases,service_time_from_activity_a_to_b,,Success
+time,cases,waiting_time,0 days 00:00:32,Success
+time,cases,waiting_time_from_activity_a_to_b,,Success
+time,groups,activity_count,4,Success
+time,groups,activity_instance_count,11,Success
+time,groups,automated_activity_count,3,Success
+time,groups,automated_activity_instance_count,4,Success
+time,groups,automated_activity_service_time,0 days 00:00:28,Success
+time,groups,case_count_lead_time_ratio,,No start event found for case 10.
+time,groups,case_count_where_lead_time_over_value,,'>' not supported between instances of 'Timedelta' and 'int'
+time,groups,case_percentage_where_lead_time_over_value,,'>' not supported between instances of 'Timedelta' and 'int'
+time,groups,case_percentage_with_missed_deadline,,'>' not supported between instances of 'Timestamp' and 'int'
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:16, denominator value=0"
+time,groups,expected_activity_count,2.0,Success
+time,groups,expected_activity_instance_count,3.667,Success
+time,groups,expected_automated_activity_count,1.0,Success
+time,groups,expected_automated_activity_instance_count,1.333,Success
+time,groups,expected_automated_activity_service_time,0 days 00:00:09.333333333,Success
+time,groups,expected_handover_count,2.333,Success
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:16, denominator value=0"
+time,groups,expected_lead_time,,No start event found for case 10.
+time,groups,expected_lead_time_deviation_from_deadline,,No start event found for case 10.
+time,groups,expected_lead_time_deviation_from_expectation,,No start event found for case 10.
+time,groups,expected_lead_time_from_activity_a,0 days 00:01:19,Success
+time,groups,expected_lead_time_from_activity_a_to_b,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
+time,groups,expected_lead_time_to_activity_a,0 days 00:00:08,Success
+time,groups,expected_service_and_lead_time_ratio,,No start event found for case 10.
+time,groups,expected_service_time,0 days 00:00:28.980000,Success
+time,groups,expected_service_time_from_activity_a_to_b,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
+time,groups,expected_waiting_time,0 days 00:00:19,Success
+time,groups,expected_waiting_time_from_activity_a_to_b,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
+time,groups,lead_time,,No start event found for case 10.
+time,groups,lead_time_and_case_count_ratio,,No start event found for case 10.
+time,groups,service_and_lead_time_ratio,,No start event found for case 10.
+time,groups,service_time,0 days 00:01:27,Success
+time,groups,service_time_from_activity_a_to_b,0 days 00:00:00,Success
+time,instances,lead_time,0 days 00:00:35,Success
+time,instances,service_and_lead_time_ratio,0.8,Success
+time,instances,service_time,0 days 00:00:28,Success
+time,instances,waiting_time,0 days 00:00:07,Success

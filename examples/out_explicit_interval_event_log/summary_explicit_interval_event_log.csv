@@ -1,0 +1,2 @@
+event_log,relevant_attributes,general_dimension,time_dimension,cost_dimension,quality_dimension,flexibility_dimension,activity_instance_granularity,activity_granularity,case_granularity,group_of_cases_granularity,overall
+results_explicit_interval_event_log,21 / 21,19 / 19 (100.0%),27 / 60 (45.0%),44 / 95 (46.3%),59 / 102 (57.8%),23 / 34 (67.6%),16 / 22 (72.7%),15 / 37 (40.5%),44 / 78 (56.4%),97 / 173 (56.1%),172 / 310 (55.5%)

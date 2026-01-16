@@ -79,3 +79,4 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["S101", "PLR2004"]  # Ignore assertion use in test files
+"examples/*.py" = ["ALL"]

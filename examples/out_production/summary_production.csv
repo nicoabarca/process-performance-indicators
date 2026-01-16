@@ -1,0 +1,2 @@
+event_log,relevant_attributes,general_dimension,time_dimension,cost_dimension,quality_dimension,flexibility_dimension,activity_instance_granularity,activity_granularity,case_granularity,group_of_cases_granularity,overall
+results_production,9 / 21,16 / 19 (84.2%),48 / 60 (80.0%),26 / 95 (27.4%),88 / 102 (86.3%),24 / 34 (70.6%),7 / 22 (31.8%),24 / 37 (64.9%),56 / 78 (71.8%),115 / 173 (66.5%),202 / 310 (65.2%)

@@ -6,6 +6,8 @@ import pandas as pd
 
 from process_performance_indicators.constants import StandardColumnNames
 
+SUCCESS_STATUS = "Success"
+
 
 def _identify_relevant_columns(formatted_event_log: pd.DataFrame) -> set[str]:
     """Identify columns in the event log that are used by indicators."""
@@ -19,7 +21,7 @@ def _identify_relevant_columns(formatted_event_log: pd.DataFrame) -> set[str]:
 def _count_by_dimension(results_df: pd.DataFrame, dimension: str) -> tuple[int, int]:
     """Count successful and total indicators for a given dimension."""
     dimension_df = results_df[results_df["dimension"] == dimension]
-    success_count = len(dimension_df[dimension_df["status"] == "success"])
+    success_count = len(dimension_df[dimension_df["status"] == SUCCESS_STATUS])
     total_count = len(dimension_df)
     return success_count, total_count
 
@@ -27,7 +29,7 @@ def _count_by_dimension(results_df: pd.DataFrame, dimension: str) -> tuple[int, 
 def _count_by_granularity(results_df: pd.DataFrame, granularity: str) -> tuple[int, int]:
     """Count successful and total indicators for a given granularity."""
     granularity_df = results_df[results_df["granularity"] == granularity]
-    success_count = len(granularity_df[granularity_df["status"] == "success"])
+    success_count = len(granularity_df[granularity_df["status"] == SUCCESS_STATUS])
     total_count = len(granularity_df)
     return success_count, total_count
 
@@ -89,7 +91,7 @@ def summary_to_csv(
         granularity_stats[col_name] = f"{success} / {total} ({percentage:.1f}%)"
 
     # Calculate overall statistics
-    total_success = len(results_df[results_df["status"] == "success"])
+    total_success = len(results_df[results_df["status"] == SUCCESS_STATUS])
     total_indicators = len(results_df)
     overall_percentage = (total_success / total_indicators * 100) if total_indicators > 0 else 0.0
 

@@ -11,6 +11,8 @@ import pandas as pd
 
 from process_performance_indicators.exceptions import ProcessPerformanceIndicatorDivisionError
 
+DECIMALS = 3
+
 
 @overload
 def safe_division(
@@ -67,4 +69,7 @@ def safe_division(
         raise exception_class(error_message)
     # Type-safe division with explicit type handling
     # The overloads ensure only valid combinations reach here
-    return numerator / denominator  # type: ignore[operator]
+    if isinstance(numerator, pd.Timedelta) or isinstance(denominator, pd.Timedelta):
+        return numerator / denominator  # type: ignore[operator]
+
+    return round(numerator / denominator, DECIMALS)

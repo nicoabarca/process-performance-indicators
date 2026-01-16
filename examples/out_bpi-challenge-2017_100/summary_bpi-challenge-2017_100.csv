@@ -1,0 +1,2 @@
+event_log,relevant_attributes,general_dimension,time_dimension,cost_dimension,quality_dimension,flexibility_dimension,activity_instance_granularity,activity_granularity,case_granularity,group_of_cases_granularity,overall
+results_bpi-challenge-2017_100,6 / 21,12 / 19 (63.2%),48 / 60 (80.0%),15 / 95 (15.8%),65 / 102 (63.7%),16 / 34 (47.1%),4 / 22 (18.2%),15 / 37 (40.5%),44 / 78 (56.4%),93 / 173 (53.8%),156 / 310 (50.3%)
