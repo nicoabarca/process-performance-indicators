@@ -150,14 +150,14 @@ general,groups,role_count,,Column 'org:role' is not present in event log.
 quality,activities,activity_instance_count_by_human_resource,,Missing required args: ['human_resource_name']
 quality,activities,client_count_and_total_cost_ratio,,Column 'client' is not present in event log.
 quality,activities,human_resource_count,,Column 'human_resource' is not present in event log.
-quality,activities,outcome_unit_count,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+quality,activities,outcome_unit_count,,Column 'outcome_unit' is not present in event log.
 quality,activities,rework_count,0,Success
 quality,activities,rework_count_by_value,0,Success
 quality,activities,rework_percentage,0.0,Success
 quality,activities,rework_percentage_by_value,0.0,Success
 quality,activities,rework_time,0 days 00:00:00,Success
-quality,activities,successful_outcome_unit_count,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
-quality,activities,successful_outcome_unit_percentage,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+quality,activities,successful_outcome_unit_count,,Column 'outcome_unit' is not present in event log.
+quality,activities,successful_outcome_unit_percentage,,Column 'outcome_unit' is not present in event log.
 quality,activities,total_cost_and_client_count_ratio,,Column 'cost:total' is not present in event log.
 quality,cases,activity_instance_count_by_human_resource,,Missing required args: ['human_resource_name']
 quality,cases,activity_instance_count_by_role,,Missing required args: ['role_name']
@@ -167,8 +167,8 @@ quality,cases,desired_activity_count,3,Success
 quality,cases,human_resource_count,,Column 'human_resource' is not present in event log.
 quality,cases,non_automated_activity_count,16,Success
 quality,cases,non_automated_activity_instance_count,31,Success
-quality,cases,outcome_unit_count,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
-quality,cases,overall_quality,,<StandardColumnNames.QUALITY: 'quality'>
+quality,cases,outcome_unit_count,,Column 'outcome_unit' is not present in event log.
+quality,cases,overall_quality,,Column 'quality' is not present in event log.
 quality,cases,repeatability,0.5369999999999999,Success
 quality,cases,rework_count,22,Success
 quality,cases,rework_count_by_value,22,Success
@@ -176,8 +176,8 @@ quality,cases,rework_of_activities_subset,7,Success
 quality,cases,rework_percentage,0.537,Success
 quality,cases,rework_percentage_by_value,0.537,Success
 quality,cases,rework_time,7 days 19:03:49.512000,Success
-quality,cases,successful_outcome_unit_count,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
-quality,cases,successful_outcome_unit_percentage,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+quality,cases,successful_outcome_unit_count,,Column 'outcome_unit' is not present in event log.
+quality,cases,successful_outcome_unit_percentage,,Column 'outcome_unit' is not present in event log.
 quality,cases,unwanted_activity_count,3,Success
 quality,cases,unwanted_activity_instance_count,10,Success
 quality,cases,unwanted_activity_instance_percentage,0.244,Success
@@ -198,7 +198,7 @@ quality,groups,case_percentage_where_activity_before_time_frame,0.667,Success
 quality,groups,case_percentage_where_activity_during_time_frame,0.333,Success
 quality,groups,case_percentage_where_end_activity_is_a,0.0,Success
 quality,groups,case_percentage_where_start_activity_is_a,0.0,Success
-quality,groups,case_percentage_with_missed_deadline,,'>' not supported between instances of 'Timestamp' and 'Timedelta'
+quality,groups,case_percentage_with_missed_deadline,1,Success
 quality,groups,case_percentage_with_rework,1.0,Success
 quality,groups,client_count_and_total_cost_ratio,,Column 'client' is not present in event log.
 quality,groups,desired_activity_count,3,Success
@@ -211,8 +211,8 @@ quality,groups,expected_desired_activity_count,0.071,Success
 quality,groups,expected_human_resource_count,,Column 'human_resource' is not present in event log.
 quality,groups,expected_non_automated_activity_count,0.393,Success
 quality,groups,expected_non_automated_activity_instance_count,27.667,Success
-quality,groups,expected_outcome_unit_count,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
-quality,groups,expected_overall_quality,,<StandardColumnNames.QUALITY: 'quality'>
+quality,groups,expected_outcome_unit_count,,Column 'outcome_unit' is not present in event log.
+quality,groups,expected_overall_quality,,Column 'quality' is not present in event log.
 quality,groups,expected_repeatability,0.536,Success
 quality,groups,expected_rework_count,20.0,Success
 quality,groups,expected_rework_count_by_value,20.0,Success
@@ -220,8 +220,8 @@ quality,groups,expected_rework_of_activities_subset,7.0,Success
 quality,groups,expected_rework_percentage,0.536,Success
 quality,groups,expected_rework_percentage_by_value,0.536,Success
 quality,groups,expected_rework_time,9 days 22:50:06.124000,Success
-quality,groups,expected_successful_outcome_unit_count,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
-quality,groups,expected_successful_outcome_unit_percentage,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+quality,groups,expected_successful_outcome_unit_count,,Column 'outcome_unit' is not present in event log.
+quality,groups,expected_successful_outcome_unit_percentage,,Column 'outcome_unit' is not present in event log.
 quality,groups,expected_total_cost_and_client_count_ratio,,Column 'client' is not present in event log.
 quality,groups,expected_unwanted_activity_count,8,Success
 quality,groups,expected_unwanted_activity_instance_count,9.667,Success
@@ -230,7 +230,7 @@ quality,groups,expected_unwanted_activity_percentage,0.153,Success
 quality,groups,human_resource_count,,Column 'human_resource' is not present in event log.
 quality,groups,non_automated_activity_count,18,Success
 quality,groups,non_automated_activity_instance_count,83,Success
-quality,groups,outcome_unit_count,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+quality,groups,outcome_unit_count,,Column 'outcome_unit' is not present in event log.
 quality,groups,repeatability,0.536,Success
 quality,groups,rework_count,60,Success
 quality,groups,rework_count_by_value,60,Success
@@ -238,31 +238,31 @@ quality,groups,rework_of_activities_subset,21,Success
 quality,groups,rework_percentage,0.536,Success
 quality,groups,rework_percentage_by_value,0.536,Success
 quality,groups,rework_time,29 days 20:30:18.372000,Success
-quality,groups,successful_outcome_unit_count,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
-quality,groups,successful_outcome_unit_percentage,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+quality,groups,successful_outcome_unit_count,,Column 'outcome_unit' is not present in event log.
+quality,groups,successful_outcome_unit_percentage,,Column 'outcome_unit' is not present in event log.
 quality,groups,total_cost_and_client_count_ratio,,Column 'client' is not present in event log.
 quality,groups,unwanted_activity_count,3,Success
 quality,groups,unwanted_activity_instance_count,29,Success
 quality,groups,unwanted_activity_instance_percentage,0.259,Success
 quality,groups,unwanted_activity_percentage,0.058,Success
-quality,instances,outcome_unit_count_for_single_events_of_activity_instances,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
-quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
-quality,instances,successful_outcome_unit_count,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
-quality,instances,successful_outcome_unit_percentage,,<StandardColumnNames.OUTCOME_UNIT: 'outcome_unit'>
+quality,instances,outcome_unit_count_for_single_events_of_activity_instances,,Column 'outcome_unit' is not present in event log.
+quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,,Column 'outcome_unit' is not present in event log.
+quality,instances,successful_outcome_unit_count,,Column 'outcome_unit' is not present in event log.
+quality,instances,successful_outcome_unit_percentage,,Column 'outcome_unit' is not present in event log.
 time,activities,lead_time,0 days 00:00:00.520000,Success
 time,activities,service_and_lead_time_ratio,0.0,Success
 time,activities,service_time,0 days 00:00:00,Success
 time,activities,waiting_time,0 days 00:00:00.520000,Success
-time,cases,active_time,,"Error performing indicator division. Numerator value=0 days 00:00:00.302000, denominator value=0"
+time,cases,active_time,,"Error performing indicator division. Numerator value=0 days 00:01:20.614000, denominator value=0"
 time,cases,activity_count,19,Success
 time,cases,activity_instance_count,41,Success
 time,cases,automated_activity_count,3,Success
 time,cases,automated_activity_instance_count,10,Success
 time,cases,automated_activity_service_time,0 days 00:00:00,Success
 time,cases,handover_count,,Column 'human_resource' is not present in event log.
-time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:00.302000, denominator value=0"
+time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:01:20.614000, denominator value=0"
 time,cases,lead_time,8 days 17:26:43.241000,Success
-time,cases,lead_time_deviation_from_deadline,-2 days +20:44:38.796300,Success
+time,cases,lead_time_deviation_from_deadline,2016-10-15T16:11:26.833750+00:00,Success
 time,cases,lead_time_deviation_from_expectation,4 days 22:21:02.222350,Success
 time,cases,lead_time_from_activity_a,8 days 17:26:19.447000,Success
 time,cases,lead_time_from_activity_a_to_b,,Success
@@ -278,19 +278,19 @@ time,groups,automated_activity_count,3,Success
 time,groups,automated_activity_instance_count,29,Success
 time,groups,automated_activity_service_time,0 days 00:00:00,Success
 time,groups,case_count_lead_time_ratio,0.0,Success
-time,groups,case_count_where_lead_time_over_value,,'>' not supported between instances of 'Timedelta' and 'int'
-time,groups,case_percentage_where_lead_time_over_value,,'>' not supported between instances of 'Timedelta' and 'int'
-time,groups,case_percentage_with_missed_deadline,,'>' not supported between instances of 'Timestamp' and 'int'
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:00.302000, denominator value=0"
+time,groups,case_count_where_lead_time_over_value,3,Success
+time,groups,case_percentage_where_lead_time_over_value,1.0,Success
+time,groups,case_percentage_with_missed_deadline,0.333,Success
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:01:20.614000, denominator value=0"
 time,groups,expected_activity_count,17.333,Success
 time,groups,expected_activity_instance_count,37.333,Success
 time,groups,expected_automated_activity_count,2.667,Success
 time,groups,expected_automated_activity_instance_count,9.667,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:00,Success
 time,groups,expected_handover_count,,Column 'human_resource' is not present in event log.
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:00.302000, denominator value=0"
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:01:20.614000, denominator value=0"
 time,groups,expected_lead_time,10 days 07:02:26.039999999,Success
-time,groups,expected_lead_time_deviation_from_deadline,-3 days +07:08:56.040000,Success
+time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
 time,groups,expected_lead_time_deviation_from_expectation,6 days 11:56:45,Success
 time,groups,expected_lead_time_from_activity_a,10 days 06:48:00.047666666,Success
 time,groups,expected_lead_time_from_activity_a_to_b,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"

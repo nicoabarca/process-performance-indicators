@@ -117,7 +117,8 @@ def build_indicator_arguments_auto(event_log: pd.DataFrame) -> IndicatorArgument
         direct_cost_activities=sample(StandardColumnNames.ACTIVITY, n=3),
         activities_subset=sample(StandardColumnNames.ACTIVITY, n=3),
         value=1,  # Default rework threshold
-        deadline=avg_case_duration * 2,  # 2x average duration as deadline
+        deadline=three_quarter_point,
+        lead_time_threshold=avg_case_duration * 2,
         expectation=avg_case_duration,  # Average duration as expectation
         activity_a=sample(StandardColumnNames.ACTIVITY),
         activity_b=sample(StandardColumnNames.ACTIVITY),
@@ -201,7 +202,6 @@ def load_config(config_path: Path, dataset_name: str) -> tuple[StandardColumnMap
 
 
 def parse_arguments():
-    """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description="Execute process performance indicators on an event log dataset.",
         formatter_class=argparse.RawDescriptionHelpFormatter,

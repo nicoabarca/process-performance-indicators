@@ -54,6 +54,7 @@ class IndicatorArguments:
     # Thresholds / expectations
     deadline: pd.Timestamp | None = None
     expectation: pd.Timedelta | None = None
+    lead_time_threshold: pd.Timedelta | None = None
     value: str | int | float | None = None
 
     # Generic modes

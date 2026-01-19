@@ -161,13 +161,12 @@ def _standardize_columns(
     standard_mapping = convert_to_standard_mapping(column_mapping)
     validate_column_mapping(standard_mapping, set(event_log.columns))
 
-    # Rename columns to standard column names
     inverted_mapping = {v: k for k, v in standard_mapping.items()}
-    standard_named_log = event_log.rename(columns=inverted_mapping)
 
-    # Keep only the columns that were mapped
-    mapped_columns = list(inverted_mapping.values())
-    return standard_named_log[mapped_columns]
+    columns_to_keep = list(inverted_mapping.keys())
+    filtered_log = event_log[columns_to_keep]
+
+    return filtered_log.rename(columns=inverted_mapping)
 
 
 def _convert_standard_types(log_df: pd.DataFrame) -> None:

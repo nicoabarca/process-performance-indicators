@@ -96,7 +96,7 @@ cost,instances,variable_cost_for_single_events_of_activity_instances,4.0,Success
 cost,instances,variable_cost_for_sum_of_all_events_of_activity_instances,8.0,Success
 flexibility,activities,activity_instance_and_human_resource_count_ratio,6.0,Success
 flexibility,activities,client_count,6,Success
-flexibility,activities,directly_follows_relations_count,,single positional indexer is out-of-bounds
+flexibility,activities,directly_follows_relations_count,,index 0 is out of bounds for axis 0 with size 0
 flexibility,activities,human_resource_count,3,Success
 flexibility,cases,activity_and_role_count_ratio,2.0,Success
 flexibility,cases,activity_instance_and_human_resource_count_ratio,4.0,Success
@@ -110,13 +110,13 @@ flexibility,cases,variant_case_coverage,,index 0 is out of bounds for axis 0 wit
 flexibility,groups,activity_and_role_count_ratio,2.2,Success
 flexibility,groups,activity_instance_and_human_resource_count_ratio,3.375,Success
 flexibility,groups,client_count,3,Success
-flexibility,groups,directly_follows_relations_and_activity_count_ratio,,single positional indexer is out-of-bounds
-flexibility,groups,directly_follows_relations_count,,single positional indexer is out-of-bounds
+flexibility,groups,directly_follows_relations_and_activity_count_ratio,,index 0 is out of bounds for axis 0 with size 0
+flexibility,groups,directly_follows_relations_count,,index 0 is out of bounds for axis 0 with size 0
 flexibility,groups,expected_activity_and_role_count_ratio,2.2,Success
 flexibility,groups,expected_activity_instance_and_human_resource_count_ratio,3.375,Success
 flexibility,groups,expected_client_count,1.0,Success
-flexibility,groups,expected_directly_follows_relations_and_activity_count_ratio,,single positional indexer is out-of-bounds
-flexibility,groups,expected_directly_follows_relations_count,,single positional indexer is out-of-bounds
+flexibility,groups,expected_directly_follows_relations_and_activity_count_ratio,,index 0 is out of bounds for axis 0 with size 0
+flexibility,groups,expected_directly_follows_relations_count,,index 0 is out of bounds for axis 0 with size 0
 flexibility,groups,expected_human_resource_count,2.667,Success
 flexibility,groups,expected_optional_activity_count,3.667,Success
 flexibility,groups,expected_optionality,1.0,Success
@@ -198,7 +198,7 @@ quality,groups,case_percentage_where_activity_before_time_frame,0.333,Success
 quality,groups,case_percentage_where_activity_during_time_frame,0.333,Success
 quality,groups,case_percentage_where_end_activity_is_a,0.0,Success
 quality,groups,case_percentage_where_start_activity_is_a,0.333,Success
-quality,groups,case_percentage_with_missed_deadline,,'>' not supported between instances of 'Timestamp' and 'Timedelta'
+quality,groups,case_percentage_with_missed_deadline,1,Success
 quality,groups,case_percentage_with_rework,1.0,Success
 quality,groups,client_count_and_total_cost_ratio,,index 0 is out of bounds for axis 0 with size 0
 quality,groups,desired_activity_count,3,Success
@@ -252,7 +252,7 @@ quality,instances,successful_outcome_unit_percentage,,"Error performing indicato
 time,activities,lead_time,,single positional indexer is out-of-bounds
 time,activities,service_and_lead_time_ratio,,single positional indexer is out-of-bounds
 time,activities,service_time,,single positional indexer is out-of-bounds
-time,activities,waiting_time,,index 0 is out of bounds for axis 0 with size 0
+time,activities,waiting_time,,single positional indexer is out-of-bounds
 time,cases,active_time,,single positional indexer is out-of-bounds
 time,cases,activity_count,4,Success
 time,cases,activity_instance_count,12,Success
@@ -262,7 +262,7 @@ time,cases,automated_activity_service_time,,single positional indexer is out-of-
 time,cases,handover_count,,single positional indexer is out-of-bounds
 time,cases,idle_time,,single positional indexer is out-of-bounds
 time,cases,lead_time,0 days 00:00:45,Success
-time,cases,lead_time_deviation_from_deadline,0 days 00:00:52.900000,Success
+time,cases,lead_time_deviation_from_deadline,2025-01-01T10:11:29.250000,Success
 time,cases,lead_time_deviation_from_expectation,0 days 00:00:03.950000,Success
 time,cases,lead_time_from_activity_a,0 days 00:00:39,Success
 time,cases,lead_time_from_activity_a_to_b,,Success
@@ -278,19 +278,19 @@ time,groups,automated_activity_count,3,Success
 time,groups,automated_activity_instance_count,,single positional indexer is out-of-bounds
 time,groups,automated_activity_service_time,,single positional indexer is out-of-bounds
 time,groups,case_count_lead_time_ratio,12.706,Success
-time,groups,case_count_where_lead_time_over_value,,'>' not supported between instances of 'Timedelta' and 'int'
-time,groups,case_percentage_where_lead_time_over_value,,'>' not supported between instances of 'Timedelta' and 'int'
-time,groups,case_percentage_with_missed_deadline,,'>' not supported between instances of 'Timestamp' and 'int'
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:01, denominator value=0"
+time,groups,case_count_where_lead_time_over_value,0,Success
+time,groups,case_percentage_where_lead_time_over_value,0.0,Success
+time,groups,case_percentage_with_missed_deadline,0.333,Success
+time,groups,expected_active_time,,single positional indexer is out-of-bounds
 time,groups,expected_activity_count,3.667,Success
 time,groups,expected_activity_instance_count,9.0,Success
 time,groups,expected_automated_activity_count,2.667,Success
 time,groups,expected_automated_activity_instance_count,,single positional indexer is out-of-bounds
 time,groups,expected_automated_activity_service_time,,single positional indexer is out-of-bounds
-time,groups,expected_handover_count,,index 0 is out of bounds for axis 0 with size 0
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:01, denominator value=0"
+time,groups,expected_handover_count,,single positional indexer is out-of-bounds
+time,groups,expected_idle_time,,single positional indexer is out-of-bounds
 time,groups,expected_lead_time,0 days 00:00:39.360000,Success
-time,groups,expected_lead_time_deviation_from_deadline,0 days 00:00:58.560000,Success
+time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:09.600000,Success
 time,groups,expected_lead_time_from_activity_a,0 days 00:00:32,Success
 time,groups,expected_lead_time_from_activity_a_to_b,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
@@ -298,7 +298,7 @@ time,groups,expected_lead_time_to_activity_a,0 days 00:00:12,Success
 time,groups,expected_service_and_lead_time_ratio,,single positional indexer is out-of-bounds
 time,groups,expected_service_time,,single positional indexer is out-of-bounds
 time,groups,expected_service_time_from_activity_a_to_b,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
-time,groups,expected_waiting_time,,index 0 is out of bounds for axis 0 with size 0
+time,groups,expected_waiting_time,,single positional indexer is out-of-bounds
 time,groups,expected_waiting_time_from_activity_a_to_b,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
 time,groups,lead_time,0 days 00:14:10,Success
 time,groups,lead_time_and_case_count_ratio,0 days 00:04:44.400000,Success

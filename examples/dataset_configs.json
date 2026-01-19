@@ -27,7 +27,6 @@
     "case_id_key": "case:concept:name",
     "activity_key": "concept:name",
     "timestamp_key": "time:timestamp",
-    "resource_key": "org:resource",
     "human_resource_key": "org:resource",
     "role_key": "org:group",
     "separator": ",",

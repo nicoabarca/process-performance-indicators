@@ -11,7 +11,13 @@ from process_performance_indicators.utils.safe_division import safe_division
 
 def active_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     """
-    TODO: Ask for explanation.
+    The difference between the total elapsed time of the case, and the sum of waiting
+    times for every activity instance in the case where no other activity instance was being executed.
+
+    Args:
+        event_log: The event log.
+        case_id: The case ID.
+
     """
     return lead_time(event_log, case_id) - idle_time(event_log, case_id)
 
@@ -110,7 +116,13 @@ def handover_count(event_log: pd.DataFrame, case_id: str) -> float:
 
 def idle_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     """
-    TODO: Implement this function. Ask for explanation.
+    The sum of waiting times for every activity instance in the case
+    where no other activity instance was being executed.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+
     """
     total_idle_time: pd.Timedelta = pd.Timedelta(0)
     for instance_id in cases_utils.inst(event_log, case_id):
