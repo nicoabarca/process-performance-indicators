@@ -126,7 +126,8 @@ def build_indicator_arguments_auto(event_log: pd.DataFrame) -> IndicatorArgument
         start_time=quarter_point,  # 25% into the log timeframe
         end_time=three_quarter_point,  # 75% into the log timeframe
         role_name=sample(StandardColumnNames.ROLE) if StandardColumnNames.ROLE in event_log.columns else None,
-        aggregation_mode="sgl",
+        aggregation_mode="sgl",  # sum
+        time_aggregation_mode="s",  # c, sc, w
     )
 
     # Print sampled values so user can review them
@@ -153,6 +154,7 @@ def build_indicator_arguments_auto(event_log: pd.DataFrame) -> IndicatorArgument
     print(f"  value: {args.value}")
     print(f"  role_name: {args.role_name}")
     print(f"  aggregation_mode: {args.aggregation_mode}")
+    print(f"  time_aggregation_mode: {args.time_aggregation_mode}")
     print("=" * 70 + "\n")
 
     return args

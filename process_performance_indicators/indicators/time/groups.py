@@ -545,7 +545,7 @@ def service_time_from_activity_a_to_b(
     case_ids: list[str] | set[str],
     activity_a: str,
     activity_b: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     The sum of elapsed times between the start and complete events of all activity instances of every case in the group of cases,
@@ -557,7 +557,7 @@ def service_time_from_activity_a_to_b(
         case_ids: The case IDs.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
-        aggregation_mode: The aggregation mode.
+        time_aggregation_mode: The aggregation mode.
             "s": Considers activity instances that were started within the start and end activity instances.
             "c": Considers activity instances that were completed within the start and end activity instances.
             "sc": Considers activity instances that were either started or completed within the start and end activity instances.
@@ -567,7 +567,7 @@ def service_time_from_activity_a_to_b(
     sum_of_service_times: pd.Timedelta = pd.Timedelta(0)
     for case_id in case_ids:
         service_time = time_cases_indicators.service_time_from_activity_a_to_b(
-            event_log, case_id, activity_a, activity_b, aggregation_mode
+            event_log, case_id, activity_a, activity_b, time_aggregation_mode
         )
         if service_time is not None:
             sum_of_service_times += service_time
@@ -580,7 +580,7 @@ def expected_service_time_from_activity_a_to_b(
     case_ids: list[str] | set[str],
     activity_a: str,
     activity_b: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     The expected sum of elapsed times between the start and complete events of all activity instances of every case in the group of cases,
@@ -592,7 +592,7 @@ def expected_service_time_from_activity_a_to_b(
         case_ids: The case IDs.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
-        aggregation_mode: The aggregation mode.
+        time_aggregation_mode: The aggregation mode.
             "s": Considers activity instances that were started within the start and end activity instances.
             "c": Considers activity instances that were completed within the start and end activity instances.
             "sc": Considers activity instances that were either started or completed within the start and end activity instances.
@@ -604,7 +604,8 @@ def expected_service_time_from_activity_a_to_b(
     )
 
     return safe_division(
-        service_time_from_activity_a_to_b(event_log, case_ids, activity_a, activity_b, aggregation_mode), cases_count
+        service_time_from_activity_a_to_b(event_log, case_ids, activity_a, activity_b, time_aggregation_mode),
+        cases_count,
     )
 
 
@@ -629,7 +630,7 @@ def expected_waiting_time_from_activity_a_to_b(
     case_ids: list[str] | set[str],
     activity_a: str,
     activity_b: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     The expected sum, for every activity instance in a case belonging to the group of cases, that occurs between the earliest
@@ -642,7 +643,7 @@ def expected_waiting_time_from_activity_a_to_b(
         case_ids: The case IDs.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
-        aggregation_mode: The aggregation mode.
+        time_aggregation_mode: The aggregation mode.
             "s": Considers activity instances that were started within the start and end activity instances.
             "c": Considers activity instances that were completed within the start and end activity instances.
             "sc": Considers activity instances that were either started or completed within the start and end activity instances.
@@ -652,7 +653,7 @@ def expected_waiting_time_from_activity_a_to_b(
     sum_of_waiting_times: pd.Timedelta = pd.Timedelta(0)
     for case_id in case_ids:
         waiting_time = time_cases_indicators.waiting_time_from_activity_a_to_b(
-            event_log, case_id, activity_a, activity_b, aggregation_mode
+            event_log, case_id, activity_a, activity_b, time_aggregation_mode
         )
         if waiting_time is not None:
             sum_of_waiting_times += waiting_time

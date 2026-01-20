@@ -253,14 +253,14 @@ time,activities,lead_time,0 days 00:00:00.520000,Success
 time,activities,service_and_lead_time_ratio,0.0,Success
 time,activities,service_time,0 days 00:00:00,Success
 time,activities,waiting_time,0 days 00:00:00.520000,Success
-time,cases,active_time,,"Error performing indicator division. Numerator value=0 days 00:01:20.614000, denominator value=0"
+time,cases,active_time,,"Error performing indicator division. Numerator value=1 days 01:47:17.393000, denominator value=0"
 time,cases,activity_count,19,Success
 time,cases,activity_instance_count,41,Success
 time,cases,automated_activity_count,3,Success
 time,cases,automated_activity_instance_count,10,Success
 time,cases,automated_activity_service_time,0 days 00:00:00,Success
 time,cases,handover_count,,Column 'human_resource' is not present in event log.
-time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:01:20.614000, denominator value=0"
+time,cases,idle_time,,"Error performing indicator division. Numerator value=1 days 01:47:17.393000, denominator value=0"
 time,cases,lead_time,8 days 17:26:43.241000,Success
 time,cases,lead_time_deviation_from_deadline,2016-10-15T16:11:26.833750+00:00,Success
 time,cases,lead_time_deviation_from_expectation,4 days 22:21:02.222350,Success
@@ -281,14 +281,14 @@ time,groups,case_count_lead_time_ratio,0.0,Success
 time,groups,case_count_where_lead_time_over_value,3,Success
 time,groups,case_percentage_where_lead_time_over_value,1.0,Success
 time,groups,case_percentage_with_missed_deadline,0.333,Success
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:01:20.614000, denominator value=0"
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=1 days 01:47:17.393000, denominator value=0"
 time,groups,expected_activity_count,17.333,Success
 time,groups,expected_activity_instance_count,37.333,Success
 time,groups,expected_automated_activity_count,2.667,Success
 time,groups,expected_automated_activity_instance_count,9.667,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:00,Success
 time,groups,expected_handover_count,,Column 'human_resource' is not present in event log.
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:01:20.614000, denominator value=0"
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=1 days 01:47:17.393000, denominator value=0"
 time,groups,expected_lead_time,10 days 07:02:26.039999999,Success
 time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
 time,groups,expected_lead_time_deviation_from_expectation,6 days 11:56:45,Success

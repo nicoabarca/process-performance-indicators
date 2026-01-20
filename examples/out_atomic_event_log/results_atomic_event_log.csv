@@ -269,9 +269,9 @@ time,cases,lead_time_from_activity_a_to_b,0 days 00:00:02,Success
 time,cases,lead_time_to_activity_a,0 days 00:00:00,Success
 time,cases,service_and_lead_time_ratio,0.0,Success
 time,cases,service_time,0 days 00:00:00,Success
-time,cases,service_time_from_activity_a_to_b,,'sgl'
+time,cases,service_time_from_activity_a_to_b,0 days 00:00:00,Success
 time,cases,waiting_time,0 days 00:00:25,Success
-time,cases,waiting_time_from_activity_a_to_b,,'sgl'
+time,cases,waiting_time_from_activity_a_to_b,0 days 00:00:00,Success
 time,groups,activity_count,3,Success
 time,groups,activity_instance_count,22,Success
 time,groups,automated_activity_count,2,Success
@@ -281,14 +281,14 @@ time,groups,case_count_lead_time_ratio,10.435,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.333,Success
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:01, denominator value=0"
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:05, denominator value=0"
 time,groups,expected_activity_count,2.667,Success
 time,groups,expected_activity_instance_count,7.333,Success
 time,groups,expected_automated_activity_count,1.667,Success
 time,groups,expected_automated_activity_instance_count,4.333,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:00,Success
 time,groups,expected_handover_count,4.667,Success
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:01, denominator value=0"
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:05, denominator value=0"
 time,groups,expected_lead_time,0 days 00:00:28.980000,Success
 time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:34.980000,Success
@@ -297,14 +297,14 @@ time,groups,expected_lead_time_from_activity_a_to_b,0 days 00:00:04.500000,Succe
 time,groups,expected_lead_time_to_activity_a,0 days 00:00:01.500000,Success
 time,groups,expected_service_and_lead_time_ratio,0.0,Success
 time,groups,expected_service_time,0 days 00:00:00,Success
-time,groups,expected_service_time_from_activity_a_to_b,,'sgl'
+time,groups,expected_service_time_from_activity_a_to_b,0 days 00:00:00,Success
 time,groups,expected_waiting_time,0 days 00:00:29,Success
-time,groups,expected_waiting_time_from_activity_a_to_b,,'sgl'
+time,groups,expected_waiting_time_from_activity_a_to_b,0 days 00:00:03,Success
 time,groups,lead_time,0 days 00:17:15,Success
 time,groups,lead_time_and_case_count_ratio,0 days 00:05:45.600000,Success
 time,groups,service_and_lead_time_ratio,0.0,Success
 time,groups,service_time,0 days 00:00:00,Success
-time,groups,service_time_from_activity_a_to_b,,'sgl'
+time,groups,service_time_from_activity_a_to_b,0 days 00:00:00,Success
 time,instances,lead_time,0 days 00:00:03,Success
 time,instances,service_and_lead_time_ratio,0.0,Success
 time,instances,service_time,0 days 00:00:00,Success

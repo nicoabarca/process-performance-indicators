@@ -59,3 +59,4 @@ class IndicatorArguments:
 
     # Generic modes
     aggregation_mode: Literal["sgl", "sum"] | None = None
+    time_aggregation_mode: Literal["s", "c", "sc", "w"] | None = None

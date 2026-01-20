@@ -219,7 +219,7 @@ quality,groups,expected_rework_count_by_value,5.333,Success
 quality,groups,expected_rework_of_activities_subset,2.0,Success
 quality,groups,expected_rework_percentage,0.556,Success
 quality,groups,expected_rework_percentage_by_value,0.556,Success
-quality,groups,expected_rework_time,,index 0 is out of bounds for axis 0 with size 0
+quality,groups,expected_rework_time,,single positional indexer is out-of-bounds
 quality,groups,expected_successful_outcome_unit_count,,index 0 is out of bounds for axis 0 with size 0
 quality,groups,expected_successful_outcome_unit_percentage,,index 0 is out of bounds for axis 0 with size 0
 quality,groups,expected_total_cost_and_client_count_ratio,,index 0 is out of bounds for axis 0 with size 0
@@ -237,7 +237,7 @@ quality,groups,rework_count_by_value,16,Success
 quality,groups,rework_of_activities_subset,6,Success
 quality,groups,rework_percentage,0.593,Success
 quality,groups,rework_percentage_by_value,0.593,Success
-quality,groups,rework_time,,index 0 is out of bounds for axis 0 with size 0
+quality,groups,rework_time,,single positional indexer is out-of-bounds
 quality,groups,successful_outcome_unit_count,,index 0 is out of bounds for axis 0 with size 0
 quality,groups,successful_outcome_unit_percentage,,index 0 is out of bounds for axis 0 with size 0
 quality,groups,total_cost_and_client_count_ratio,,index 0 is out of bounds for axis 0 with size 0

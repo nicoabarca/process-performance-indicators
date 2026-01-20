@@ -325,18 +325,21 @@ def st(
     event_log: pd.DataFrame,
     instance_id_i: str,
     instance_id_prime: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     Get the start time of an activity instance based on the aggregation mode.
     """
+    if time_aggregation_mode not in {"s", "c", "sc", "w"}:
+        raise ValueError(f"Invalid aggregation mode: {time_aggregation_mode}. Expected 's', 'c', 'sc', or 'w'.")
+
     instances_between_options = {
         "s": instbetween_s,
         "c": instbetween_c,
         "sc": instbetween_sc,
         "w": instbetween_w,
     }
-    instances_between = instances_between_options[aggregation_mode](event_log, instance_id_i, instance_id_prime)
+    instances_between = instances_between_options[time_aggregation_mode](event_log, instance_id_i, instance_id_prime)
 
     time_between_instances: pd.Timedelta = pd.Timedelta(0)
     start_instance_i = start(event_log, instance_id_i)
@@ -359,18 +362,21 @@ def wt(
     event_log: pd.DataFrame,
     instance_id_i: str,
     instance_id_prime: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     Get the waiting time between pairs of activity instances
     """
+    if time_aggregation_mode not in {"s", "c", "sc", "w"}:
+        raise ValueError(f"Invalid aggregation mode: {time_aggregation_mode}. Expected 's', 'c', 'sc', or 'w'.")
+
     instances_between_options = {
         "s": instbetween_s,
         "c": instbetween_c,
         "sc": instbetween_sc,
         "w": instbetween_w,
     }
-    instances_between = instances_between_options[aggregation_mode](event_log, instance_id_i, instance_id_prime)
+    instances_between = instances_between_options[time_aggregation_mode](event_log, instance_id_i, instance_id_prime)
 
     time_between_instances: pd.Timedelta = pd.Timedelta(0)
     start_instance_i = start(event_log, instance_id_i)
