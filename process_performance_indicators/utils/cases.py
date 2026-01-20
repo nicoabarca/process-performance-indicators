@@ -5,7 +5,6 @@ import pandas as pd
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import LifecycleTransitionType, StandardColumnNames
 from process_performance_indicators.exceptions import (
-    ColumnNotFoundError,
     NoCompleteEventFoundError,
     NoStartEventFoundError,
 )
@@ -36,9 +35,7 @@ def res(event_log: pd.DataFrame, case_id: str) -> set[str]:
     Get the resources names set of a case.
     """
     _is_case_id_valid(event_log, case_id)
-    if StandardColumnNames.ORG_RESOURCE not in event_log.columns:
-        error_message = "RESOURCE column not found in event log."
-        raise ColumnNotFoundError(error_message)
+    assert_column_exists(event_log, StandardColumnNames.ORG_RESOURCE)
 
     resources = event_log[event_log[StandardColumnNames.CASE_ID] == case_id][StandardColumnNames.ORG_RESOURCE].unique()
     return set(resources)

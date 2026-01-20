@@ -33,10 +33,7 @@ def cpl(event_log: pd.DataFrame, instance_id: str) -> pd.DataFrame:
 
     return event_log[
         (event_log[StandardColumnNames.INSTANCE] == instance_id)
-        & (
-            event_log[StandardColumnNames.LIFECYCLE_TRANSITION]
-            == LifecycleTransitionType.COMPLETE
-        )
+        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE)
     ]
 
 
@@ -85,9 +82,7 @@ def res(event_log: pd.DataFrame, instance_id: str) -> str:
     Get the resource of a complete event based on the instance id.
     """
     _is_instance_id_valid(event_log, instance_id)
-    if StandardColumnNames.ORG_RESOURCE not in event_log.columns:
-        error_message = "RESOURCE column not found in event log. Please ensure the event log contains the resource column."
-        raise ColumnNotFoundError(error_message)
+    assert_column_exists(event_log, StandardColumnNames.ORG_RESOURCE)
 
     complete_event = cpl(event_log, instance_id)
     col: pd.Series[str] = complete_event[StandardColumnNames.ORG_RESOURCE]
@@ -172,9 +167,9 @@ def prevstr(event_log: pd.DataFrame, instance_id: str) -> set[str]:
     for other in instance_ids:
         if other == instance_id:
             continue
-        if stime(event_log, other) < stime(event_log, instance_id) and ctime(
-            event_log, other
-        ) > stime(event_log, instance_id):
+        if stime(event_log, other) < stime(event_log, instance_id) and ctime(event_log, other) > stime(
+            event_log, instance_id
+        ):
             prevstr_instances.add(other)
     return prevstr_instances
 
@@ -212,14 +207,10 @@ def dres(event_log: pd.DataFrame, instance_id: str) -> float:
         if hres(event_log, previous_instance) != hres(event_log, instance_id):
             instances_with_different_human_resource += 1
 
-    return safe_division(
-        instances_with_different_human_resource, len(previous_instances)
-    )
+    return safe_division(instances_with_different_human_resource, len(previous_instances))
 
 
-def instbetween_s(
-    event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str
-) -> set[str]:
+def instbetween_s(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> set[str]:
     """
     Get the activity instances that were started between two activity instances.
     """
@@ -238,18 +229,13 @@ def instbetween_s(
 
         start_time_double_prime = stime(event_log, instance_double_prime)
 
-        if (
-            start_time_double_prime > start_time_i
-            and start_time_double_prime < complete_time_prime
-        ):
+        if start_time_double_prime > start_time_i and start_time_double_prime < complete_time_prime:
             instbetween_s_instances.add(instance_double_prime)
 
     return instbetween_s_instances
 
 
-def instbetween_c(
-    event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str
-) -> set[str]:
+def instbetween_c(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> set[str]:
     """
     Get the activity instances that were completed between two activity instances.
     """
@@ -268,18 +254,13 @@ def instbetween_c(
 
         complete_time_double_prime = ctime(event_log, instance_double_prime)
 
-        if (
-            complete_time_double_prime > start_time_i
-            and complete_time_prime > complete_time_double_prime
-        ):
+        if complete_time_double_prime > start_time_i and complete_time_prime > complete_time_double_prime:
             instbetween_c_instances.add(instance_double_prime)
 
     return instbetween_c_instances
 
 
-def instbetween_sc(
-    event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str
-) -> set[str]:
+def instbetween_sc(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> set[str]:
     """
     Get the activity instances that were either started or completed between two activity instances.
     """
@@ -288,9 +269,7 @@ def instbetween_sc(
     )
 
 
-def instbetween_w(
-    event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str
-) -> set[str]:
+def instbetween_w(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> set[str]:
     """
     Get the activity instances that were active between two activity instances
     """
@@ -307,15 +286,10 @@ def instbetween_w(
         start_time_double_prime = stime(event_log, instance_double_prime)
         complete_time_double_prime = ctime(event_log, instance_double_prime)
 
-        if (
-            start_time_i > start_time_double_prime
-            and complete_time_double_prime > complete_time_prime
-        ):
+        if start_time_i > start_time_double_prime and complete_time_double_prime > complete_time_prime:
             active_instances.add(instance_double_prime)
 
-    return (
-        instbetween_sc(event_log, instance_id_i, instance_id_prime) | active_instances
-    )
+    return instbetween_sc(event_log, instance_id_i, instance_id_prime) | active_instances
 
 
 def timew(
@@ -327,32 +301,20 @@ def timew(
     """
     Time between pairs of activity instances
     """
-    col_instance_x_time: pd.Series[pd.Timestamp] = instance_x[
-        StandardColumnNames.TIMESTAMP
-    ]
-    col_instance_x_prime_time: pd.Series[pd.Timestamp] = instance_x_prime[
-        StandardColumnNames.TIMESTAMP
-    ]
-    col_instance_y_time: pd.Series[pd.Timestamp] = instance_y[
-        StandardColumnNames.TIMESTAMP
-    ]
-    col_instance_y_prime_time: pd.Series[pd.Timestamp] = instance_y_prime[
-        StandardColumnNames.TIMESTAMP
-    ]
+    col_instance_x_time: pd.Series[pd.Timestamp] = instance_x[StandardColumnNames.TIMESTAMP]
+    col_instance_x_prime_time: pd.Series[pd.Timestamp] = instance_x_prime[StandardColumnNames.TIMESTAMP]
+    col_instance_y_time: pd.Series[pd.Timestamp] = instance_y[StandardColumnNames.TIMESTAMP]
+    col_instance_y_prime_time: pd.Series[pd.Timestamp] = instance_y_prime[StandardColumnNames.TIMESTAMP]
 
     instance_x_time: pd.Timestamp = col_instance_x_time.iloc[0]
     instance_x_prime_time: pd.Timestamp = col_instance_x_prime_time.iloc[0]
     instance_y_time: pd.Timestamp = col_instance_y_time.iloc[0]
     instance_y_prime_time: pd.Timestamp = col_instance_y_prime_time.iloc[0]
 
-    return min(instance_x_prime_time, instance_y_prime_time) - max(
-        instance_x_time, instance_y_time
-    )
+    return min(instance_x_prime_time, instance_y_prime_time) - max(instance_x_time, instance_y_time)
 
 
-def lt(
-    event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str
-) -> pd.Timedelta:
+def lt(event_log: pd.DataFrame, instance_id_i: str, instance_id_prime: str) -> pd.Timedelta:
     """
     Lead time between pairs of activity instances.
     """
@@ -363,20 +325,21 @@ def st(
     event_log: pd.DataFrame,
     instance_id_i: str,
     instance_id_prime: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     Get the start time of an activity instance based on the aggregation mode.
     """
+    if time_aggregation_mode not in {"s", "c", "sc", "w"}:
+        raise ValueError(f"Invalid aggregation mode: {time_aggregation_mode}. Expected 's', 'c', 'sc', or 'w'.")
+
     instances_between_options = {
         "s": instbetween_s,
         "c": instbetween_c,
         "sc": instbetween_sc,
         "w": instbetween_w,
     }
-    instances_between = instances_between_options[aggregation_mode](
-        event_log, instance_id_i, instance_id_prime
-    )
+    instances_between = instances_between_options[time_aggregation_mode](event_log, instance_id_i, instance_id_prime)
 
     time_between_instances: pd.Timedelta = pd.Timedelta(0)
     start_instance_i = start(event_log, instance_id_i)
@@ -399,20 +362,21 @@ def wt(
     event_log: pd.DataFrame,
     instance_id_i: str,
     instance_id_prime: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     Get the waiting time between pairs of activity instances
     """
+    if time_aggregation_mode not in {"s", "c", "sc", "w"}:
+        raise ValueError(f"Invalid aggregation mode: {time_aggregation_mode}. Expected 's', 'c', 'sc', or 'w'.")
+
     instances_between_options = {
         "s": instbetween_s,
         "c": instbetween_c,
         "sc": instbetween_sc,
         "w": instbetween_w,
     }
-    instances_between = instances_between_options[aggregation_mode](
-        event_log, instance_id_i, instance_id_prime
-    )
+    instances_between = instances_between_options[time_aggregation_mode](event_log, instance_id_i, instance_id_prime)
 
     time_between_instances: pd.Timedelta = pd.Timedelta(0)
     start_instance_i = start(event_log, instance_id_i)
@@ -445,25 +409,18 @@ def _is_instance_id_valid(event_log: pd.DataFrame, instance_id: str) -> None:
 
     """
     if instance_id not in event_log[StandardColumnNames.INSTANCE].unique():
-        raise InstanceIdNotFoundError(
-            f"Instance id {instance_id} not found in event log."
-        )
+        raise InstanceIdNotFoundError(f"Instance id {instance_id} not found in event log.")
 
 
 def _match(event_log: pd.DataFrame, complete_event: pd.DataFrame) -> pd.DataFrame:
     """
     Match the event log to the instance id.
     """
-    complete_event_instance_id: str = complete_event[
-        StandardColumnNames.INSTANCE
-    ].unique()[0]
+    complete_event_instance_id: str = complete_event[StandardColumnNames.INSTANCE].unique()[0]
 
     start_event = event_log[
         (event_log[StandardColumnNames.INSTANCE] == complete_event_instance_id)
-        & (
-            event_log[StandardColumnNames.LIFECYCLE_TRANSITION]
-            == LifecycleTransitionType.START
-        )
+        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START)
     ]
     if start_event.empty:
         return complete_event

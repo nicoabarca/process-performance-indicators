@@ -4,6 +4,7 @@ import pandas as pd
 
 import process_performance_indicators.utils.instances as instances_utils
 from process_performance_indicators.constants import StandardColumnNames
+from process_performance_indicators.utils.column_validation import assert_column_exists
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -18,6 +19,7 @@ def outcome_unit_count_for_single_events_of_activity_instances(
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.OUTCOME_UNIT)
     complete_event = instances_utils.cpl(event_log, instance_id)
     if not complete_event.empty:
         return float(complete_event[StandardColumnNames.OUTCOME_UNIT].unique()[0])
@@ -40,6 +42,7 @@ def outcome_unit_count_for_sum_of_all_events_of_activity_instances(
         instance_id: The instance id.
 
     """
+    assert_column_exists(event_log, StandardColumnNames.OUTCOME_UNIT)
     start_event = instances_utils.start(event_log, instance_id)
     complete_event = instances_utils.cpl(event_log, instance_id)
     if not start_event.empty and not complete_event.empty:

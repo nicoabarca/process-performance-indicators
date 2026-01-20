@@ -37,6 +37,9 @@ class IndicatorArguments:
     start_time: pd.Timestamp | datetime | None = None
     end_time: pd.Timestamp | datetime | None = None
 
+    # Start|end activity is "a" for a group of cases
+    a_activity_name: str | None = None
+
     # Resources / org
     human_resource_name: str | None = None
     role_name: str | None = None
@@ -49,9 +52,11 @@ class IndicatorArguments:
     activities_subset: set[str] | None = None
 
     # Thresholds / expectations
-    deadline: pd.Timedelta | None = None
+    deadline: pd.Timestamp | None = None
     expectation: pd.Timedelta | None = None
+    lead_time_threshold: pd.Timedelta | None = None
     value: str | int | float | None = None
 
     # Generic modes
     aggregation_mode: Literal["sgl", "sum"] | None = None
+    time_aggregation_mode: Literal["s", "c", "sc", "w"] | None = None

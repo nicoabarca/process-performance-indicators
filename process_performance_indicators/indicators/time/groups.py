@@ -11,7 +11,14 @@ from process_performance_indicators.utils.safe_division import safe_division
 
 def expected_active_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    TODO: Ask for explanation
+    The difference between the total elapsed time of a case belonging to the group of cases, and the
+     sum of waiting times for every activity instance in a case belonging to the group of cases where
+     no other activity instance was being executed.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
     """
     total_active_time: pd.Timedelta = pd.Timedelta(0)
     for case_id in case_ids:
@@ -206,7 +213,6 @@ def case_count_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | se
         case_ids: The case IDs.
 
     """
-    # TODO: ask if time unit is correct
     numerator = general_groups_indicators.case_count(event_log, case_ids)
     # Using hour as the time unit for denominator
     denominator = lead_time(event_log, case_ids) / pd.Timedelta(hours=1)
@@ -214,7 +220,7 @@ def case_count_lead_time_ratio(event_log: pd.DataFrame, case_ids: list[str] | se
 
 
 def case_count_where_lead_time_over_value(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], value: pd.Timedelta
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], lead_time_threshold: pd.Timedelta
 ) -> int:
     """
     The number of cases belonging to the group of cases whose total elapsed time between
@@ -223,17 +229,17 @@ def case_count_where_lead_time_over_value(
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        value: The threshold value as a time delta.
+        lead_time_threshold: The threshold value as a time delta.
 
     """
     cases_where_lead_time_over_value = {
-        case_id for case_id in case_ids if time_cases_indicators.lead_time(event_log, case_id) > value
+        case_id for case_id in case_ids if time_cases_indicators.lead_time(event_log, case_id) > lead_time_threshold
     }
     return len(cases_where_lead_time_over_value)
 
 
 def case_percentage_where_lead_time_over_value(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], value: pd.Timedelta
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], lead_time_threshold: pd.Timedelta
 ) -> float:
     """
     The percentage of cases belonging to the group of cases whose total elapsed time between
@@ -242,16 +248,16 @@ def case_percentage_where_lead_time_over_value(
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        value: The threshold value as a time delta.
+        lead_time_threshold: The threshold value as a time delta.
 
     """
-    numerator = case_count_where_lead_time_over_value(event_log, case_ids, value)
+    numerator = case_count_where_lead_time_over_value(event_log, case_ids, lead_time_threshold)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
     return safe_division(numerator, denominator)
 
 
 def case_percentage_with_missed_deadline(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], value: pd.Timestamp
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], deadline: pd.Timestamp
 ) -> float:
     """
     The percentage of cases belonging to the group of cases whose latest event occurs after a given deadline.
@@ -259,10 +265,10 @@ def case_percentage_with_missed_deadline(
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        value: The deadline value as a timestamp.
+        deadline: The deadline value as a timestamp.
 
     """
-    cases_over_deadline = {case_id for case_id in case_ids if cases_utils.endt(event_log, case_id) > value}
+    cases_over_deadline = {case_id for case_id in case_ids if cases_utils.endt(event_log, case_id) > deadline}
     numerator = len(cases_over_deadline)
     denominator = general_groups_indicators.case_count(event_log, case_ids)
     return safe_division(numerator, denominator)
@@ -287,7 +293,13 @@ def expected_handover_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
 
 def expected_idle_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
     """
-    TODO: Implement this function. Ask for explanation.
+    The expected sum of waiting times for every activity instance in a case belonging
+    to the group of cases where no other activity instance was being executed.
+
+    Args:
+        event_log: The event log.
+        case_ids: The case ids.
+
     """
     total_idle_time: pd.Timedelta = pd.Timedelta(0)
     for case_id in case_ids:
@@ -336,7 +348,6 @@ def lead_time_and_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] 
         case_ids: The case ids.
 
     """
-    # TODO: ask if time unit is correct
     group_lead_time_in_hours = lead_time(event_log, case_ids) / pd.Timedelta(hours=1)
     case_count = general_groups_indicators.case_count(event_log, case_ids)
     hours_per_case = safe_division(group_lead_time_in_hours, case_count)
@@ -534,7 +545,7 @@ def service_time_from_activity_a_to_b(
     case_ids: list[str] | set[str],
     activity_a: str,
     activity_b: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     The sum of elapsed times between the start and complete events of all activity instances of every case in the group of cases,
@@ -546,7 +557,7 @@ def service_time_from_activity_a_to_b(
         case_ids: The case IDs.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
-        aggregation_mode: The aggregation mode.
+        time_aggregation_mode: The aggregation mode.
             "s": Considers activity instances that were started within the start and end activity instances.
             "c": Considers activity instances that were completed within the start and end activity instances.
             "sc": Considers activity instances that were either started or completed within the start and end activity instances.
@@ -556,7 +567,7 @@ def service_time_from_activity_a_to_b(
     sum_of_service_times: pd.Timedelta = pd.Timedelta(0)
     for case_id in case_ids:
         service_time = time_cases_indicators.service_time_from_activity_a_to_b(
-            event_log, case_id, activity_a, activity_b, aggregation_mode
+            event_log, case_id, activity_a, activity_b, time_aggregation_mode
         )
         if service_time is not None:
             sum_of_service_times += service_time
@@ -569,7 +580,7 @@ def expected_service_time_from_activity_a_to_b(
     case_ids: list[str] | set[str],
     activity_a: str,
     activity_b: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     The expected sum of elapsed times between the start and complete events of all activity instances of every case in the group of cases,
@@ -581,7 +592,7 @@ def expected_service_time_from_activity_a_to_b(
         case_ids: The case IDs.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
-        aggregation_mode: The aggregation mode.
+        time_aggregation_mode: The aggregation mode.
             "s": Considers activity instances that were started within the start and end activity instances.
             "c": Considers activity instances that were completed within the start and end activity instances.
             "sc": Considers activity instances that were either started or completed within the start and end activity instances.
@@ -593,7 +604,8 @@ def expected_service_time_from_activity_a_to_b(
     )
 
     return safe_division(
-        service_time_from_activity_a_to_b(event_log, case_ids, activity_a, activity_b, aggregation_mode), cases_count
+        service_time_from_activity_a_to_b(event_log, case_ids, activity_a, activity_b, time_aggregation_mode),
+        cases_count,
     )
 
 
@@ -618,7 +630,7 @@ def expected_waiting_time_from_activity_a_to_b(
     case_ids: list[str] | set[str],
     activity_a: str,
     activity_b: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta:
     """
     The expected sum, for every activity instance in a case belonging to the group of cases, that occurs between the earliest
@@ -631,7 +643,7 @@ def expected_waiting_time_from_activity_a_to_b(
         case_ids: The case IDs.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
-        aggregation_mode: The aggregation mode.
+        time_aggregation_mode: The aggregation mode.
             "s": Considers activity instances that were started within the start and end activity instances.
             "c": Considers activity instances that were completed within the start and end activity instances.
             "sc": Considers activity instances that were either started or completed within the start and end activity instances.
@@ -641,7 +653,7 @@ def expected_waiting_time_from_activity_a_to_b(
     sum_of_waiting_times: pd.Timedelta = pd.Timedelta(0)
     for case_id in case_ids:
         waiting_time = time_cases_indicators.waiting_time_from_activity_a_to_b(
-            event_log, case_id, activity_a, activity_b, aggregation_mode
+            event_log, case_id, activity_a, activity_b, time_aggregation_mode
         )
         if waiting_time is not None:
             sum_of_waiting_times += waiting_time

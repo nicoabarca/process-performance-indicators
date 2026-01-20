@@ -229,7 +229,10 @@ def optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
 
     """
     group_case_ids_log = event_log[event_log[StandardColumnNames.CASE_ID].isin(case_ids)]
-    group_activities = group_case_ids_log.groupby(StandardColumnNames.CASE_ID)[StandardColumnNames.ACTIVITY]
+    group_activities_per_case = (
+        group_case_ids_log.groupby(StandardColumnNames.CASE_ID)[StandardColumnNames.ACTIVITY].apply(set).tolist()
+    )
+    group_unique_activities = set().union(*group_activities_per_case) if group_activities_per_case else set()
 
     other_cases = event_log[~event_log[StandardColumnNames.CASE_ID].isin(case_ids)]
     other_cases_activities = (
@@ -238,7 +241,7 @@ def optional_activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[s
 
     optional_activities = {
         activity
-        for activity in group_activities
+        for activity in group_unique_activities
         if any(activity not in activities for activities in other_cases_activities)
     }
 

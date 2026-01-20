@@ -11,7 +11,13 @@ from process_performance_indicators.utils.safe_division import safe_division
 
 def active_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     """
-    TODO: Ask for explanation.
+    The difference between the total elapsed time of the case, and the sum of waiting
+    times for every activity instance in the case where no other activity instance was being executed.
+
+    Args:
+        event_log: The event log.
+        case_id: The case ID.
+
     """
     return lead_time(event_log, case_id) - idle_time(event_log, case_id)
 
@@ -110,7 +116,13 @@ def handover_count(event_log: pd.DataFrame, case_id: str) -> float:
 
 def idle_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     """
-    TODO: Implement this function. Ask for explanation.
+    The sum of waiting times for every activity instance in the case
+    where no other activity instance was being executed.
+
+    Args:
+        event_log: The event log.
+        case_id: The case id.
+
     """
     total_idle_time: pd.Timedelta = pd.Timedelta(0)
     for instance_id in cases_utils.inst(event_log, case_id):
@@ -271,7 +283,7 @@ def service_time_from_activity_a_to_b(
     case_id: str,
     activity_a: str,
     activity_b: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta | None:
     """
     The sum elapsed times between the start and complete events of all activity instances of the case,
@@ -283,7 +295,7 @@ def service_time_from_activity_a_to_b(
         case_id: The case id.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
-        aggregation_mode: The aggregation mode.
+        time_aggregation_mode: The aggregation mode.
             "s": Considers activity instances that were started within the start and end activity instances.
             "c": Considers activity instances that were completed within the start and end activity instances.
             "sc": Considers activity instances that were either started or completed within the start and end activity instances.
@@ -299,7 +311,9 @@ def service_time_from_activity_a_to_b(
     any_earliest_instances = next(iter(instances_earliest_occurrences))  # x
     any_earliest_instances_after_other = next(iter(instances_earliest_ocurrences_after_other))  # y
 
-    return instances_utils.st(event_log, any_earliest_instances, any_earliest_instances_after_other, aggregation_mode)
+    return instances_utils.st(
+        event_log, any_earliest_instances, any_earliest_instances_after_other, time_aggregation_mode
+    )
 
 
 def waiting_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
@@ -318,7 +332,7 @@ def waiting_time_from_activity_a_to_b(
     case_id: str,
     activity_a: str,
     activity_b: str,
-    aggregation_mode: Literal["s", "c", "sc", "w"],
+    time_aggregation_mode: Literal["s", "c", "sc", "w"],
 ) -> pd.Timedelta | None:
     """
     The sum, for every activity instance in the case that occurs between the earliest
@@ -331,7 +345,7 @@ def waiting_time_from_activity_a_to_b(
         case_id: The case id.
         activity_a: The specific activity name that precedes activity b.
         activity_b: The specific activity name that follows activity a.
-        aggregation_mode: The aggregation mode.
+        time_aggregation_mode: The aggregation mode.
             "s": Considers activity instances that were started within the start and end activity instances.
             "c": Considers activity instances that were completed within the start and end activity instances.
             "sc": Considers activity instances that were either started or completed within the start and end activity instances.
@@ -347,4 +361,6 @@ def waiting_time_from_activity_a_to_b(
     any_earliest_instances = next(iter(instances_earliest_occurrences))  # x
     any_earliest_instances_after_other = next(iter(instances_earliest_ocurrences_after_other))  # y
 
-    return instances_utils.wt(event_log, any_earliest_instances, any_earliest_instances_after_other, aggregation_mode)
+    return instances_utils.wt(
+        event_log, any_earliest_instances, any_earliest_instances_after_other, time_aggregation_mode
+    )

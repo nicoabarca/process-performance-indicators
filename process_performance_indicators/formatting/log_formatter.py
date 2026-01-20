@@ -23,6 +23,73 @@ class EventLogType(Enum):
     EXPLICIT_INTERVAL = auto()  # Has lifecycle AND instance
 
 
+def event_log_formatter(
+    event_log: pd.DataFrame,
+    column_mapping: StandardColumnMapping,
+    date_format: str | None = None,
+    *,
+    dayfirst: bool = False,
+) -> pd.DataFrame:
+    """
+    Format an event log into a pandas DataFrame with standardized column names
+    and return an explicit interval log with instance IDs assigned.
+
+    Handles four types of event logs:
+
+    1. Atomic logs (no lifecycle, no start_timestamp, no instance):
+       - Each row is an instantaneous event
+       - Duplicates each row with start and complete events (same timestamp)
+       - Matches pairs to assign instance IDs
+
+    2. Derivable interval logs (has lifecycle, no instance):
+       - Already has start/complete events
+       - Uses matching to assign instance IDs to start/complete pairs
+
+    3. Production-style logs (has start_timestamp, no lifecycle):
+       - Each row has start_timestamp and timestamp (end)
+       - Splits into start and complete events
+       - Matches pairs to assign instance IDs
+
+    4. Explicit interval logs (has lifecycle AND instance):
+       - Already has all required information
+       - Only renames columns and converts types
+
+    Args:
+        event_log: The event log to format.
+        column_mapping: The column mapping to use.
+        date_format: The datetime format to use when parsing timestamp columns.
+                    Can be a specific format string (e.g., "%d-%m-%Y %H:%M:%S"),
+                    "ISO8601" for ISO8601 format, "mixed" for automatic inference,
+                    or None to use pandas default parsing.
+        dayfirst: Whether to interpret the first value in an ambiguous date
+                 (e.g., 01/05/09) as the day (True) or month (False).
+                 Only used when date_format is None or "mixed".
+
+    Returns:
+        pd.DataFrame: An explicit interval log with instance IDs and lifecycle transitions.
+
+    """
+    event_log = event_log.copy()
+
+    # Standardize columns and convert types
+    standard_named_log = _standardize_columns(event_log, column_mapping)
+    _convert_standard_types(standard_named_log)
+
+    # Detect log type and process accordingly
+    log_type = _detect_log_type(column_mapping)
+
+    if log_type == EventLogType.EXPLICIT_INTERVAL:
+        return _process_explicit_interval_log(standard_named_log, date_format, dayfirst=dayfirst)
+
+    if log_type == EventLogType.DERIVABLE_INTERVAL:
+        return _process_derivable_interval_log(standard_named_log, date_format, dayfirst=dayfirst)
+
+    if log_type == EventLogType.PRODUCTION_STYLE:
+        return _process_production_style_log(standard_named_log, date_format, dayfirst=dayfirst)
+
+    return _process_atomic_log(standard_named_log, date_format, dayfirst=dayfirst)
+
+
 def _detect_log_type(column_mapping: StandardColumnMapping) -> EventLogType:
     """
     Detect the type of event log based on the column mapping.
@@ -71,9 +138,9 @@ def _convert_timestamp_column(
 
     """
     if date_format is not None:
-        log_df[column_name] = pd.to_datetime(log_df[column_name], format=date_format, utc=True)
+        log_df[column_name] = pd.to_datetime(log_df[column_name], format=date_format)
     else:
-        log_df[column_name] = pd.to_datetime(log_df[column_name], dayfirst=dayfirst, utc=True)
+        log_df[column_name] = pd.to_datetime(log_df[column_name], dayfirst=dayfirst)
 
 
 def _standardize_columns(
@@ -94,13 +161,12 @@ def _standardize_columns(
     standard_mapping = convert_to_standard_mapping(column_mapping)
     validate_column_mapping(standard_mapping, set(event_log.columns))
 
-    # Rename columns to standard column names
     inverted_mapping = {v: k for k, v in standard_mapping.items()}
-    standard_named_log = event_log.rename(columns=inverted_mapping)
 
-    # Keep only the columns that were mapped
-    mapped_columns = list(inverted_mapping.values())
-    return standard_named_log[mapped_columns]
+    columns_to_keep = list(inverted_mapping.keys())
+    filtered_log = event_log[columns_to_keep]
+
+    return filtered_log.rename(columns=inverted_mapping)
 
 
 def _convert_standard_types(log_df: pd.DataFrame) -> None:
@@ -268,70 +334,3 @@ def _process_explicit_interval_log(
     log_df = log_df.sort_values(by=[StandardColumnNames.CASE_ID, StandardColumnNames.TIMESTAMP])
 
     return log_df.reset_index(drop=True)
-
-
-def event_log_formatter(
-    event_log: pd.DataFrame,
-    column_mapping: StandardColumnMapping,
-    date_format: str | None = None,
-    *,
-    dayfirst: bool = False,
-) -> pd.DataFrame:
-    """
-    Format an event log into a pandas DataFrame with standardized column names
-    and return an explicit interval log with instance IDs assigned.
-
-    Handles four types of event logs:
-
-    1. Atomic logs (no lifecycle, no start_timestamp, no instance):
-       - Each row is an instantaneous event
-       - Duplicates each row with start and complete events (same timestamp)
-       - Matches pairs to assign instance IDs
-
-    2. Derivable interval logs (has lifecycle, no instance):
-       - Already has start/complete events
-       - Uses matching to assign instance IDs to start/complete pairs
-
-    3. Production-style logs (has start_timestamp, no lifecycle):
-       - Each row has start_timestamp and timestamp (end)
-       - Splits into start and complete events
-       - Matches pairs to assign instance IDs
-
-    4. Explicit interval logs (has lifecycle AND instance):
-       - Already has all required information
-       - Only renames columns and converts types
-
-    Args:
-        event_log: The event log to format.
-        column_mapping: The column mapping to use.
-        date_format: The datetime format to use when parsing timestamp columns.
-                    Can be a specific format string (e.g., "%d-%m-%Y %H:%M:%S"),
-                    "ISO8601" for ISO8601 format, "mixed" for automatic inference,
-                    or None to use pandas default parsing.
-        dayfirst: Whether to interpret the first value in an ambiguous date
-                 (e.g., 01/05/09) as the day (True) or month (False).
-                 Only used when date_format is None or "mixed".
-
-    Returns:
-        pd.DataFrame: An explicit interval log with instance IDs and lifecycle transitions.
-
-    """
-    event_log = event_log.copy()
-
-    # Standardize columns and convert types
-    standard_named_log = _standardize_columns(event_log, column_mapping)
-    _convert_standard_types(standard_named_log)
-
-    # Detect log type and process accordingly
-    log_type = _detect_log_type(column_mapping)
-
-    if log_type == EventLogType.EXPLICIT_INTERVAL:
-        return _process_explicit_interval_log(standard_named_log, date_format, dayfirst=dayfirst)
-
-    if log_type == EventLogType.DERIVABLE_INTERVAL:
-        return _process_derivable_interval_log(standard_named_log, date_format, dayfirst=dayfirst)
-
-    if log_type == EventLogType.PRODUCTION_STYLE:
-        return _process_production_style_log(standard_named_log, date_format, dayfirst=dayfirst)
-
-    return _process_atomic_log(standard_named_log, date_format, dayfirst=dayfirst)

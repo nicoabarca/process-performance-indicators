@@ -22,29 +22,35 @@ echo "Running All Indicator Examples"
 echo "======================================================================"
 echo ""
 
-EXAMPLES=(
-    "atomic_log"
-    "derivable_interval_log"
-    "explicit_interval_log"
-    "uniquely_matched_derivable_interval_log"
-    "production"
-    "bpi_challenge_2013_incidents"
-    "bpi_challenge_2017"
-    "it_incident"
-    "italian_help_desk"
-)
-
 # Get the script directory (examples directory)
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$( cd "$SCRIPT_DIR/.." && pwd )"
 
+# Config file path
+CONFIG_FILE="${SCRIPT_DIR}/dataset_configs.json"
+
+# Define datasets as array of "name:path" pairs
+DATASETS=(
+    "atomic_log:datasets/atomic_event_log.csv"
+    "derivable_interval_log:datasets/derivable_interval_event_log.csv"
+    "explicit_interval_log:datasets/explicit_interval_event_log.csv"
+    "uniquely_matched_derivable_interval_log:datasets/timestamp_unique_derivable_interval_event_log.csv"
+    "production:datasets/production.csv"
+    "bpi_challenge_2013_incidents:datasets/bpi-challenge-2013-incidents_100.csv"
+    "bpi_challenge_2017:datasets/bpi-challenge-2017_100.csv"
+    "it_incident:datasets/it-incident_100.csv"
+    "italian_help_desk:datasets/italian-help-desk_100.csv"
+)
+
 # Function to run a single example
 run_example() {
     local example_name=$1
-    local example_dir="${SCRIPT_DIR}/${example_name}"
+    local dataset_file=$2
     
-    if [ ! -f "${example_dir}/indicators.py" ]; then
-        echo -e "${YELLOW}⊘ Skipping ${example_name}: indicators.py not found${NC}"
+    local dataset_path="${SCRIPT_DIR}/${dataset_file}"
+    
+    if [ ! -f "${dataset_path}" ]; then
+        echo -e "${YELLOW}⊘ Skipping ${example_name}: dataset file not found at ${dataset_path}${NC}"
         return
     fi
     
@@ -55,8 +61,8 @@ run_example() {
     echo -e "${BLUE}[${TOTAL}] Running: ${example_name}${NC}"
     echo "======================================================================"
     
-    # Change to example directory and run (needs UV installed)
-    if cd "${example_dir}" && uv run python indicators.py; then
+    # Run unified execute_indicators.py script from project root
+    if cd "${PROJECT_ROOT}" && uv run examples/execute_indicators.py --dataset "${dataset_path}" --config "${CONFIG_FILE}"; then
         SUCCESS=$((SUCCESS + 1))
         echo -e "${GREEN}✓ ${example_name} completed successfully${NC}"
     else
@@ -70,8 +76,9 @@ run_example() {
 }
 
 # Run all examples
-for example in "${EXAMPLES[@]}"; do
-    run_example "$example"
+for dataset_entry in "${DATASETS[@]}"; do
+    IFS=':' read -r example_name dataset_file <<< "$dataset_entry"
+    run_example "$example_name" "$dataset_file"
 done
 
 # Print summary

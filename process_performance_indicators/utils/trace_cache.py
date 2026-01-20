@@ -281,7 +281,7 @@ def precompute_all_sequences(event_log: pd.DataFrame) -> None:
     _save_cache(event_log_hash, cache, "sequences")
 
 
-def clear_cache(event_log: pd.DataFrame | None = None, cache_type: str | None = None) -> None:
+def clear_cache(event_log: pd.DataFrame | None = None, cache_type: str | None = None) -> None:  # noqa: PLR0912
     """
     Clear cache. If event_log is provided, only clear cache for that log.
     If cache_type is provided, only clear that type ("traces" or "sequences").
