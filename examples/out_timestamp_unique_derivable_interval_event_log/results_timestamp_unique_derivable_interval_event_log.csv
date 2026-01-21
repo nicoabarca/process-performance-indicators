@@ -281,14 +281,14 @@ time,groups,case_count_lead_time_ratio,,No start event found for case 10.
 time,groups,case_count_where_lead_time_over_value,,No start event found for case 10.
 time,groups,case_percentage_where_lead_time_over_value,,No start event found for case 10.
 time,groups,case_percentage_with_missed_deadline,0.333,Success
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:16, denominator value=0"
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:09, denominator value=0"
 time,groups,expected_activity_count,2.0,Success
 time,groups,expected_activity_instance_count,3.667,Success
 time,groups,expected_automated_activity_count,1.0,Success
 time,groups,expected_automated_activity_instance_count,1.333,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:09.333333333,Success
 time,groups,expected_handover_count,2.333,Success
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:16, denominator value=0"
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:09, denominator value=0"
 time,groups,expected_lead_time,,No start event found for case 10.
 time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
 time,groups,expected_lead_time_deviation_from_expectation,,No start event found for case 10.

@@ -253,14 +253,14 @@ time,activities,lead_time,0 days 00:03:47,Success
 time,activities,service_and_lead_time_ratio,0.0,Success
 time,activities,service_time,0 days 00:00:00,Success
 time,activities,waiting_time,0 days 00:03:47,Success
-time,cases,active_time,,"Error performing indicator division. Numerator value=0 days 00:00:02, denominator value=0"
+time,cases,active_time,,"Error performing indicator division. Numerator value=0 days 00:00:06, denominator value=0"
 time,cases,activity_count,3,Success
 time,cases,activity_instance_count,6,Success
 time,cases,automated_activity_count,2,Success
 time,cases,automated_activity_instance_count,4,Success
 time,cases,automated_activity_service_time,0 days 00:00:00,Success
 time,cases,handover_count,4.0,Success
-time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:02, denominator value=0"
+time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:06, denominator value=0"
 time,cases,lead_time,0 days 00:00:25,Success
 time,cases,lead_time_deviation_from_deadline,2025-01-01T10:15:40,Success
 time,cases,lead_time_deviation_from_expectation,0 days 00:00:39,Success
@@ -281,14 +281,14 @@ time,groups,case_count_lead_time_ratio,10.435,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.333,Success
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:05, denominator value=0"
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:02, denominator value=0"
 time,groups,expected_activity_count,2.667,Success
 time,groups,expected_activity_instance_count,7.333,Success
 time,groups,expected_automated_activity_count,1.667,Success
 time,groups,expected_automated_activity_instance_count,4.333,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:00,Success
 time,groups,expected_handover_count,4.667,Success
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:05, denominator value=0"
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:02, denominator value=0"
 time,groups,expected_lead_time,0 days 00:00:28.980000,Success
 time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:34.980000,Success

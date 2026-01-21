@@ -306,6 +306,65 @@ def _process_production_style_log(
     return convert_to_explicit_interval_log(combined_log)
 
 
+def _fix_orphaned_events(log_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Fix orphaned events in an explicit interval log.
+
+    - Drop start events with no matching complete event (same instance)
+    - Add start events for complete events with no matching start event (same instance)
+
+    Args:
+        log_df: The explicit interval log with potential orphaned events.
+
+    Returns:
+        pd.DataFrame: The log with orphaned events fixed.
+
+    """
+    log_df = log_df.copy()
+
+    # Group by case_id and instance to find orphaned events
+    grouped = log_df.groupby([StandardColumnNames.CASE_ID, StandardColumnNames.INSTANCE])
+
+    rows_to_drop = []
+    rows_to_add = []
+
+    for (case_id, instance_id), group in grouped:  # noqa: B007
+        has_start = (group[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START.value).any()
+        has_complete = (group[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE.value).any()
+
+        if has_start and not has_complete:
+            # Drop all start events for this instance (orphaned start)
+            start_indices = group[
+                group[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START.value
+            ].index
+            rows_to_drop.extend(start_indices.tolist())
+
+        elif has_complete and not has_start:
+            # Add start event(s) for complete event(s) (orphaned complete)
+            complete_events = group[
+                group[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE.value
+            ]
+
+            for _, complete_event in complete_events.iterrows():
+                # Create a start event with the same data but different lifecycle transition
+                start_event = complete_event.copy()
+                start_event[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.START.value
+                # Use the complete event's timestamp for the start event as well
+                # (this maintains the same timestamp since we don't know the actual start time)
+                rows_to_add.append(start_event)
+
+    # Drop orphaned start events
+    if rows_to_drop:
+        log_df = log_df.drop(index=rows_to_drop)
+
+    # Add missing start events
+    if rows_to_add:
+        new_rows_df = pd.DataFrame(rows_to_add)
+        log_df = pd.concat([log_df, new_rows_df], ignore_index=True)
+
+    return log_df
+
+
 def _process_explicit_interval_log(
     log_df: pd.DataFrame,
     date_format: str | None,
@@ -316,7 +375,13 @@ def _process_explicit_interval_log(
     Process an explicit interval event log.
 
     Explicit logs already have lifecycle_transition and instance IDs.
-    Only column renaming and type conversion is needed.
+    However, they may have orphaned events (start without complete or complete without start).
+
+    Processing:
+        1. Convert timestamp to datetime
+        2. Identify and handle orphaned events:
+           - Drop start events with no matching complete event
+           - Add start events for complete events with no matching start event
 
     Args:
         log_df: The standardized event log.
@@ -324,11 +389,14 @@ def _process_explicit_interval_log(
         dayfirst: Whether to interpret ambiguous dates as day-first.
 
     Returns:
-        pd.DataFrame: The explicit interval log (no matching needed).
+        pd.DataFrame: The explicit interval log with orphaned events fixed.
 
     """
     # Convert timestamp to datetime
     _convert_timestamp_column(log_df, StandardColumnNames.TIMESTAMP, date_format, dayfirst=dayfirst)
+
+    # Fix orphaned events
+    log_df = _fix_orphaned_events(log_df)
 
     # Sort by case_id and timestamp for consistency
     log_df = log_df.sort_values(by=[StandardColumnNames.CASE_ID, StandardColumnNames.TIMESTAMP])

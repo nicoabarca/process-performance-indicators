@@ -267,8 +267,8 @@ time,cases,lead_time_deviation_from_expectation,0 days 00:00:24.210526315,Succes
 time,cases,lead_time_from_activity_a,0 days 00:00:37,Success
 time,cases,lead_time_from_activity_a_to_b,0 days 00:00:15,Success
 time,cases,lead_time_to_activity_a,0 days 00:00:04,Success
-time,cases,service_and_lead_time_ratio,1.146341463414634,Success
-time,cases,service_time,0 days 00:00:47,Success
+time,cases,service_and_lead_time_ratio,1.146341463390244,Success
+time,cases,service_time,0 days 00:00:46.999999999,Success
 time,cases,service_time_from_activity_a_to_b,0 days 00:00:10,Success
 time,cases,waiting_time,0 days 00:00:27,Success
 time,cases,waiting_time_from_activity_a_to_b,0 days 00:00:13,Success
@@ -281,29 +281,29 @@ time,groups,case_count_lead_time_ratio,15.976,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.667,Success
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:27, denominator value=0"
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:06, denominator value=0"
 time,groups,expected_activity_count,3.333,Success
 time,groups,expected_activity_instance_count,9.333,Success
 time,groups,expected_automated_activity_count,2.667,Success
 time,groups,expected_automated_activity_instance_count,7.667,Success
 time,groups,expected_automated_activity_service_time,0 days 00:01:03.333333333,Success
 time,groups,expected_handover_count,5.667,Success
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:27, denominator value=0"
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:06, denominator value=0"
 time,groups,expected_lead_time,0 days 00:00:52.680000,Success
 time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:12.540000,Success
 time,groups,expected_lead_time_from_activity_a,0 days 00:00:59,Success
 time,groups,expected_lead_time_from_activity_a_to_b,0 days 00:00:15,Success
 time,groups,expected_lead_time_to_activity_a,-1 days +23:59:54,Success
-time,groups,expected_service_and_lead_time_ratio,3.60668185269552,Success
+time,groups,expected_service_and_lead_time_ratio,3.6066818526575553,Success
 time,groups,expected_service_time,0 days 00:01:03.360000,Success
 time,groups,expected_service_time_from_activity_a_to_b,0 days 00:00:10,Success
 time,groups,expected_waiting_time,0 days 00:00:59.666666666,Success
 time,groups,expected_waiting_time_from_activity_a_to_b,0 days 00:00:13,Success
 time,groups,lead_time,0 days 00:11:16,Success
 time,groups,lead_time_and_case_count_ratio,0 days 00:03:46.800000,Success
-time,groups,service_and_lead_time_ratio,0.28106508875739644,Success
-time,groups,service_time,0 days 00:03:10,Success
+time,groups,service_and_lead_time_ratio,0.28106508875443786,Success
+time,groups,service_time,0 days 00:03:09.999999998,Success
 time,groups,service_time_from_activity_a_to_b,0 days 00:00:10,Success
 time,instances,lead_time,0 days 00:00:00,Success
 time,instances,service_and_lead_time_ratio,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0 days 00:00:00"
