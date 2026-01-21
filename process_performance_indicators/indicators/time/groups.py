@@ -355,7 +355,7 @@ def lead_time_and_case_count_ratio(event_log: pd.DataFrame, case_ids: list[str] 
 
 
 def expected_lead_time_deviation_from_deadline(
-    event_log: pd.DataFrame, case_ids: list[str] | set[str], deadline: pd.Timedelta
+    event_log: pd.DataFrame, case_ids: list[str] | set[str], deadline_margin: pd.Timedelta
 ) -> pd.Timedelta:
     """
     The difference between the time that a case in the group of cases is expected to take,
@@ -364,13 +364,14 @@ def expected_lead_time_deviation_from_deadline(
     Args:
         event_log: The event log.
         case_ids: The case ids.
-        deadline: The expected time delta the case is expected to take.
+        deadline_margin: The margin of error for the deadline.
 
     """
+    # TODO: CHECK DEADLINE TYPE
     deviations_from_deadline_in_minutes = 0
     for case_id in case_ids:
         deviations_from_deadline_in_minutes += time_cases_indicators.lead_time_deviation_from_deadline(
-            event_log, case_id, deadline
+            event_log, case_id, deadline_margin
         ) / pd.Timedelta(minutes=1)
 
     numerator = deviations_from_deadline_in_minutes

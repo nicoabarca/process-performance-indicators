@@ -118,13 +118,14 @@ def build_indicator_arguments_auto(event_log: pd.DataFrame) -> IndicatorArgument
         activities_subset=sample(StandardColumnNames.ACTIVITY, n=3),
         value=1,  # Default rework threshold
         deadline=three_quarter_point,
+        deadline_margin=avg_case_duration * 0.5,
         lead_time_threshold=avg_case_duration * 2,
-        expectation=avg_case_duration,  # Average duration as expectation
+        expectation=avg_case_duration,
         activity_a=sample(StandardColumnNames.ACTIVITY),
         activity_b=sample(StandardColumnNames.ACTIVITY),
         a_activity_name=sample(StandardColumnNames.ACTIVITY),
-        start_time=quarter_point,  # 25% into the log timeframe
-        end_time=three_quarter_point,  # 75% into the log timeframe
+        start_time=quarter_point,
+        end_time=three_quarter_point,
         role_name=sample(StandardColumnNames.ROLE) if StandardColumnNames.ROLE in event_log.columns else None,
         aggregation_mode="sgl",  # sum
         time_aggregation_mode="s",  # c, sc, w
@@ -150,6 +151,8 @@ def build_indicator_arguments_auto(event_log: pd.DataFrame) -> IndicatorArgument
     print(f"  start_time: {args.start_time}")
     print(f"  end_time: {args.end_time}")
     print(f"  deadline: {args.deadline}")
+    print(f"  deadline_margin: {args.deadline_margin}")
+    print(f"  lead_time_threshold: {args.lead_time_threshold}")
     print(f"  expectation: {args.expectation}")
     print(f"  value: {args.value}")
     print(f"  role_name: {args.role_name}")

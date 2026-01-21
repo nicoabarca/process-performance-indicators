@@ -253,16 +253,16 @@ time,activities,lead_time,74 days 17:26:00,Success
 time,activities,service_and_lead_time_ratio,0.1683828039328662,Success
 time,activities,service_time,12 days 13:59:00,Success
 time,activities,waiting_time,62 days 03:27:00,Success
-time,cases,active_time,,"Error performing indicator division. Numerator value=1 days 02:20:00, denominator value=0"
+time,cases,active_time,,"Error performing indicator division. Numerator value=3 days 20:24:00, denominator value=0"
 time,cases,activity_count,9,Success
 time,cases,activity_instance_count,16,Success
 time,cases,automated_activity_count,0,Success
 time,cases,automated_activity_instance_count,0,Success
 time,cases,automated_activity_service_time,0 days 00:00:00,Success
 time,cases,handover_count,8.0,Success
-time,cases,idle_time,,"Error performing indicator division. Numerator value=1 days 02:20:00, denominator value=0"
+time,cases,idle_time,,"Error performing indicator division. Numerator value=3 days 20:24:00, denominator value=0"
 time,cases,lead_time,28 days 21:36:00,Success
-time,cases,lead_time_deviation_from_deadline,2012-02-09T00:42:45,Success
+time,cases,lead_time_deviation_from_deadline,-29 days +07:09:34,Success
 time,cases,lead_time_deviation_from_expectation,28 days 12:04:52,Success
 time,cases,lead_time_from_activity_a,,Success
 time,cases,lead_time_from_activity_a_to_b,,Success
@@ -281,16 +281,16 @@ time,groups,case_count_lead_time_ratio,0.004,Success
 time,groups,case_count_where_lead_time_over_value,3,Success
 time,groups,case_percentage_where_lead_time_over_value,1.0,Success
 time,groups,case_percentage_with_missed_deadline,0.667,Success
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:13:00, denominator value=0"
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=3 days 20:24:00, denominator value=0"
 time,groups,expected_activity_count,7.333,Success
 time,groups,expected_activity_instance_count,13.333,Success
 time,groups,expected_automated_activity_count,0.0,Success
 time,groups,expected_automated_activity_instance_count,0.0,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:00,Success
 time,groups,expected_handover_count,9.333,Success
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:13:00, denominator value=0"
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=3 days 20:24:00, denominator value=0"
 time,groups,expected_lead_time,18 days 14:33:40.020000,Success
-time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
+time,groups,expected_lead_time_deviation_from_deadline,-19 days +14:11:54,Success
 time,groups,expected_lead_time_deviation_from_expectation,18 days 05:02:31.980000,Success
 time,groups,expected_lead_time_from_activity_a,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"
 time,groups,expected_lead_time_from_activity_a_to_b,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"

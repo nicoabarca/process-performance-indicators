@@ -1,2 +1,2 @@
 event_log,relevant_attributes,general_dimension,time_dimension,cost_dimension,quality_dimension,flexibility_dimension,activity_instance_granularity,activity_granularity,case_granularity,group_of_cases_granularity,overall
-results_bpi-challenge-2013-incidents_100,7 / 21,15 / 19 (78.9%),52 / 60 (86.7%),19 / 95 (20.0%),77 / 102 (75.5%),31 / 34 (91.2%),4 / 22 (18.2%),19 / 37 (51.4%),54 / 78 (69.2%),117 / 173 (67.6%),194 / 310 (62.6%)
+results_bpi-challenge-2013-incidents_100,7 / 21,15 / 19 (78.9%),53 / 60 (88.3%),19 / 95 (20.0%),77 / 102 (75.5%),31 / 34 (91.2%),4 / 22 (18.2%),19 / 37 (51.4%),54 / 78 (69.2%),118 / 173 (68.2%),195 / 310 (62.9%)

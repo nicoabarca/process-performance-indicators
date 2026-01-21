@@ -262,7 +262,7 @@ time,cases,automated_activity_service_time,0 days 00:00:47,Success
 time,cases,handover_count,2.0,Success
 time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:06, denominator value=0"
 time,cases,lead_time,0 days 00:00:41,Success
-time,cases,lead_time_deviation_from_deadline,2025-01-01T10:14:54.250000,Success
+time,cases,lead_time_deviation_from_deadline,-1 days +23:59:51.605263157,Success
 time,cases,lead_time_deviation_from_expectation,0 days 00:00:24.210526315,Success
 time,cases,lead_time_from_activity_a,0 days 00:00:37,Success
 time,cases,lead_time_from_activity_a_to_b,0 days 00:00:15,Success
@@ -281,16 +281,16 @@ time,groups,case_count_lead_time_ratio,15.976,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.667,Success
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:06, denominator value=0"
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:05, denominator value=0"
 time,groups,expected_activity_count,3.333,Success
 time,groups,expected_activity_instance_count,9.333,Success
 time,groups,expected_automated_activity_count,2.667,Success
 time,groups,expected_automated_activity_instance_count,7.667,Success
 time,groups,expected_automated_activity_service_time,0 days 00:01:03.333333333,Success
 time,groups,expected_handover_count,5.667,Success
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:06, denominator value=0"
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:05, denominator value=0"
 time,groups,expected_lead_time,0 days 00:00:52.680000,Success
-time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
+time,groups,expected_lead_time_deviation_from_deadline,-1 days +23:59:39.960000,Success
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:12.540000,Success
 time,groups,expected_lead_time_from_activity_a,0 days 00:00:59,Success
 time,groups,expected_lead_time_from_activity_a_to_b,0 days 00:00:15,Success

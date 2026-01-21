@@ -253,16 +253,16 @@ time,activities,lead_time,592 days 23:19:00,Success
 time,activities,service_and_lead_time_ratio,0.0,Success
 time,activities,service_time,0 days 00:00:00,Success
 time,activities,waiting_time,592 days 23:19:00,Success
-time,cases,active_time,,"Error performing indicator division. Numerator value=5 days 00:57:00, denominator value=0"
+time,cases,active_time,,"Error performing indicator division. Numerator value=0 days 00:24:00, denominator value=0"
 time,cases,activity_count,3,Success
 time,cases,activity_instance_count,5,Success
 time,cases,automated_activity_count,2,Success
 time,cases,automated_activity_instance_count,4,Success
 time,cases,automated_activity_service_time,0 days 00:00:00,Success
 time,cases,handover_count,3.0,Success
-time,cases,idle_time,,"Error performing indicator division. Numerator value=5 days 00:57:00, denominator value=0"
+time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:24:00, denominator value=0"
 time,cases,lead_time,5 days 02:45:00,Success
-time,cases,lead_time_deviation_from_deadline,2016-10-07T11:21:00,Success
+time,cases,lead_time_deviation_from_deadline,-4 days +09:16:13.200000,Success
 time,cases,lead_time_deviation_from_expectation,2 days 02:42:33.600000,Success
 time,cases,lead_time_from_activity_a,0 days 00:00:00,Success
 time,cases,lead_time_from_activity_a_to_b,,Success
@@ -290,7 +290,7 @@ time,groups,expected_automated_activity_service_time,0 days 00:00:00,Success
 time,groups,expected_handover_count,2.333,Success
 time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=5 days 00:15:00, denominator value=0"
 time,groups,expected_lead_time,5 days 01:49:19.980000,Success
-time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
+time,groups,expected_lead_time_deviation_from_deadline,-4 days +10:11:53.220000,Success
 time,groups,expected_lead_time_deviation_from_expectation,2 days 01:46:53.580000,Success
 time,groups,expected_lead_time_from_activity_a,0 days 00:00:00,Success
 time,groups,expected_lead_time_from_activity_a_to_b,,"Error performing indicator division. Numerator value=0 days 00:00:00, denominator value=0"

@@ -250,19 +250,19 @@ quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances
 quality,instances,successful_outcome_unit_count,0.0,Success
 quality,instances,successful_outcome_unit_percentage,,"Error performing indicator division. Numerator value=0.0, denominator value=0.0"
 time,activities,lead_time,0 days 00:02:25,Success
-time,activities,service_and_lead_time_ratio,0.6137931034413793,Success
-time,activities,service_time,0 days 00:01:28.999999999,Success
+time,activities,service_and_lead_time_ratio,0.6137931034482759,Success
+time,activities,service_time,0 days 00:01:29,Success
 time,activities,waiting_time,0 days 00:00:56,Success
-time,cases,active_time,,"Error performing indicator division. Numerator value=0 days 00:00:03, denominator value=0"
+time,cases,active_time,,"Error performing indicator division. Numerator value=0 days 00:00:02, denominator value=0"
 time,cases,activity_count,3,Success
 time,cases,activity_instance_count,8,Success
 time,cases,automated_activity_count,2,Success
 time,cases,automated_activity_instance_count,3,Success
 time,cases,automated_activity_service_time,0 days 00:00:20,Success
 time,cases,handover_count,3.0,Success
-time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:03, denominator value=0"
+time,cases,idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:02, denominator value=0"
 time,cases,lead_time,0 days 00:00:48,Success
-time,cases,lead_time_deviation_from_deadline,2025-01-01T10:11:26.250000,Success
+time,cases,lead_time_deviation_from_deadline,-1 days +23:59:37.763157894,Success
 time,cases,lead_time_deviation_from_expectation,0 days 00:00:03.526315789,Success
 time,cases,lead_time_from_activity_a,,Success
 time,cases,lead_time_from_activity_a_to_b,,Success
@@ -281,29 +281,29 @@ time,groups,case_count_lead_time_ratio,15.429,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.667,Success
-time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:03, denominator value=0"
+time,groups,expected_active_time,,"Error performing indicator division. Numerator value=0 days 00:00:01, denominator value=0"
 time,groups,expected_activity_count,3.667,Success
 time,groups,expected_activity_instance_count,13.0,Success
 time,groups,expected_automated_activity_count,2.667,Success
 time,groups,expected_automated_activity_instance_count,6.0,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:33.666666666,Success
 time,groups,expected_handover_count,6.167,Success
-time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:03, denominator value=0"
+time,groups,expected_idle_time,,"Error performing indicator division. Numerator value=0 days 00:00:01, denominator value=0"
 time,groups,expected_lead_time,0 days 00:01:09,Success
-time,groups,expected_lead_time_deviation_from_deadline,,unsupported operand type(s) for /: 'Timestamp' and 'Timedelta'
+time,groups,expected_lead_time_deviation_from_deadline,-1 days +23:59:16.740000,Success
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:19.800000,Success
 time,groups,expected_lead_time_from_activity_a,0 days 00:00:55.500000,Success
 time,groups,expected_lead_time_from_activity_a_to_b,0 days 00:00:26,Success
 time,groups,expected_lead_time_to_activity_a,0 days 00:00:28.500000,Success
-time,groups,expected_service_and_lead_time_ratio,2.710144927521739,Success
+time,groups,expected_service_and_lead_time_ratio,2.7101449275072462,Success
 time,groups,expected_service_time,0 days 00:01:02.340000,Success
 time,groups,expected_service_time_from_activity_a_to_b,0 days 00:00:23,Success
 time,groups,expected_waiting_time,0 days 00:01:07.666666666,Success
 time,groups,expected_waiting_time_from_activity_a_to_b,0 days 00:00:12,Success
 time,groups,lead_time,0 days 00:11:40,Success
 time,groups,lead_time_and_case_count_ratio,0 days 00:03:54,Success
-time,groups,service_and_lead_time_ratio,0.26714285714142855,Success
-time,groups,service_time,0 days 00:03:06.999999999,Success
+time,groups,service_and_lead_time_ratio,0.26714285714,Success
+time,groups,service_time,0 days 00:03:06.999999998,Success
 time,groups,service_time_from_activity_a_to_b,0 days 00:00:23,Success
 time,instances,lead_time,0 days 00:00:02,Success
 time,instances,service_and_lead_time_ratio,1.0,Success

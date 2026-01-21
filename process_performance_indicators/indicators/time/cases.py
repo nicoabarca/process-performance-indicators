@@ -148,7 +148,9 @@ def lead_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     return cases_utils.endt(event_log, case_id) - cases_utils.startt(event_log, case_id)
 
 
-def lead_time_deviation_from_deadline(event_log: pd.DataFrame, case_id: str, deadline: pd.Timedelta) -> pd.Timedelta:
+def lead_time_deviation_from_deadline(
+    event_log: pd.DataFrame, case_id: str, deadline_margin: pd.Timedelta
+) -> pd.Timedelta:
     """
     The difference between the time that the case is expected to take, and the actual elapsed time between
     its earliest and latest timestamps. Negative values indicate that the case took less time than expected.
@@ -156,10 +158,11 @@ def lead_time_deviation_from_deadline(event_log: pd.DataFrame, case_id: str, dea
     Args:
         event_log: The event log.
         case_id: The case id.
-        deadline: The expected time the case is expected to take.
+        deadline_margin: The margin of error for the deadline.
 
     """
-    return deadline - lead_time(event_log, case_id)
+    # TODO: CHECK DEADLINE TYPE
+    return deadline_margin - lead_time(event_log, case_id)
 
 
 def lead_time_deviation_from_expectation(

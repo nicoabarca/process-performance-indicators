@@ -53,6 +53,7 @@ class IndicatorArguments:
 
     # Thresholds / expectations
     deadline: pd.Timestamp | None = None
+    deadline_margin: pd.Timedelta | None = None
     expectation: pd.Timedelta | None = None
     lead_time_threshold: pd.Timedelta | None = None
     value: str | int | float | None = None
