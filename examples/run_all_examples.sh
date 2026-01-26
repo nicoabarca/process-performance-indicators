@@ -1,15 +1,43 @@
 #!/usr/bin/env bash
 
 # Run All Examples Script
+#
+# Usage:
+#   ./run_all_examples.sh           # Run with auto-sampled arguments (default)
+#   ./run_all_examples.sh --mode auto    # Same as above
+#   ./run_all_examples.sh --mode manual  # Use manually configured arguments from JSON
 
 set -e  # Exit on error
+
+# Parse command line arguments
+MODE="auto"
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --mode)
+            MODE="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Usage: $0 [--mode auto|manual]"
+            exit 1
+            ;;
+    esac
+done
+
+# Validate mode
+if [[ "$MODE" != "auto" && "$MODE" != "manual" ]]; then
+    echo "Invalid mode: $MODE"
+    echo "Valid modes: auto, manual"
+    exit 1
+fi
 
 # Color codes for output
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' 
+NC='\033[0m'
 
 # Track results
 TOTAL=0
@@ -20,6 +48,7 @@ FAILED_EXAMPLES=()
 echo "======================================================================"
 echo "Running All Indicator Examples"
 echo "======================================================================"
+echo -e "Mode: ${BLUE}${MODE}${NC}"
 echo ""
 
 # Get the script directory (examples directory)
@@ -62,7 +91,7 @@ run_example() {
     echo "======================================================================"
     
     # Run unified execute_indicators.py script from project root
-    if cd "${PROJECT_ROOT}" && uv run examples/execute_indicators.py --dataset "${dataset_path}" --config "${CONFIG_FILE}"; then
+    if cd "${PROJECT_ROOT}" && uv run examples/execute_indicators.py --dataset "${dataset_path}" --config "${CONFIG_FILE}" --mode "${MODE}"; then
         SUCCESS=$((SUCCESS + 1))
         echo -e "${GREEN}✓ ${example_name} completed successfully${NC}"
     else

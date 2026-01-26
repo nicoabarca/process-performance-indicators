@@ -131,9 +131,15 @@ def build_indicator_arguments_auto(event_log: pd.DataFrame) -> IndicatorArgument
         time_aggregation_mode="s",  # c, sc, w
     )
 
-    # Print sampled values so user can review them
+    print_indicator_arguments(args, "Auto-sampled indicator arguments:")
+
+    return args
+
+
+def print_indicator_arguments(args: IndicatorArguments, title: str) -> None:
+    """Print indicator arguments for user review."""
     print("\n" + "=" * 70)
-    print("Auto-sampled indicator arguments:")
+    print(title)
     print("=" * 70)
     print(f"  case_id: {args.case_id}")
     print(f"  case_ids: {args.case_ids}")
@@ -160,10 +166,77 @@ def build_indicator_arguments_auto(event_log: pd.DataFrame) -> IndicatorArgument
     print(f"  time_aggregation_mode: {args.time_aggregation_mode}")
     print("=" * 70 + "\n")
 
+
+def build_indicator_arguments_manual(indicator_args_config: dict) -> IndicatorArguments:
+    """
+    Build IndicatorArguments from manually specified values in the config JSON.
+
+    This approach uses values explicitly defined in the dataset_configs.json file,
+    allowing users to test specific scenarios (e.g., activities with directly-follows
+    relationships, specific time windows, etc.).
+
+    Args:
+        indicator_args_config: Dictionary from JSON with indicator argument values
+        event_log: The formatted event log DataFrame (used for computing time-based defaults)
+
+    Returns:
+        IndicatorArguments: Populated with values from the config
+
+    """
+
+    def parse_set(value: list | None) -> set[str] | None:
+        """Convert JSON array to set."""
+        if value is None:
+            return None
+        return set(value)
+
+    def parse_timestamp(value: str | None) -> pd.Timestamp | None:
+        """Convert ISO 8601 string to pd.Timestamp."""
+        if value is None:
+            return None
+        return pd.Timestamp(value)
+
+    def parse_timedelta(value: str | None) -> pd.Timedelta | None:
+        """Convert timedelta string (e.g., '2 days', '1h30m') to pd.Timedelta."""
+        if value is None:
+            return None
+        return pd.Timedelta(value)
+
+    # Get config values with None defaults
+    get = indicator_args_config.get
+
+    args = IndicatorArguments(
+        case_id=get("case_id"),
+        case_ids=parse_set(get("case_ids")),
+        activity_name=get("activity_name"),
+        instance_id=get("instance_id"),
+        human_resource_name=get("human_resource_name"),
+        automated_activities=parse_set(get("automated_activities")),
+        desired_activities=parse_set(get("desired_activities")),
+        unwanted_activities=parse_set(get("unwanted_activities")),
+        direct_cost_activities=parse_set(get("direct_cost_activities")),
+        activities_subset=parse_set(get("activities_subset")),
+        value=get("value"),
+        deadline=parse_timestamp(get("deadline")),
+        deadline_margin=parse_timedelta(get("deadline_margin")),
+        lead_time_threshold=parse_timedelta(get("lead_time_threshold")),
+        expectation=parse_timedelta(get("expectation")),
+        activity_a=get("activity_a"),
+        activity_b=get("activity_b"),
+        a_activity_name=get("a_activity_name"),
+        start_time=parse_timestamp(get("start_time")),
+        end_time=parse_timestamp(get("end_time")),
+        role_name=get("role_name"),
+        aggregation_mode=get("aggregation_mode"),
+        time_aggregation_mode=get("time_aggregation_mode"),
+    )
+
+    print_indicator_arguments(args, "Manual indicator arguments from config:")
+
     return args
 
 
-def load_config(config_path: Path, dataset_name: str) -> tuple[StandardColumnMapping, dict]:
+def load_config(config_path: Path, dataset_name: str) -> tuple[StandardColumnMapping, dict, dict | None]:
     """
     Load column mapping configuration for a specific dataset.
 
@@ -172,8 +245,9 @@ def load_config(config_path: Path, dataset_name: str) -> tuple[StandardColumnMap
         dataset_name: Name of the dataset (filename)
 
     Returns:
-        tuple: (StandardColumnMapping, dict with format settings)
+        tuple: (StandardColumnMapping, dict with format settings, dict with indicator_arguments or None)
             Format settings dict contains: separator, date_format, dayfirst
+            Indicator arguments dict contains manually specified indicator parameters
 
     Raises:
         FileNotFoundError: If config file doesn't exist
@@ -200,10 +274,13 @@ def load_config(config_path: Path, dataset_name: str) -> tuple[StandardColumnMap
         "dayfirst": dataset_config.pop("dayfirst", True),
     }
 
+    # Extract indicator_arguments if present
+    indicator_arguments_config = dataset_config.pop("indicator_arguments", None)
+
     # Create column mapping from remaining config
     column_mapping = StandardColumnMapping(**dataset_config)
 
-    return column_mapping, format_settings
+    return column_mapping, format_settings, indicator_arguments_config
 
 
 def parse_arguments():
@@ -244,6 +321,14 @@ Examples:
         type=str,
         default=None,
         help="Output directory for results. Default: out_<dataset_basename> in examples/ folder",
+    )
+
+    parser.add_argument(
+        "--mode",
+        type=str,
+        choices=["auto", "manual"],
+        default="auto",
+        help="Argument mode: 'auto' samples values from the log, 'manual' reads from config JSON",
     )
 
     return parser.parse_args()
@@ -297,11 +382,12 @@ def main():
     print("STEP 1: Loading configuration...")
     print("=" * 70)
     try:
-        column_mapping, format_settings = load_config(config_path, dataset_path.name)
+        column_mapping, format_settings, indicator_args_config = load_config(config_path, dataset_path.name)
         print(f"✓ Loaded configuration for: {dataset_path.name}")
         print(f"  Separator: {repr(format_settings['separator'])}")
         print(f"  Date format: {format_settings['date_format']}")
         print(f"  Day first: {format_settings['dayfirst']}")
+        print(f"  Indicator arguments config: {'present' if indicator_args_config else 'not configured'}")
     except (FileNotFoundError, KeyError, json.JSONDecodeError) as e:
         print(f"ERROR: {e}")
         sys.exit(1)
@@ -347,15 +433,22 @@ def main():
     print()
 
     # =========================================================================
-    # STEP 3: Build indicator arguments (auto-sampling)
+    # STEP 3: Build indicator arguments
     # =========================================================================
     print("=" * 70)
     print("STEP 3: Setting up indicator arguments...")
     print("=" * 70)
-    print("Using auto-sampling approach (review sampled values below)")
 
     try:
-        indicator_args = build_indicator_arguments_auto(formatted_event_log)
+        if args.mode == "manual":
+            if indicator_args_config is None:
+                print("ERROR: --mode manual requires 'indicator_arguments' in config for this dataset")
+                sys.exit(1)
+            print("Using manual mode (reading arguments from config)")
+            indicator_args = build_indicator_arguments_manual(indicator_args_config)  # type: ignore
+        else:
+            print("Using auto-sampling approach (review sampled values below)")
+            indicator_args = build_indicator_arguments_auto(formatted_event_log)
     except Exception as e:
         print(f"ERROR building indicator arguments: {e}")
         sys.exit(1)
