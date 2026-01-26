@@ -130,6 +130,10 @@ def _convert_timestamp_column(
     """
     Convert a timestamp column to datetime in place.
 
+    Timestamps are always converted to timezone-naive datetimes. If the source data
+    contains timezone-aware timestamps, they are first converted to UTC and then
+    the timezone info is stripped.
+
     Args:
         log_df: The DataFrame containing the column.
         column_name: The name of the column to convert.
@@ -141,6 +145,11 @@ def _convert_timestamp_column(
         log_df[column_name] = pd.to_datetime(log_df[column_name], format=date_format)
     else:
         log_df[column_name] = pd.to_datetime(log_df[column_name], dayfirst=dayfirst)
+
+    # Strip timezone info to ensure all timestamps are naive
+    # This allows consistent comparison with user-provided naive timestamps
+    if log_df[column_name].dt.tz is not None:
+        log_df[column_name] = log_df[column_name].dt.tz_convert("UTC").dt.tz_localize(None)
 
 
 def _standardize_columns(
