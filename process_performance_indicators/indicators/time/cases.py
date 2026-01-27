@@ -6,7 +6,7 @@ import process_performance_indicators.indicators.time.instances as time_instance
 import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
 import process_performance_indicators.utils.instances as instances_utils
-from process_performance_indicators.exceptions import ProcessPerformanceIndicatorDivisionError
+from process_performance_indicators.exceptions import IndicatorDivisionError
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -128,7 +128,7 @@ def idle_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
     total_idle_time: pd.Timedelta = pd.Timedelta(0)
     eligible_instances = 0
     successful_calculations = 0
-    last_error: ProcessPerformanceIndicatorDivisionError | None = None
+    last_error: IndicatorDivisionError | None = None
 
     for instance_id in cases_utils.inst(event_log, case_id):
         if not instances_utils.prev_instances(event_log, instance_id):
@@ -141,7 +141,7 @@ def idle_time(event_log: pd.DataFrame, case_id: str) -> pd.Timedelta:
                 len(instances_utils.concstr(event_log, instance_id)),
             )
             successful_calculations += 1
-        except ProcessPerformanceIndicatorDivisionError as e:
+        except IndicatorDivisionError as e:
             last_error = e
             continue
 

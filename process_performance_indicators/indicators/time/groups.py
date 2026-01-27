@@ -6,7 +6,7 @@ import process_performance_indicators.indicators.general.groups as general_group
 import process_performance_indicators.indicators.time.cases as time_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
-from process_performance_indicators.exceptions import ProcessPerformanceIndicatorDivisionError
+from process_performance_indicators.exceptions import IndicatorDivisionError
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -23,13 +23,13 @@ def expected_active_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]
     """
     total_active_time: pd.Timedelta = pd.Timedelta(0)
     successful_cases = 0
-    last_error: ProcessPerformanceIndicatorDivisionError | None = None
+    last_error: IndicatorDivisionError | None = None
 
     for case_id in case_ids:
         try:
             total_active_time += time_cases_indicators.active_time(event_log, case_id)
             successful_cases += 1
-        except ProcessPerformanceIndicatorDivisionError as e:  # noqa: PERF203
+        except IndicatorDivisionError as e:  # noqa: PERF203
             last_error = e
             continue
 
@@ -315,13 +315,13 @@ def expected_idle_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) 
     """
     total_idle_time: pd.Timedelta = pd.Timedelta(0)
     successful_cases = 0
-    last_error: ProcessPerformanceIndicatorDivisionError | None = None
+    last_error: IndicatorDivisionError | None = None
 
     for case_id in case_ids:
         try:
             total_idle_time += time_cases_indicators.idle_time(event_log, case_id)
             successful_cases += 1
-        except ProcessPerformanceIndicatorDivisionError as e:  # noqa: PERF203
+        except IndicatorDivisionError as e:  # noqa: PERF203
             last_error = e
             continue
 
