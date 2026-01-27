@@ -6,6 +6,7 @@ import process_performance_indicators.indicators.general.groups as general_group
 import process_performance_indicators.indicators.time.cases as time_cases_indicators
 import process_performance_indicators.utils.cases as cases_utils
 import process_performance_indicators.utils.cases_activities as cases_activities_utils
+from process_performance_indicators.exceptions import ProcessPerformanceIndicatorDivisionError
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -21,10 +22,21 @@ def expected_active_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]
 
     """
     total_active_time: pd.Timedelta = pd.Timedelta(0)
-    for case_id in case_ids:
-        total_active_time += time_cases_indicators.active_time(event_log, case_id)
+    successful_cases = 0
+    last_error: ProcessPerformanceIndicatorDivisionError | None = None
 
-    return safe_division(total_active_time, general_groups_indicators.case_count(event_log, case_ids))
+    for case_id in case_ids:
+        try:
+            total_active_time += time_cases_indicators.active_time(event_log, case_id)
+            successful_cases += 1
+        except ProcessPerformanceIndicatorDivisionError as e:  # noqa: PERF203
+            last_error = e
+            continue
+
+    if len(case_ids) > 0 and successful_cases == 0 and last_error is not None:
+        raise last_error
+
+    return safe_division(total_active_time, successful_cases) if successful_cases > 0 else pd.Timedelta(0)
 
 
 def activity_count(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> int:
@@ -302,9 +314,21 @@ def expected_idle_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) 
 
     """
     total_idle_time: pd.Timedelta = pd.Timedelta(0)
+    successful_cases = 0
+    last_error: ProcessPerformanceIndicatorDivisionError | None = None
+
     for case_id in case_ids:
-        total_idle_time += time_cases_indicators.idle_time(event_log, case_id)
-    return safe_division(total_idle_time, general_groups_indicators.case_count(event_log, case_ids))
+        try:
+            total_idle_time += time_cases_indicators.idle_time(event_log, case_id)
+            successful_cases += 1
+        except ProcessPerformanceIndicatorDivisionError as e:  # noqa: PERF203
+            last_error = e
+            continue
+
+    if len(case_ids) > 0 and successful_cases == 0 and last_error is not None:
+        raise last_error
+
+    return safe_division(total_idle_time, successful_cases) if successful_cases > 0 else pd.Timedelta(0)
 
 
 def lead_time(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> pd.Timedelta:
