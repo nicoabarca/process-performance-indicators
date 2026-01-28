@@ -5,9 +5,9 @@ import pandas as pd
 import process_performance_indicators.indicators.cost.cases as cost_cases_indicators
 import process_performance_indicators.indicators.general.groups as general_groups_indicators
 import process_performance_indicators.indicators.quality.groups as quality_groups_indicators
-import process_performance_indicators.indicators.time.cases as time_cases_indicators
 import process_performance_indicators.indicators.time.groups as time_groups_indicators
 import process_performance_indicators.utils.cases as cases_utils
+from process_performance_indicators.exceptions import IndicatorDivisionError
 from process_performance_indicators.utils.safe_division import safe_division
 
 
@@ -697,14 +697,22 @@ def expected_total_cost_and_lead_time_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    sum_of_lead_times = pd.Timedelta(0)
-    for case_id in case_ids:
-        sum_of_lead_times += time_cases_indicators.lead_time(event_log, case_id)
+    sum_of_ratios = 0.0
+    successful_cases = 0
+    last_error: IndicatorDivisionError | None = None
 
-    return safe_division(
-        total_cost(event_log, case_ids, aggregation_mode),
-        sum_of_lead_times / pd.Timedelta(hours=1),
-    )
+    for case_id in case_ids:
+        try:
+            sum_of_ratios += cost_cases_indicators.total_cost_and_lead_time_ratio(event_log, case_id, aggregation_mode)
+            successful_cases += 1
+        except IndicatorDivisionError as e:  # noqa: PERF203
+            last_error = e
+            continue
+
+    if len(case_ids) > 0 and successful_cases == 0 and last_error is not None:
+        raise last_error
+
+    return safe_division(sum_of_ratios, successful_cases) if successful_cases > 0 else 0.0
 
 
 def total_cost_and_outcome_unit_ratio(
@@ -788,10 +796,24 @@ def expected_total_cost_and_service_time_ratio(
             "sum": Considers the sum of all events of activity instances for cost calculations.
 
     """
-    return safe_division(
-        total_cost(event_log, case_ids, aggregation_mode),
-        time_groups_indicators.service_time(event_log, case_ids) / pd.Timedelta(hours=1),
-    )
+    sum_of_ratios = 0.0
+    successful_cases = 0
+    last_error: IndicatorDivisionError | None = None
+
+    for case_id in case_ids:
+        try:
+            sum_of_ratios += cost_cases_indicators.total_cost_and_service_time_ratio(
+                event_log, case_id, aggregation_mode
+            )
+            successful_cases += 1
+        except IndicatorDivisionError as e:  # noqa: PERF203
+            last_error = e
+            continue
+
+    if len(case_ids) > 0 and successful_cases == 0 and last_error is not None:
+        raise last_error
+
+    return safe_division(sum_of_ratios, successful_cases) if successful_cases > 0 else 0.0
 
 
 def transportation_cost(event_log: pd.DataFrame, case_ids: list[str] | set[str]) -> float:

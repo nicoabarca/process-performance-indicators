@@ -34,7 +34,7 @@ class NoCompleteEventFoundError(Exception):
     """
 
 
-class ProcessPerformanceIndicatorDivisionError(Exception):
+class IndicatorDivisionError(Exception):
     """
     Exception raised when the indicator division cannot be calculated.
     """

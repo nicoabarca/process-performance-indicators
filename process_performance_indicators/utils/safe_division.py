@@ -9,7 +9,7 @@ from typing import overload
 
 import pandas as pd
 
-from process_performance_indicators.exceptions import ProcessPerformanceIndicatorDivisionError
+from process_performance_indicators.exceptions import IndicatorDivisionError
 
 DECIMALS = 3
 
@@ -18,7 +18,7 @@ DECIMALS = 3
 def safe_division(
     numerator: float,
     denominator: float,
-    exception_class: type[Exception] = ProcessPerformanceIndicatorDivisionError,
+    exception_class: type[Exception] = IndicatorDivisionError,
 ) -> float: ...
 
 
@@ -26,7 +26,7 @@ def safe_division(
 def safe_division(
     numerator: pd.Timedelta,
     denominator: float,
-    exception_class: type[Exception] = ProcessPerformanceIndicatorDivisionError,
+    exception_class: type[Exception] = IndicatorDivisionError,
 ) -> pd.Timedelta: ...
 
 
@@ -34,14 +34,14 @@ def safe_division(
 def safe_division(
     numerator: pd.Timedelta,
     denominator: pd.Timedelta,
-    exception_class: type[Exception] = ProcessPerformanceIndicatorDivisionError,
+    exception_class: type[Exception] = IndicatorDivisionError,
 ) -> float: ...
 
 
 def safe_division(
     numerator: float | pd.Timedelta,
     denominator: float | pd.Timedelta,
-    exception_class: type[Exception] = ProcessPerformanceIndicatorDivisionError,
+    exception_class: type[Exception] = IndicatorDivisionError,
 ) -> float | pd.Timedelta:
     """
     Safely perform division with automatic error handling.
@@ -63,9 +63,7 @@ def safe_division(
     if (isinstance(denominator, pd.Timedelta) and denominator == pd.Timedelta(0)) or (
         not isinstance(denominator, pd.Timedelta) and denominator == 0
     ):
-        error_message = (
-            f"Error performing indicator division. Numerator value={numerator}, denominator value={denominator}"
-        )
+        error_message = f"Division error: cannot divide {numerator} by {denominator}."
         raise exception_class(error_message)
     # Type-safe division with explicit type handling
     # The overloads ensure only valid combinations reach here
