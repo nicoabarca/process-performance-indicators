@@ -3,6 +3,9 @@ name: Publish MKDocs via GitHub Pages
 on:
   push:
     branches: [ stable ]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
 
 permissions:
   contents: write
