@@ -2,6 +2,8 @@ site_name: Process Performance Indicators
 site_description: Documentation for Process Performance Indicators Python Package
 site_author: Nicolás Abarca
 
+site_url: https://nicoabarca.github.io/process-performance-indicators/
+
 # Repository
 repo_url: https://github.com/nicoabarca/process-performance-indicators
 repo_name: nicoabarca/process-performance-indicators
