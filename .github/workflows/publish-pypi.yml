@@ -2,10 +2,10 @@ name: Publish to PyPI
 
 on:
   push:
-    branches: [ stable ]
+    branches: [main]
     paths:
-      - 'process_performance_indicators/**'
-      - 'pyproject.toml'
+      - "process_performance_indicators/**"
+      - "pyproject.toml"
 
 permissions:
   contents: write
@@ -68,7 +68,7 @@ jobs:
         if: steps.pr-labels.outputs.version_type != 'none'
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: 🍇 Install uv
         if: steps.pr-labels.outputs.version_type != 'none'
