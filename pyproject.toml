@@ -1,6 +1,6 @@
 [project]
 name = "process-performance-indicators"
-version = "0.1.0"
+version = "0.2.0"
 description = "A Python package for calculating process performance indicators"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -27,9 +27,6 @@ misc = [
     "pm4py>=2.7.19.5",
     "rustxes>=0.2.11"
 ]
-
-[tool.setuptools]
-packages = [ "process_performance_indicators" ]
 
 [tool.setuptools.package-data]
 "process_performance_indicators" = ["py.typed"]
