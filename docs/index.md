@@ -69,4 +69,5 @@ print(results.head())
 
 - [Installation](installation.md) - Detailed installation instructions
 - [Usage Guide](usage.md) - Learn how to load, format, and analyze event logs
+- [Examples](examples.md) - Working examples with sample datasets
 - [API Reference](reference/general.md) - Explore all available indicators
