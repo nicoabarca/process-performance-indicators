@@ -27,22 +27,22 @@ The `examples/datasets/` folder contains 9 sample event logs covering different 
 
 ### Synthetic Datasets
 
-| Dataset | Format | Description |
-|---------|--------|-------------|
-| `atomic_event_log.csv` | Atomic | Simplest format with case/activity/timestamp only |
-| `derivable_interval_event_log.csv` | Derivable | With lifecycle transitions (start/complete) |
-| `explicit_interval_event_log.csv` | Explicit | Full format with lifecycle and instance IDs |
-| `timestamp_unique_derivable_interval_event_log.csv` | Derivable | Derivable format with unique timestamps |
-| `production.csv` | Production | Separate start/end timestamp columns |
+| Dataset                                             | Format     | Description                                       |
+| --------------------------------------------------- | ---------- | ------------------------------------------------- |
+| `atomic_event_log.csv`                              | Atomic     | Simplest format with case/activity/timestamp only |
+| `derivable_interval_event_log.csv`                  | Derivable  | With lifecycle transitions (start/complete)       |
+| `explicit_interval_event_log.csv`                   | Explicit   | Full format with lifecycle and instance IDs       |
+| `timestamp_unique_derivable_interval_event_log.csv` | Derivable  | Derivable format with unique timestamps           |
+| `production.csv`                                    | Production | Separate start/end timestamp columns              |
 
 ### Real-World Datasets (100-row samples)
 
-| Dataset | Source | Description |
-|---------|--------|-------------|
-| `bpi-challenge-2013-incidents_100.csv` | BPI Challenge 2013 | Incident management process |
-| `bpi-challenge-2017_100.csv` | BPI Challenge 2017 | Loan application process |
-| `it-incident_100.csv` | ServiceNow | IT incident management |
-| `italian-help-desk_100.csv` | 4TU | Help desk support process |
+| Dataset                                | Description                 |
+| -------------------------------------- | --------------------------- |
+| `bpi-challenge-2013-incidents_100.csv` | Incident management process |
+| `bpi-challenge-2017_100.csv`           | Loan application process    |
+| `it-incident_100.csv`                  | IT incident management      |
+| `italian-help-desk_100.csv`            | Help desk support process   |
 
 ---
 
@@ -62,12 +62,12 @@ uv run examples/execute_indicators.py \
 
 ### Arguments
 
-| Argument | Required | Description |
-|----------|----------|-------------|
-| `--dataset` | Yes | Path to the raw CSV event log file |
-| `--config` | Yes | Path to `dataset_configs.json` |
-| `--out` | No | Output directory (default: `out_<dataset_name>/`) |
-| `--mode` | No | `auto` (default) or `manual` for indicator arguments |
+| Argument    | Required | Description                                          |
+| ----------- | -------- | ---------------------------------------------------- |
+| `--dataset` | Yes      | Path to the raw CSV event log file                   |
+| `--config`  | Yes      | Path to `dataset_configs.json`                       |
+| `--out`     | No       | Output directory (default: `out_<dataset_name>/`)    |
+| `--mode`    | No       | `auto` (default) or `manual` for indicator arguments |
 
 ### Argument Modes
 
@@ -147,24 +147,24 @@ The `dataset_configs.json` file contains column mappings and settings for each d
 
 Each execution generates three files in the output directory:
 
-| File | Description |
-|------|-------------|
-| `formatted_<dataset>.csv` | Normalized explicit interval event log |
-| `results_<dataset>.csv` | Detailed indicator calculation results |
-| `summary_<dataset>.csv` | Summary showing success rates by dimension and granularity |
+| File                      | Description                                                |
+| ------------------------- | ---------------------------------------------------------- |
+| `formatted_<dataset>.csv` | Normalized explicit interval event log                     |
+| `results_<dataset>.csv`   | Detailed indicator calculation results                     |
+| `summary_<dataset>.csv`   | Summary showing success rates by dimension and granularity |
 
 ### Results File Structure
 
 The results CSV contains:
 
-| Column | Description |
-|--------|-------------|
-| `dimension` | time, cost, quality, flexibility, or general |
-| `granularity` | activities, cases, groups, or instances |
-| `indicator_name` | Name of the indicator function |
-| `status` | "Success" or error description |
-| `result` | Calculated value (or None if failed) |
-| `error_message` | Details if calculation failed |
+| Column           | Description                                  |
+| ---------------- | -------------------------------------------- |
+| `dimension`      | time, cost, quality, flexibility, or general |
+| `granularity`    | activities, cases, groups, or instances      |
+| `indicator_name` | Name of the indicator function               |
+| `status`         | "Success" or error description               |
+| `result`         | Calculated value (or None if failed)         |
+| `error_message`  | Details if calculation failed                |
 
 ### Summary File Structure
 
@@ -183,25 +183,25 @@ The summary shows success rates:
 
 2. Add configuration to `dataset_configs.json`:
 
-    ```json
-    {
-      "my_dataset.csv": {
-        "case_id_key": "CaseID",
-        "activity_key": "Activity",
-        "timestamp_key": "Timestamp",
-        "separator": ",",
-        "dayfirst": false
-      }
-    }
-    ```
+   ```json
+   {
+     "my_dataset.csv": {
+       "case_id_key": "CaseID",
+       "activity_key": "Activity",
+       "timestamp_key": "Timestamp",
+       "separator": ",",
+       "dayfirst": false
+     }
+   }
+   ```
 
 3. Run the indicators:
 
-    ```bash
-    uv run examples/execute_indicators.py \
-        --dataset examples/datasets/my_dataset.csv \
-        --config examples/dataset_configs.json
-    ```
+   ```bash
+   uv run examples/execute_indicators.py \
+       --dataset examples/datasets/my_dataset.csv \
+       --config examples/dataset_configs.json
+   ```
 
 ---
 

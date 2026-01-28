@@ -1,10 +1,10 @@
 # Process Performance Indicators
 
-A Python library for calculating **250+ process performance indicators** from event logs. The library supports multiple event log formats and provides indicators across 5 dimensions (Time, Cost, Quality, Flexibility, General) at 4 granularity levels (activities, cases, groups, instances).
+A Python library for calculating **310 process performance indicators** from event logs. The library supports multiple event log formats and provides indicators across 5 dimensions (Time, Cost, Quality, Flexibility, General) at 4 granularity levels (activities, cases, groups, instances).
 
 ## Features
 
-- **Comprehensive indicator coverage**: 250+ indicators across time, cost, quality, flexibility, and general dimensions
+- **Comprehensive indicator coverage**: 310 indicators across time, cost, quality, flexibility, and general dimensions
 - **Multiple granularities**: Calculate metrics at activity, case, group, or instance level
 - **Flexible input formats**: Support for atomic, derivable, production-style, and explicit interval event logs
 - **Automatic format detection**: The library detects your log format and converts it to the required structure
@@ -81,12 +81,12 @@ print(results.head())
 
 The library supports **4 event log formats**:
 
-| Format | Description | Required Columns |
-|--------|-------------|------------------|
-| **Atomic** | Simplest format with single timestamp | case_id, activity, timestamp |
-| **Derivable Interval** | Has lifecycle transitions (start/complete) | case_id, activity, timestamp, lifecycle |
-| **Production-Style** | Separate start and end timestamps | case_id, activity, start_timestamp, end_timestamp |
-| **Explicit Interval** | Full format with lifecycle and instance IDs | case_id, activity, timestamp, lifecycle, instance_id |
+| Format                 | Description                                 | Required Columns                                     |
+| ---------------------- | ------------------------------------------- | ---------------------------------------------------- |
+| **Atomic**             | Simplest format with single timestamp       | case_id, activity, timestamp                         |
+| **Derivable Interval** | Has lifecycle transitions (start/complete)  | case_id, activity, timestamp, lifecycle              |
+| **Production-Style**   | Separate start and end timestamps           | case_id, activity, start_timestamp, end_timestamp    |
+| **Explicit Interval**  | Full format with lifecycle and instance IDs | case_id, activity, timestamp, lifecycle, instance_id |
 
 The `event_log_formatter()` function automatically detects your format and converts it to explicit interval format.
 
@@ -94,22 +94,22 @@ The `event_log_formatter()` function automatically detects your format and conve
 
 ### Dimensions
 
-| Dimension | Description | Examples |
-|-----------|-------------|----------|
-| **Time** | Duration and timing metrics | Lead time, service time, waiting time, cycle time |
-| **Cost** | Financial metrics | Total cost, labor cost, fixed/variable cost ratios |
-| **Quality** | Output and success metrics | Outcome units, success rate, rework percentage |
-| **Flexibility** | Adaptability metrics | Activity flexibility, resource flexibility |
-| **General** | Count and occurrence metrics | Activity count, case count, rework count |
+| Dimension       | Description                  | Examples                                           |
+| --------------- | ---------------------------- | -------------------------------------------------- |
+| **Time**        | Duration and timing metrics  | Lead time, service time, waiting time, cycle time  |
+| **Cost**        | Financial metrics            | Total cost, labor cost, fixed/variable cost ratios |
+| **Quality**     | Output and success metrics   | Outcome units, success rate, rework percentage     |
+| **Flexibility** | Adaptability metrics         | Activity flexibility, resource flexibility         |
+| **General**     | Count and occurrence metrics | Activity count, case count, rework count           |
 
 ### Granularities
 
-| Granularity | Scope | Example |
-|-------------|-------|---------|
-| **instances** | Single activity execution | Service time for instance "inst-001" |
-| **activities** | All instances of an activity | Total lead time for "Review" activity |
-| **cases** | All activities in a case | Total cost for case "C1" |
-| **groups** | Multiple cases (filtered) | Average cycle time for cases in January |
+| Granularity    | Scope                        | Example                                 |
+| -------------- | ---------------------------- | --------------------------------------- |
+| **instances**  | Single activity execution    | Service time for instance "inst-001"    |
+| **activities** | All instances of an activity | Total lead time for "Review" activity   |
+| **cases**      | All activities in a case     | Total cost for case "C1"                |
+| **groups**     | Multiple cases (filtered)    | Average cycle time for cases in January |
 
 ## Running Indicators
 
@@ -183,4 +183,3 @@ Full documentation is available at: **https://nicoabarca.github.io/process-perfo
 - [Usage Guide](https://nicoabarca.github.io/process-performance-indicators/usage/) - Learn how to load, format, and analyze event logs
 - [Examples](https://nicoabarca.github.io/process-performance-indicators/examples/) - Working examples with sample datasets
 - [API Reference](https://nicoabarca.github.io/process-performance-indicators/reference/general/) - Explore all available indicators
-

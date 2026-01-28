@@ -1,10 +1,10 @@
 # Process Performance Indicators
 
-A Python library for calculating **250+ process performance indicators** from event logs. The library supports multiple event log formats and provides indicators across 5 dimensions (Time, Cost, Quality, Flexibility, General) at 4 granularity levels (activities, cases, groups, instances).
+A Python library for calculating **310 process performance indicators** from event logs. The library supports multiple event log formats and provides indicators across 5 dimensions (Time, Cost, Quality, Flexibility, General) at 4 granularity levels (activities, cases, groups, instances).
 
 ## Features
 
-- **Comprehensive indicator coverage**: 250+ indicators across time, cost, quality, flexibility, and general dimensions
+- **Comprehensive indicator coverage**: 310 indicators across time, cost, quality, flexibility, and general dimensions
 - **Multiple granularities**: Calculate metrics at activity, case, group, or instance level
 - **Flexible input formats**: Support for atomic, derivable, production-style, and explicit interval event logs
 - **Automatic format detection**: The library detects your log format and converts it to the required structure
