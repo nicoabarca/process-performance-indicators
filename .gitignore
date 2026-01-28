@@ -1,6 +1,15 @@
 # Ignore sample event logs
 sample_logs/
 
+# Ignore MacOS generated files
+.DS_Store
+
+# Ignore VSCode generated files
+.vscode/
+
+# Claude
+Claude.local.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

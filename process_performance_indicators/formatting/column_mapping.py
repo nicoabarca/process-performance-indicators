@@ -1,7 +1,7 @@
 from dataclasses import asdict, dataclass
 from typing import ClassVar
 
-from process_performance_indicators.formatting.constants import StandardColumnNames
+from process_performance_indicators.constants import StandardColumnNames
 
 
 @dataclass
@@ -23,6 +23,7 @@ class StandardColumnMapping:
     role_key: str | None = None
     resource_key: str | None = None
     outcome_unit_key: str | None = None
+    unsuccessful_outcome_unit_key: str | None = None
     fixed_cost_key: str | None = None
     variable_cost_key: str | None = None
     labor_cost_key: str | None = None
@@ -46,6 +47,7 @@ class StandardColumnMapping:
         "role_key": StandardColumnNames.ROLE,
         "resource_key": StandardColumnNames.ORG_RESOURCE,
         "outcome_unit_key": StandardColumnNames.OUTCOME_UNIT,
+        "unsuccessful_outcome_unit_key": StandardColumnNames.UNSUCCESSFUL_OUTCOME_UNIT,
         "fixed_cost_key": StandardColumnNames.FIXED_COST,
         "variable_cost_key": StandardColumnNames.VARIABLE_COST,
         "labor_cost_key": StandardColumnNames.LABOR_COST,
@@ -76,7 +78,7 @@ class StandardColumnMapping:
         return mapping
 
 
-def convert_to_standard_mapping(mapping: dict[str, str] | StandardColumnMapping) -> dict[str, str]:
+def convert_to_standard_mapping(mapping: StandardColumnMapping) -> dict[str, str]:
     """
     Convert either a dictionary or StandardColumnMapping instance to a standard column mapping dictionary.
 
@@ -88,26 +90,25 @@ def convert_to_standard_mapping(mapping: dict[str, str] | StandardColumnMapping)
         Dict[str, str]: A dictionary where keys are standard column names and values are log column names.
 
     """
-    if isinstance(mapping, dict):
-        return mapping
     return mapping.to_standard_mapping()
 
 
-def validate_column_mapping(mapping: dict[str, str]) -> bool:
+def validate_column_mapping(mapping: dict[str, str], existing_columns: set[str]) -> bool:
     """
-    Validate the column mapping to ensure all keys are standard column names.
+    Validate the column mapping to ensure all columns exist in the event log.
 
     Args:
         mapping: The column mapping to validate with standard column names as keys.
+        existing_columns: The columns that exist in the event log.
 
     Returns:
         bool: True if the mapping is valid.
 
     Raises:
-        ValueError: If any key in the mapping is not a standard column name.
+        ValueError: If any column in the mapping is not present in the event log.
 
     """
-    invalid_keys = [key for key in mapping if key not in StandardColumnNames.__members__.values()]
-    if invalid_keys:
-        raise ValueError(f"Column names {invalid_keys} are not standard column names.")
+    missing_columns = [col for col in mapping.values() if col not in existing_columns]
+    if missing_columns:
+        raise ValueError(f"Mapping refers to columns that do not exist in the event log: {missing_columns}")
     return True

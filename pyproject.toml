@@ -1,18 +1,44 @@
 [project]
 name = "process-performance-indicators"
 version = "0.1.0"
-description = "Add your description here"
+description = "A Python package for calculating process performance indicators"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "mypy>=1.15.0",
     "pandas>=2.2.3",
-    "ruff>=0.11.4",
+    "pandas-stubs>=2.2.3.250308",
+    "tqdm>=4.67.1",
 ]
 
+[dependency-groups]
+dev = [
+    "ruff>=0.11.4",
+    "mypy>=1.15.0",
+    "pytest>=8.3.0",
+    "pandas-stubs>=2.2.3.250308",
+]
+docs = [
+    "mkdocs>=1.5.4",
+    "mkdocstrings-python>=1.16.10",
+    "mkdocs-material>=9.6.12",
+]
+misc = [
+    "ipykernel>=6.29.5",
+    "pm4py>=2.7.19.5",
+    "rustxes>=0.2.11"
+]
+
+[tool.setuptools]
+packages = [ "process_performance_indicators" ]
+
+[tool.setuptools.package-data]
+"process_performance_indicators" = ["py.typed"]
+
 [tool.ruff]
-line-length = 100
+line-length = 120
 target-version = "py310"
+
+[tool.ruff.lint]
 select = [
     "ALL", # include all the rules, including new ones
 ]
@@ -35,6 +61,7 @@ ignore = [
     "D106",
     "D107",
     "D200",
+    "D203",
     "D205",
     "D212",
     "D400",
@@ -47,4 +74,9 @@ ignore = [
     "TD002",
     "TD003",
     "FIX002", # too verbose descriptions of todos
+    "EM101",  # ignore string literals in exceptions
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "PLR2004"]  # Ignore assertion use in test files
+"examples/*.py" = ["ALL"]
