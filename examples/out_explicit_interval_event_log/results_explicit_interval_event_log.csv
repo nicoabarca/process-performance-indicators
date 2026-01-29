@@ -253,22 +253,22 @@ time,activities,lead_time,0 days 00:12:48,Success
 time,activities,service_and_lead_time_ratio,0.44140624999869793,Success
 time,activities,service_time,0 days 00:05:38.999999999,Success
 time,activities,waiting_time,0 days 00:07:09,Success
-time,cases,active_time,,Division error: cannot divide 0 days 00:00:05 by 0.
+time,cases,active_time,0 days 00:00:17,Success
 time,cases,activity_count,4,Success
 time,cases,activity_instance_count,9,Success
 time,cases,automated_activity_count,2,Success
 time,cases,automated_activity_instance_count,5,Success
 time,cases,automated_activity_service_time,0 days 00:00:14,Success
 time,cases,handover_count,4.5,Success
-time,cases,idle_time,,Division error: cannot divide 0 days 00:00:05 by 0.
+time,cases,idle_time,0 days 00:00:35,Success
 time,cases,lead_time,0 days 00:00:52,Success
 time,cases,lead_time_deviation_from_deadline,-1 days +23:59:38,Success
 time,cases,lead_time_deviation_from_expectation,0 days 00:00:08,Success
 time,cases,lead_time_from_activity_a,0 days 00:00:24,Success
 time,cases,lead_time_from_activity_a_to_b,0 days 00:00:24,Success
 time,cases,lead_time_to_activity_a,0 days 00:00:31,Success
-time,cases,service_and_lead_time_ratio,0.48076923075,Success
-time,cases,service_time,0 days 00:00:24.999999999,Success
+time,cases,service_and_lead_time_ratio,0.4807692307692308,Success
+time,cases,service_time,0 days 00:00:25,Success
 time,cases,service_time_from_activity_a_to_b,0 days 00:00:11,Success
 time,cases,waiting_time,0 days 00:00:35,Success
 time,cases,waiting_time_from_activity_a_to_b,0 days 00:00:05,Success
@@ -281,29 +281,29 @@ time,groups,case_count_lead_time_ratio,64.671,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.0,Success
-time,groups,expected_active_time,0 days 00:00:31,Success
+time,groups,expected_active_time,0 days 00:00:11.333333333,Success
 time,groups,expected_activity_count,3.667,Success
 time,groups,expected_activity_instance_count,9.667,Success
 time,groups,expected_automated_activity_count,1.667,Success
 time,groups,expected_automated_activity_instance_count,5.667,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:20,Success
 time,groups,expected_handover_count,4.5,Success
-time,groups,expected_idle_time,0 days 00:00:14,Success
+time,groups,expected_idle_time,0 days 00:00:42.666666666,Success
 time,groups,expected_lead_time,0 days 00:00:54,Success
 time,groups,expected_lead_time_deviation_from_deadline,-1 days +23:59:36,Success
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:09.360000,Success
 time,groups,expected_lead_time_from_activity_a,0 days 00:00:40,Success
 time,groups,expected_lead_time_from_activity_a_to_b,0 days 00:00:25.500000,Success
 time,groups,expected_lead_time_to_activity_a,0 days 00:00:21.333333333,Success
-time,groups,expected_service_and_lead_time_ratio,1.870370370351852,Success
+time,groups,expected_service_and_lead_time_ratio,1.8703703703703705,Success
 time,groups,expected_service_time,0 days 00:00:33.660000,Success
 time,groups,expected_service_time_from_activity_a_to_b,0 days 00:00:08,Success
 time,groups,expected_waiting_time,0 days 00:00:45,Success
 time,groups,expected_waiting_time_from_activity_a_to_b,0 days 00:00:05,Success
 time,groups,lead_time,0 days 00:02:47,Success
 time,groups,lead_time_and_case_count_ratio,0 days 00:00:54,Success
-time,groups,service_and_lead_time_ratio,0.6047904191556887,Success
-time,groups,service_time,0 days 00:01:40.999999999,Success
+time,groups,service_and_lead_time_ratio,0.6047904191616766,Success
+time,groups,service_time,0 days 00:01:41,Success
 time,groups,service_time_from_activity_a_to_b,0 days 00:00:16,Success
 time,instances,lead_time,0 days 00:00:06,Success
 time,instances,service_and_lead_time_ratio,0.5,Success

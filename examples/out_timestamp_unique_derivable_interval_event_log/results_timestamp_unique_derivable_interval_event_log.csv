@@ -250,17 +250,17 @@ quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances
 quality,instances,successful_outcome_unit_count,57.0,Success
 quality,instances,successful_outcome_unit_percentage,0.713,Success
 time,activities,lead_time,0 days 00:14:43,Success
-time,activities,service_and_lead_time_ratio,0.5855039637587769,Success
-time,activities,service_time,0 days 00:08:36.999999999,Success
+time,activities,service_and_lead_time_ratio,0.5855039637599094,Success
+time,activities,service_time,0 days 00:08:37,Success
 time,activities,waiting_time,0 days 00:06:06,Success
-time,cases,active_time,,Division error: cannot divide 0 days 00:00:28 by 0.
+time,cases,active_time,-1 days +23:59:48,Success
 time,cases,activity_count,4,Success
 time,cases,activity_instance_count,9,Success
 time,cases,automated_activity_count,2,Success
 time,cases,automated_activity_instance_count,7,Success
 time,cases,automated_activity_service_time,0 days 00:00:30,Success
 time,cases,handover_count,6.0,Success
-time,cases,idle_time,,Division error: cannot divide 0 days 00:00:28 by 0.
+time,cases,idle_time,0 days 00:01:12,Success
 time,cases,lead_time,0 days 00:01:00,Success
 time,cases,lead_time_deviation_from_deadline,-1 days +23:59:30,Success
 time,cases,lead_time_deviation_from_expectation,0 days 00:00:00,Success
@@ -281,14 +281,14 @@ time,groups,case_count_lead_time_ratio,61.714,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.0,Success
-time,groups,expected_active_time,,Division error: cannot divide 0 days 00:00:09 by 0.
+time,groups,expected_active_time,-1 days +23:59:58,Success
 time,groups,expected_activity_count,3.333,Success
 time,groups,expected_activity_instance_count,8.333,Success
 time,groups,expected_automated_activity_count,1.333,Success
 time,groups,expected_automated_activity_instance_count,5.0,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:16.666666666,Success
 time,groups,expected_handover_count,5.0,Success
-time,groups,expected_idle_time,,Division error: cannot divide 0 days 00:00:09 by 0.
+time,groups,expected_idle_time,0 days 00:00:49,Success
 time,groups,expected_lead_time,0 days 00:00:46.980000,Success
 time,groups,expected_lead_time_deviation_from_deadline,-1 days +23:59:43.020000001,Success
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:13.020000,Success

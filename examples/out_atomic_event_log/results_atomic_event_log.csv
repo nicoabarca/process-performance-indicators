@@ -56,7 +56,7 @@ cost,groups,expected_rework_percentage,0.669,Success
 cost,groups,expected_total_cost,132.667,Success
 cost,groups,expected_total_cost_and_lead_time_ratio,6448.97,Success
 cost,groups,expected_total_cost_and_outcome_unit_ratio,0.463,Success
-cost,groups,expected_total_cost_and_service_time_ratio,,Division error: cannot divide 66.0 by 0.0.
+cost,groups,expected_total_cost_and_service_time_ratio,,Division error: cannot divide 136.0 by 0.0.
 cost,groups,expected_transportation_cost,61.333,Success
 cost,groups,expected_variable_cost,69.333,Success
 cost,groups,expected_warehousing_cost,19.667,Success
@@ -253,14 +253,14 @@ time,activities,lead_time,0 days 00:10:49,Success
 time,activities,service_and_lead_time_ratio,0.0,Success
 time,activities,service_time,0 days 00:00:00,Success
 time,activities,waiting_time,0 days 00:10:49,Success
-time,cases,active_time,0 days 00:01:25,Success
+time,cases,active_time,0 days 00:00:00,Success
 time,cases,activity_count,4,Success
 time,cases,activity_instance_count,19,Success
 time,cases,automated_activity_count,2,Success
 time,cases,automated_activity_instance_count,13,Success
 time,cases,automated_activity_service_time,0 days 00:00:00,Success
 time,cases,handover_count,14.0,Success
-time,cases,idle_time,0 days 00:00:18,Success
+time,cases,idle_time,0 days 00:01:43,Success
 time,cases,lead_time,0 days 00:01:43,Success
 time,cases,lead_time_deviation_from_deadline,-1 days +23:58:47,Success
 time,cases,lead_time_deviation_from_expectation,0 days 00:00:43,Success
@@ -281,14 +281,14 @@ time,groups,case_count_lead_time_ratio,45.57,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.333,Success
-time,groups,expected_active_time,0 days 00:01:17,Success
+time,groups,expected_active_time,0 days 00:00:00,Success
 time,groups,expected_activity_count,4.0,Success
 time,groups,expected_activity_instance_count,15.0,Success
 time,groups,expected_automated_activity_count,2.0,Success
 time,groups,expected_automated_activity_instance_count,10.0,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:00,Success
 time,groups,expected_handover_count,10.833,Success
-time,groups,expected_idle_time,0 days 00:00:16,Success
+time,groups,expected_idle_time,0 days 00:01:15,Success
 time,groups,expected_lead_time,0 days 00:01:15,Success
 time,groups,expected_lead_time_deviation_from_deadline,-1 days +23:59:15,Success
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:28.980000,Success

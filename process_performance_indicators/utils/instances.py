@@ -182,8 +182,6 @@ def concstr(event_log: pd.DataFrame, instance_id: str) -> set[str]:
     instance_ids = cases_utils.inst(event_log, case(event_log, instance_id))
     concurrent_instances = set[str]()
     for other in instance_ids:
-        if other == instance_id:
-            continue
         if stime(event_log, other) == stime(event_log, instance_id):
             concurrent_instances.add(other)
     return concurrent_instances

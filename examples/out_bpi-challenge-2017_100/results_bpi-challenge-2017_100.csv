@@ -253,14 +253,14 @@ time,activities,lead_time,6 days 22:04:08.792000,Success
 time,activities,service_and_lead_time_ratio,0.0,Success
 time,activities,service_time,0 days 00:00:00,Success
 time,activities,waiting_time,6 days 22:04:08.792000,Success
-time,cases,active_time,,Division error: cannot divide 0 days 00:00:00.009000 by 0.
+time,cases,active_time,0 days 00:00:00,Success
 time,cases,activity_count,16,Success
 time,cases,activity_instance_count,28,Success
 time,cases,automated_activity_count,2,Success
 time,cases,automated_activity_instance_count,6,Success
 time,cases,automated_activity_service_time,0 days 00:00:00,Success
 time,cases,handover_count,,Column 'human_resource' is not present in event log.
-time,cases,idle_time,,Division error: cannot divide 0 days 00:00:00.009000 by 0.
+time,cases,idle_time,14 days 15:53:15.427000,Success
 time,cases,lead_time,14 days 15:53:15.427000,Success
 time,cases,lead_time_deviation_from_deadline,-12 days +08:06:44.573000,Success
 time,cases,lead_time_deviation_from_expectation,7 days 15:53:15.427000,Success
@@ -281,14 +281,14 @@ time,groups,case_count_lead_time_ratio,0.006,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.0,Success
-time,groups,expected_active_time,,Division error: cannot divide 0 days 00:00:00.003000 by 0.
+time,groups,expected_active_time,0 days 00:00:00,Success
 time,groups,expected_activity_count,15.0,Success
 time,groups,expected_activity_instance_count,26.0,Success
 time,groups,expected_automated_activity_count,1.5,Success
 time,groups,expected_automated_activity_instance_count,4.5,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:00,Success
 time,groups,expected_handover_count,,Column 'human_resource' is not present in event log.
-time,groups,expected_idle_time,,Division error: cannot divide 0 days 00:00:00.003000 by 0.
+time,groups,expected_idle_time,10 days 09:05:22.888500,Success
 time,groups,expected_lead_time,10 days 09:05:22.860000,Success
 time,groups,expected_lead_time_deviation_from_deadline,-8 days +14:54:37.140000,Success
 time,groups,expected_lead_time_deviation_from_expectation,4 days 06:47:52.560000,Success

@@ -253,14 +253,14 @@ time,activities,lead_time,0 days 00:14:56,Success
 time,activities,service_and_lead_time_ratio,0.6450892857142857,Success
 time,activities,service_time,0 days 00:09:38,Success
 time,activities,waiting_time,0 days 00:05:18,Success
-time,cases,active_time,0 days 00:00:27,Success
+time,cases,active_time,0 days 00:00:01,Success
 time,cases,activity_count,3,Success
 time,cases,activity_instance_count,8,Success
 time,cases,automated_activity_count,1,Success
 time,cases,automated_activity_instance_count,4,Success
 time,cases,automated_activity_service_time,0 days 00:00:28,Success
 time,cases,handover_count,5.0,Success
-time,cases,idle_time,0 days 00:00:06,Success
+time,cases,idle_time,0 days 00:00:32,Success
 time,cases,lead_time,0 days 00:00:33,Success
 time,cases,lead_time_deviation_from_deadline,-1 days +23:59:57,Success
 time,cases,lead_time_deviation_from_expectation,0 days 00:00:27,Success
@@ -281,14 +281,14 @@ time,groups,case_count_lead_time_ratio,50.704,Success
 time,groups,case_count_where_lead_time_over_value,0,Success
 time,groups,case_percentage_where_lead_time_over_value,0.0,Success
 time,groups,case_percentage_with_missed_deadline,0.0,Success
-time,groups,expected_active_time,0 days 00:00:27,Success
+time,groups,expected_active_time,0 days 00:00:12,Success
 time,groups,expected_activity_count,3.0,Success
 time,groups,expected_activity_instance_count,7.333,Success
 time,groups,expected_automated_activity_count,1.667,Success
 time,groups,expected_automated_activity_instance_count,4.333,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:52,Success
 time,groups,expected_handover_count,4.667,Success
-time,groups,expected_idle_time,0 days 00:00:06,Success
+time,groups,expected_idle_time,0 days 00:00:42.333333333,Success
 time,groups,expected_lead_time,0 days 00:00:54.360000,Success
 time,groups,expected_lead_time_deviation_from_deadline,-1 days +23:59:35.640000,Success
 time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:15,Success

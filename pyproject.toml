@@ -28,6 +28,10 @@ misc = [
     "rustxes>=0.2.11"
 ]
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [tool.setuptools.package-data]
 "process_performance_indicators" = ["py.typed"]
 

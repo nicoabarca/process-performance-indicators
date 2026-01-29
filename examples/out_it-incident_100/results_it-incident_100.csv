@@ -253,14 +253,14 @@ time,activities,lead_time,350 days 17:48:00,Success
 time,activities,service_and_lead_time_ratio,0.0,Success
 time,activities,service_time,0 days 00:00:00,Success
 time,activities,waiting_time,350 days 17:48:00,Success
-time,cases,active_time,,Division error: cannot divide 2 days 02:44:00 by 0.
+time,cases,active_time,0 days 00:00:00,Success
 time,cases,activity_count,4,Success
 time,cases,activity_instance_count,6,Success
 time,cases,automated_activity_count,0,Success
 time,cases,automated_activity_instance_count,0,Success
 time,cases,automated_activity_service_time,0 days 00:00:00,Success
 time,cases,handover_count,3.0,Success
-time,cases,idle_time,,Division error: cannot divide 2 days 02:44:00 by 0.
+time,cases,idle_time,23 days 07:56:00,Success
 time,cases,lead_time,23 days 07:56:00,Success
 time,cases,lead_time_deviation_from_deadline,-21 days +16:04:00,Success
 time,cases,lead_time_deviation_from_expectation,16 days 07:56:00,Success
@@ -281,14 +281,14 @@ time,groups,case_count_lead_time_ratio,0.0,Success
 time,groups,case_count_where_lead_time_over_value,3,Success
 time,groups,case_percentage_where_lead_time_over_value,1.0,Success
 time,groups,case_percentage_with_missed_deadline,0.333,Success
-time,groups,expected_active_time,,Division error: cannot divide 16 days 05:06:00 by 0.
+time,groups,expected_active_time,0 days 00:00:00,Success
 time,groups,expected_activity_count,4.667,Success
 time,groups,expected_activity_instance_count,8.333,Success
 time,groups,expected_automated_activity_count,0.333,Success
 time,groups,expected_automated_activity_instance_count,0.667,Success
 time,groups,expected_automated_activity_service_time,0 days 00:00:00,Success
 time,groups,expected_handover_count,3.0,Success
-time,groups,expected_idle_time,,Division error: cannot divide 16 days 05:06:00 by 0.
+time,groups,expected_idle_time,101 days 02:21:20,Success
 time,groups,expected_lead_time,101 days 02:21:19.980000,Success
 time,groups,expected_lead_time_deviation_from_deadline,-99 days +21:38:40.020000,Success
 time,groups,expected_lead_time_deviation_from_expectation,94 days 02:21:19.980000,Success
