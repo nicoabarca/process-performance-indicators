@@ -1,3 +1,5 @@
+from collections import defaultdict, deque
+
 import pandas as pd
 
 from process_performance_indicators.constants import (
@@ -11,64 +13,49 @@ def match_all(case_log: pd.DataFrame) -> None:
     """
     Match all complete events in the case log to their corresponding start events.
 
-    Args:
-        case_log: The event log to match.
-
-    """
-    complete_events = case_log[case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE]
-    for _, complete_event in complete_events.iterrows():
-        _match(case_log, complete_event)
-
-
-def _match(case_log: pd.DataFrame, complete_event: pd.Series) -> None:
-    """
-    Match a complete event to its corresponding start event.
+    Algorithm:
+        1. Sort all start events by timestamp and group them by activity into
+           per-activity deques (earliest start at the front).
+        2. Iterate complete events in their original order. For each complete
+           event, pop the front of its activity's deque when the timestamp is
+           compatible (≤ complete timestamp). This is O(1) per lookup.
+        3. Collect all (index → instance_id) assignments and apply them in a
+           single batch write to the DataFrame.
 
     Args:
-        case_log: The case log of the complete event to match.
-        complete_event: The complete event to match
+        case_log: The event log to match. Modified in place (INSTANCE column).
 
     """
-    if complete_event[StandardColumnNames.LIFECYCLE_TRANSITION] != LifecycleTransitionType.COMPLETE:
-        error_message = "The provided event is not a complete event"
-        raise ValueError(error_message)
+    instance_col = StandardColumnNames.INSTANCE.value
 
-    # Create a unique instance ID for the complete event
-    instance_id = id_generator.get_next_id()
-    case_log.loc[[complete_event.name], StandardColumnNames.INSTANCE.value] = instance_id
+    # --- Build per-activity deques of unmatched start events (sorted ascending) ---
+    start_mask = case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START
+    starts_sorted = case_log[start_mask].sort_values(StandardColumnNames.TIMESTAMP, ascending=True)
 
-    compatible_start_events = _compatible_start_events(case_log, complete_event)
+    # pending[activity] = deque of (timestamp, row_index) in ascending timestamp order
+    pending: dict[str, deque[tuple]] = defaultdict(deque)
+    for idx, row in starts_sorted.iterrows():
+        pending[row[StandardColumnNames.ACTIVITY]].append((row[StandardColumnNames.TIMESTAMP], idx))
 
-    # If there are no compatible start events, do nothing
-    if compatible_start_events.empty:
-        return
+    # --- Iterate complete events and match greedily ---
+    complete_mask = case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE
+    complete_events = case_log[complete_mask]
 
-    # Match the complete event to the first compatible start event
-    matching_start_event_index = compatible_start_events.index[0]
-    case_log.loc[[matching_start_event_index], StandardColumnNames.INSTANCE.value] = instance_id
+    # Collect assignments to apply in one batch
+    assignments: dict[int, str] = {}
 
+    for idx, row in complete_events.iterrows():
+        activity = row[StandardColumnNames.ACTIVITY]
+        ts = row[StandardColumnNames.TIMESTAMP]
 
-def _compatible_start_events(case_log: pd.DataFrame, complete_event: pd.Series) -> pd.DataFrame:
-    """
-    Find all start events in the case log that are compatible with the complete event.
+        instance_id = id_generator.get_next_id()
+        assignments[idx] = instance_id
 
-    Args:
-        case_log: The event log to search.
-        complete_event: The complete event to match.
+        candidates = pending[activity]
+        if candidates and candidates[0][0] <= ts:
+            _, start_idx = candidates.popleft()
+            assignments[start_idx] = instance_id
 
-    Returns:
-        The compatible start events.
-
-    """
-    activity = complete_event[StandardColumnNames.ACTIVITY]
-    complete_timestamp = complete_event[StandardColumnNames.TIMESTAMP]
-
-    # Find all start events that are compatible with the complete event
-    potential_matches = case_log[
-        (case_log[StandardColumnNames.ACTIVITY] == activity)
-        & (case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START)
-        & (case_log[StandardColumnNames.TIMESTAMP] <= complete_timestamp)
-        & (case_log[StandardColumnNames.INSTANCE].isna())
-    ]
-
-    return potential_matches.sort_values(by=StandardColumnNames.TIMESTAMP, ascending=True)
+    # --- Batch-write all instance IDs at once ---
+    if assignments:
+        case_log.loc[list(assignments.keys()), instance_col] = list(assignments.values())

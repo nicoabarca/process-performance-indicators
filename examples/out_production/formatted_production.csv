@@ -504,8 +504,8 @@ Case 110,Round Grinding - Machine 3,2012-03-28 15:57:00,ID4872,Machine 3 - Round
 Case 110,Round Grinding - Machine 3,2012-03-28 16:01:00,ID4528,Machine 3 - Round Grinding,39,0,start,i_252
 Case 110,Round Grinding - Machine 3,2012-03-28 20:09:00,ID0420,Machine 3 - Round Grinding,83,0,start,i_255
 Case 110,Round Grinding - Machine 3,2012-03-28 20:12:00,ID4528,Machine 3 - Round Grinding,39,0,complete,i_252
-Case 110,Packing,2012-03-29 00:00:00,ID4820,Packing,60,0,start,i_253
-Case 110,Packing,2012-03-29 00:00:00,ID4820,Packing,30,0,start,i_254
+Case 110,Packing,2012-03-29 00:00:00,ID4820,Packing,60,0,start,i_254
+Case 110,Packing,2012-03-29 00:00:00,ID4820,Packing,30,0,start,i_253
 Case 110,Packing,2012-03-29 01:00:00,ID4820,Packing,60,0,complete,i_253
 Case 110,Packing,2012-03-29 01:00:00,ID4820,Packing,30,0,complete,i_254
 Case 110,Round Grinding - Machine 3,2012-03-29 05:26:00,ID0420,Machine 3 - Round Grinding,83,0,complete,i_255
@@ -3569,8 +3569,8 @@ Case 225,Final Inspection Q.C.,2012-02-05 12:00:00,ID4163,Quality Check 1,0,0,st
 Case 225,Final Inspection Q.C.,2012-02-05 12:50:00,ID4163,Quality Check 1,0,0,complete,i_1784
 Case 225,Final Inspection Q.C.,2012-02-05 13:20:00,ID4163,Quality Check 1,58,0,start,i_1785
 Case 225,Final Inspection Q.C.,2012-02-05 14:00:00,ID4163,Quality Check 1,58,0,complete,i_1785
-Case 225,Packing,2012-02-06 00:00:00,ID4820,Packing,58,0,start,i_1786
-Case 225,Packing,2012-02-06 00:00:00,ID4820,Packing,0,0,start,i_1787
+Case 225,Packing,2012-02-06 00:00:00,ID4820,Packing,58,0,start,i_1787
+Case 225,Packing,2012-02-06 00:00:00,ID4820,Packing,0,0,start,i_1786
 Case 225,Packing,2012-02-06 01:00:00,ID4820,Packing,58,0,complete,i_1786
 Case 225,Packing,2012-02-06 01:00:00,ID4820,Packing,0,0,complete,i_1787
 Case 225,Final Inspection Q.C.,2012-02-07 07:00:00,ID4163,Quality Check 1,0,0,start,i_1788
@@ -4925,8 +4925,8 @@ Case 257,Turning & Milling - Machine 5,2012-01-12 23:38:00,ID4529,Machine 5 - Tu
 Case 257,Turning & Milling - Machine 5,2012-01-13 06:27:00,ID4529,Machine 5 - Turning & Milling,26,0,complete,i_2462
 Case 257,Turning & Milling - Machine 5,2012-01-13 07:09:00,ID4429,Machine 5 - Turning & Milling,23,0,start,i_2463
 Case 257,Turning & Milling - Machine 5,2012-01-13 12:38:00,ID4429,Machine 5 - Turning & Milling,23,0,complete,i_2463
-Case 257,Turning & Milling - Machine 5,2012-01-14 13:00:00,ID4794,Machine 5 - Turning & Milling,36,0,start,i_2464
-Case 257,Turning & Milling - Machine 5,2012-01-14 13:00:00,ID4932,Machine 5 - Turning & Milling,36,0,start,i_2465
+Case 257,Turning & Milling - Machine 5,2012-01-14 13:00:00,ID4794,Machine 5 - Turning & Milling,36,0,start,i_2465
+Case 257,Turning & Milling - Machine 5,2012-01-14 13:00:00,ID4932,Machine 5 - Turning & Milling,36,0,start,i_2464
 Case 257,Turning & Milling - Machine 5,2012-01-14 22:00:00,ID4794,Machine 5 - Turning & Milling,36,0,complete,i_2464
 Case 257,Turning & Milling - Machine 5,2012-01-14 22:55:00,ID4794,Machine 5 - Turning & Milling,28,0,start,i_2466
 Case 257,Turning & Milling - Machine 5,2012-01-15 00:00:00,ID4529,Machine 5 - Turning & Milling,0,0,start,i_2467
@@ -5953,8 +5953,8 @@ Case 271,Laser Marking - Machine 7,2012-01-04 15:57:00,ID4882,Machine 7- Laser M
 Case 271,Turning & Milling - Machine 5,2012-01-04 16:59:00,ID4429,Machine 5 - Turning & Milling,82,0,complete,i_2976
 Case 271,Laser Marking - Machine 7,2012-01-04 21:25:00,ID4385,Machine 7- Laser Marking,105,0,start,i_2977
 Case 271,Laser Marking - Machine 7,2012-01-05 00:58:00,ID4385,Machine 7- Laser Marking,105,0,complete,i_2977
-Case 271,Lapping - Machine 1,2012-01-16 00:00:00,ID4882,Machine 1 - Lapping,0,0,start,i_2978
 Case 271,Lapping - Machine 1,2012-01-16 00:00:00,ID4882,Machine 1 - Lapping,0,0,start,i_2979
+Case 271,Lapping - Machine 1,2012-01-16 00:00:00,ID4882,Machine 1 - Lapping,0,0,start,i_2978
 Case 271,Lapping - Machine 1,2012-01-16 01:15:00,ID4882,Machine 1 - Lapping,0,0,complete,i_2978
 Case 271,Lapping - Machine 1,2012-01-16 01:15:00,ID4882,Machine 1 - Lapping,0,0,complete,i_2979
 Case 271,Grinding Rework,2012-01-16 10:10:00,ID4882,Machine 11 - Grinding,0,0,start,i_2980

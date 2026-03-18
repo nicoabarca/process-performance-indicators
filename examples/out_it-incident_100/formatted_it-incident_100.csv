@@ -1055,9 +1055,9 @@ INC0032450,Awaiting User Info,2016-05-25 16:55:00,Updated by 109,Group 70,Caller
 INC0032450,Awaiting User Info,2016-05-25 16:55:00,Updated by 109,Group 70,Caller 2400,complete,i_527
 INC0032450,Awaiting User Info,2016-05-31 08:39:00,Updated by 429,Group 70,Caller 2400,start,i_528
 INC0032450,Awaiting User Info,2016-05-31 08:39:00,Updated by 429,Group 70,Caller 2400,complete,i_528
-INC0032450,Awaiting User Info,2016-05-31 15:36:00,Updated by 429,Group 70,Caller 2400,start,i_529
-INC0032450,Awaiting User Info,2016-05-31 15:36:00,Updated by 429,Group 24,Caller 2400,start,i_530
 INC0032450,Awaiting User Info,2016-05-31 15:36:00,Updated by 429,Group 70,Caller 2400,start,i_531
+INC0032450,Awaiting User Info,2016-05-31 15:36:00,Updated by 429,Group 24,Caller 2400,start,i_530
+INC0032450,Awaiting User Info,2016-05-31 15:36:00,Updated by 429,Group 70,Caller 2400,start,i_529
 INC0032450,Awaiting User Info,2016-05-31 15:36:00,Updated by 429,Group 70,Caller 2400,complete,i_529
 INC0032450,Awaiting User Info,2016-05-31 15:36:00,Updated by 429,Group 24,Caller 2400,complete,i_530
 INC0032450,Awaiting User Info,2016-05-31 15:36:00,Updated by 429,Group 70,Caller 2400,complete,i_531
@@ -1095,8 +1095,8 @@ INC0032450,Awaiting User Info,2016-06-10 09:00:00,Updated by 974,Group 24,Caller
 INC0032450,Awaiting User Info,2016-06-10 09:00:00,Updated by 974,Group 24,Caller 2400,complete,i_547
 INC0032450,Resolved,2016-06-14 10:08:00,Updated by 974,Group 24,Caller 2400,start,i_548
 INC0032450,Resolved,2016-06-14 10:08:00,Updated by 974,Group 24,Caller 2400,complete,i_548
-INC0032450,Active,2016-06-14 17:19:00,Updated by 448,Group 24,Caller 2400,start,i_549
 INC0032450,Active,2016-06-14 17:19:00,Updated by 448,Group 24,Caller 2400,start,i_550
+INC0032450,Active,2016-06-14 17:19:00,Updated by 448,Group 24,Caller 2400,start,i_549
 INC0032450,Active,2016-06-14 17:19:00,Updated by 448,Group 24,Caller 2400,complete,i_549
 INC0032450,Active,2016-06-14 17:19:00,Updated by 448,Group 24,Caller 2400,complete,i_550
 INC0032450,Awaiting User Info,2016-06-15 10:07:00,Updated by 974,Group 24,Caller 2400,start,i_551
