@@ -23,7 +23,6 @@ def convert_to_derivable_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
         raise ValueError(error_message)
 
     event_log = event_log.copy()
-    # FIX: this ensures that case id is a string, check if this is the best way to do this
     event_log[StandardColumnNames.CASE_ID] = event_log[StandardColumnNames.CASE_ID].astype(str)
     event_log[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.COMPLETE.value
 
@@ -46,9 +45,17 @@ def convert_to_explicit_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
     event_log[StandardColumnNames.CASE_ID] = event_log[StandardColumnNames.CASE_ID].astype(str)
     event_log[StandardColumnNames.INSTANCE] = pd.NA
 
+    result_groups = []
+    for _, case_group in event_log.groupby(StandardColumnNames.CASE_ID, group_keys=False, sort=True):
+        case_group = case_group.copy()  # noqa: PLW2901
+        match_all(case_group)
+        result_groups.append(case_group)
+
+    if not result_groups:
+        return event_log.iloc[:0].reset_index(drop=True)
+
     return (
-        event_log.groupby(StandardColumnNames.CASE_ID, group_keys=False)
-        .apply(_process_case_group)
+        pd.concat(result_groups)
         .dropna(subset=[StandardColumnNames.INSTANCE])
         .sort_values(
             by=[
@@ -59,18 +66,3 @@ def convert_to_explicit_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
         )
         .reset_index(drop=True)
     )
-
-
-def _process_case_group(case_log: pd.DataFrame) -> pd.DataFrame:
-    """
-    Applies the matching logic to a single case group.
-
-    Args:
-        case_log: The case log to process.
-
-    Returns:
-        The processed case log.
-
-    """
-    match_all(case_log)
-    return case_log

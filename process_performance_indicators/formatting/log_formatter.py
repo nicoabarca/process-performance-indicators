@@ -69,11 +69,9 @@ def event_log_formatter(
         pd.DataFrame: An explicit interval log with instance IDs and lifecycle transitions.
 
     """
-    event_log = event_log.copy()
-
     # Standardize columns and convert types
     standard_named_log = _standardize_columns(event_log, column_mapping)
-    _convert_standard_types(standard_named_log)
+    standard_named_log = _convert_standard_types(standard_named_log)
 
     # Detect log type and process accordingly
     log_type = _detect_log_type(column_mapping)
@@ -178,12 +176,15 @@ def _standardize_columns(
     return filtered_log.rename(columns=inverted_mapping)
 
 
-def _convert_standard_types(log_df: pd.DataFrame) -> None:
+def _convert_standard_types(log_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Convert standard columns to their expected types in place.
+    Convert standard columns to their expected types and return a new DataFrame.
 
     Args:
         log_df: The DataFrame to convert.
+
+    Returns:
+        pd.DataFrame: A new DataFrame with converted column types.
 
     """
     # Convert case id to string
@@ -195,6 +196,8 @@ def _convert_standard_types(log_df: pd.DataFrame) -> None:
     # Convert instance to string if present
     if StandardColumnNames.INSTANCE in log_df.columns:
         log_df[StandardColumnNames.INSTANCE] = log_df[StandardColumnNames.INSTANCE].astype(str)
+
+    return log_df
 
 
 def _process_atomic_log(
@@ -303,7 +306,7 @@ def _process_production_style_log(
     start_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.START
 
     # Create complete events (use original timestamp)
-    complete_events = log_df.drop(columns=[StandardColumnNames.START_TIMESTAMP])
+    complete_events = log_df.drop(columns=[StandardColumnNames.START_TIMESTAMP]).copy()
     complete_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.COMPLETE
 
     # Combine start and complete events
@@ -335,7 +338,7 @@ def _fix_orphaned_events(log_df: pd.DataFrame) -> pd.DataFrame:
     grouped = log_df.groupby([StandardColumnNames.CASE_ID, StandardColumnNames.INSTANCE])
 
     rows_to_drop = []
-    rows_to_add = []
+    rows_to_add: list[pd.DataFrame] = []
 
     for (case_id, instance_id), group in grouped:  # noqa: B007
         has_start = (group[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START.value).any()
@@ -350,17 +353,14 @@ def _fix_orphaned_events(log_df: pd.DataFrame) -> pd.DataFrame:
 
         elif has_complete and not has_start:
             # Add start event(s) for complete event(s) (orphaned complete)
-            complete_events = group[
+            # Use DataFrame copy to preserve column dtypes (avoids iterrows() dtype degradation)
+            complete_rows = group[
                 group[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE.value
-            ]
-
-            for _, complete_event in complete_events.iterrows():
-                # Create a start event with the same data but different lifecycle transition
-                start_event = complete_event.copy()
-                start_event[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.START.value
-                # Use the complete event's timestamp for the start event as well
-                # (this maintains the same timestamp since we don't know the actual start time)
-                rows_to_add.append(start_event)
+            ].copy()
+            # Use the complete event's timestamp for the start event as well
+            # (this maintains the same timestamp since we don't know the actual start time)
+            complete_rows[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.START.value
+            rows_to_add.append(complete_rows)
 
     # Drop orphaned start events
     if rows_to_drop:
@@ -368,7 +368,7 @@ def _fix_orphaned_events(log_df: pd.DataFrame) -> pd.DataFrame:
 
     # Add missing start events
     if rows_to_add:
-        new_rows_df = pd.DataFrame(rows_to_add)
+        new_rows_df = pd.concat(rows_to_add)
         log_df = pd.concat([log_df, new_rows_df], ignore_index=True)
 
     return log_df
