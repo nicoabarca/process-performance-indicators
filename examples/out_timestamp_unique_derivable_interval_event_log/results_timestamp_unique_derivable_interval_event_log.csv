@@ -80,20 +80,20 @@ cost,groups,total_cost_and_service_time_ratio,6039.669,Success
 cost,groups,transportation_cost,0.0,Success
 cost,groups,variable_cost,96.0,Success
 cost,groups,warehousing_cost,51.0,Success
-cost,instances,fixed_cost_for_single_events_of_activity_instances,3.0,Success
-cost,instances,fixed_cost_for_sum_of_all_events_of_activity_instances,6.0,Success
+cost,instances,fixed_cost_for_single_events_of_activity_instances,4.0,Success
+cost,instances,fixed_cost_for_sum_of_all_events_of_activity_instances,4.0,Success
 cost,instances,inventory_cost_for_single_events_of_activity_instances,2.0,Success
-cost,instances,inventory_cost_for_sum_of_all_events_of_activity_instances,4.0,Success
-cost,instances,labor_cost_and_total_cost_ratio,0.615,Success
-cost,instances,labor_cost_for_single_events_of_activity_instances,8.0,Success
-cost,instances,labor_cost_for_sum_of_all_events_of_activity_instances,16.0,Success
-cost,instances,total_cost_and_lead_time_ratio,4680.0,Success
-cost,instances,total_cost_and_outcome_unit_ratio,0.169,Success
-cost,instances,total_cost_and_service_time_ratio,,Division error: cannot divide 13.0 by 0.0.
-cost,instances,total_cost_for_single_events_of_activity_instances,13.0,Success
-cost,instances,total_cost_for_sum_of_all_events_of_activity_instances,26.0,Success
-cost,instances,variable_cost_for_single_events_of_activity_instances,10.0,Success
-cost,instances,variable_cost_for_sum_of_all_events_of_activity_instances,20.0,Success
+cost,instances,inventory_cost_for_sum_of_all_events_of_activity_instances,2.0,Success
+cost,instances,labor_cost_and_total_cost_ratio,0.4,Success
+cost,instances,labor_cost_for_single_events_of_activity_instances,4.0,Success
+cost,instances,labor_cost_for_sum_of_all_events_of_activity_instances,4.0,Success
+cost,instances,total_cost_and_lead_time_ratio,705.882,Success
+cost,instances,total_cost_and_outcome_unit_ratio,0.125,Success
+cost,instances,total_cost_and_service_time_ratio,720.0,Success
+cost,instances,total_cost_for_single_events_of_activity_instances,10.0,Success
+cost,instances,total_cost_for_sum_of_all_events_of_activity_instances,10.0,Success
+cost,instances,variable_cost_for_single_events_of_activity_instances,6.0,Success
+cost,instances,variable_cost_for_sum_of_all_events_of_activity_instances,6.0,Success
 flexibility,activities,activity_instance_and_human_resource_count_ratio,22.333,Success
 flexibility,activities,client_count,6,Success
 flexibility,activities,directly_follows_relations_count,4,Success
@@ -245,10 +245,10 @@ quality,groups,unwanted_activity_count,1,Success
 quality,groups,unwanted_activity_instance_count,6,Success
 quality,groups,unwanted_activity_instance_percentage,0.24,Success
 quality,groups,unwanted_activity_percentage,0.1,Success
-quality,instances,outcome_unit_count_for_single_events_of_activity_instances,77.0,Success
-quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,154.0,Success
-quality,instances,successful_outcome_unit_count,77.0,Success
-quality,instances,successful_outcome_unit_percentage,1.0,Success
+quality,instances,outcome_unit_count_for_single_events_of_activity_instances,80.0,Success
+quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,156.0,Success
+quality,instances,successful_outcome_unit_count,57.0,Success
+quality,instances,successful_outcome_unit_percentage,0.713,Success
 time,activities,lead_time,0 days 00:14:43,Success
 time,activities,service_and_lead_time_ratio,0.5855039637599094,Success
 time,activities,service_time,0 days 00:08:37,Success
@@ -305,7 +305,7 @@ time,groups,lead_time_and_case_count_ratio,0 days 00:00:57.600000,Success
 time,groups,service_and_lead_time_ratio,0.6914285714285714,Success
 time,groups,service_time,0 days 00:02:01,Success
 time,groups,service_time_from_activity_a_to_b,0 days 00:00:23,Success
-time,instances,lead_time,0 days 00:00:10,Success
-time,instances,service_and_lead_time_ratio,0.0,Success
-time,instances,service_time,0 days 00:00:00,Success
-time,instances,waiting_time,0 days 00:00:10,Success
+time,instances,lead_time,0 days 00:00:51,Success
+time,instances,service_and_lead_time_ratio,0.9803921568627451,Success
+time,instances,service_time,0 days 00:00:50,Success
+time,instances,waiting_time,0 days 00:00:01,Success

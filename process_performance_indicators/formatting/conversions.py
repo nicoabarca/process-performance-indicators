@@ -46,7 +46,7 @@ def convert_to_explicit_interval_log(event_log: pd.DataFrame) -> pd.DataFrame:
     event_log[StandardColumnNames.INSTANCE] = pd.NA
 
     result_groups = []
-    for _, case_group in event_log.groupby(StandardColumnNames.CASE_ID, group_keys=False, sort=False):
+    for _, case_group in event_log.groupby(StandardColumnNames.CASE_ID, group_keys=False, sort=True):
         case_group = case_group.copy()  # noqa: PLW2901
         match_all(case_group)
         result_groups.append(case_group)

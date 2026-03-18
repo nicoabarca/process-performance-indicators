@@ -80,20 +80,20 @@ cost,groups,total_cost_and_service_time_ratio,2953.398,Success
 cost,groups,transportation_cost,135.0,Success
 cost,groups,variable_cost,103.0,Success
 cost,groups,warehousing_cost,95.0,Success
-cost,instances,fixed_cost_for_single_events_of_activity_instances,8.0,Success
-cost,instances,fixed_cost_for_sum_of_all_events_of_activity_instances,9.0,Success
-cost,instances,inventory_cost_for_single_events_of_activity_instances,1.0,Success
-cost,instances,inventory_cost_for_sum_of_all_events_of_activity_instances,1.0,Success
-cost,instances,labor_cost_and_total_cost_ratio,0.1,Success
-cost,instances,labor_cost_for_single_events_of_activity_instances,1.0,Success
-cost,instances,labor_cost_for_sum_of_all_events_of_activity_instances,13.0,Success
-cost,instances,total_cost_and_lead_time_ratio,36000.0,Success
-cost,instances,total_cost_and_outcome_unit_ratio,0.102,Success
-cost,instances,total_cost_and_service_time_ratio,36000.0,Success
-cost,instances,total_cost_for_single_events_of_activity_instances,10.0,Success
-cost,instances,total_cost_for_sum_of_all_events_of_activity_instances,23.0,Success
-cost,instances,variable_cost_for_single_events_of_activity_instances,2.0,Success
-cost,instances,variable_cost_for_sum_of_all_events_of_activity_instances,14.0,Success
+cost,instances,fixed_cost_for_single_events_of_activity_instances,16.0,Success
+cost,instances,fixed_cost_for_sum_of_all_events_of_activity_instances,25.0,Success
+cost,instances,inventory_cost_for_single_events_of_activity_instances,0.0,Success
+cost,instances,inventory_cost_for_sum_of_all_events_of_activity_instances,5.0,Success
+cost,instances,labor_cost_and_total_cost_ratio,0.0,Success
+cost,instances,labor_cost_for_single_events_of_activity_instances,0.0,Success
+cost,instances,labor_cost_for_sum_of_all_events_of_activity_instances,1.0,Success
+cost,instances,total_cost_and_lead_time_ratio,1600.0,Success
+cost,instances,total_cost_and_outcome_unit_ratio,1.333,Success
+cost,instances,total_cost_and_service_time_ratio,1600.0,Success
+cost,instances,total_cost_for_single_events_of_activity_instances,16.0,Success
+cost,instances,total_cost_for_sum_of_all_events_of_activity_instances,31.0,Success
+cost,instances,variable_cost_for_single_events_of_activity_instances,0.0,Success
+cost,instances,variable_cost_for_sum_of_all_events_of_activity_instances,6.0,Success
 flexibility,activities,activity_instance_and_human_resource_count_ratio,21.333,Success
 flexibility,activities,client_count,5,Success
 flexibility,activities,directly_follows_relations_count,4,Success
@@ -245,9 +245,9 @@ quality,groups,unwanted_activity_count,1,Success
 quality,groups,unwanted_activity_instance_count,2,Success
 quality,groups,unwanted_activity_instance_percentage,0.091,Success
 quality,groups,unwanted_activity_percentage,0.111,Success
-quality,instances,outcome_unit_count_for_single_events_of_activity_instances,98.0,Success
-quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,112.0,Success
-quality,instances,successful_outcome_unit_count,98.0,Success
+quality,instances,outcome_unit_count_for_single_events_of_activity_instances,12.0,Success
+quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances,12.0,Success
+quality,instances,successful_outcome_unit_count,12.0,Success
 quality,instances,successful_outcome_unit_percentage,1.0,Success
 time,activities,lead_time,0 days 00:14:56,Success
 time,activities,service_and_lead_time_ratio,0.6450892857142857,Success
@@ -295,17 +295,17 @@ time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:15,Succes
 time,groups,expected_lead_time_from_activity_a,0 days 00:00:52.666666666,Success
 time,groups,expected_lead_time_from_activity_a_to_b,0 days 00:00:22,Success
 time,groups,expected_lead_time_to_activity_a,0 days 00:00:26.333333333,Success
-time,groups,expected_service_and_lead_time_ratio,3.789551140544518,Success
+time,groups,expected_service_and_lead_time_ratio,3.789551140526122,Success
 time,groups,expected_service_time,0 days 00:01:08.640000,Success
 time,groups,expected_service_time_from_activity_a_to_b,0 days 00:00:10,Success
 time,groups,expected_waiting_time,0 days 00:00:43.333333333,Success
 time,groups,expected_waiting_time_from_activity_a_to_b,0 days 00:00:07.333333333,Success
 time,groups,lead_time,0 days 00:03:33,Success
 time,groups,lead_time_and_case_count_ratio,0 days 00:01:12,Success
-time,groups,service_and_lead_time_ratio,0.9671361502347418,Success
-time,groups,service_time,0 days 00:03:26,Success
+time,groups,service_and_lead_time_ratio,0.967136150230047,Success
+time,groups,service_time,0 days 00:03:25.999999999,Success
 time,groups,service_time_from_activity_a_to_b,0 days 00:00:30,Success
-time,instances,lead_time,0 days 00:00:01,Success
+time,instances,lead_time,0 days 00:00:36,Success
 time,instances,service_and_lead_time_ratio,1.0,Success
-time,instances,service_time,0 days 00:00:01,Success
+time,instances,service_time,0 days 00:00:36,Success
 time,instances,waiting_time,0 days 00:00:00,Success

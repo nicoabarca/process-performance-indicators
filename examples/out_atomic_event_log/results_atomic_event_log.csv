@@ -56,7 +56,7 @@ cost,groups,expected_rework_percentage,0.669,Success
 cost,groups,expected_total_cost,132.667,Success
 cost,groups,expected_total_cost_and_lead_time_ratio,6448.97,Success
 cost,groups,expected_total_cost_and_outcome_unit_ratio,0.463,Success
-cost,groups,expected_total_cost_and_service_time_ratio,,Division error: cannot divide 196.0 by 0.0.
+cost,groups,expected_total_cost_and_service_time_ratio,,Division error: cannot divide 66.0 by 0.0.
 cost,groups,expected_transportation_cost,61.333,Success
 cost,groups,expected_variable_cost,69.333,Success
 cost,groups,expected_warehousing_cost,19.667,Success
