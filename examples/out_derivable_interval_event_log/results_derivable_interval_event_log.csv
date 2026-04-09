@@ -295,15 +295,15 @@ time,groups,expected_lead_time_deviation_from_expectation,0 days 00:00:15,Succes
 time,groups,expected_lead_time_from_activity_a,0 days 00:00:52.666666666,Success
 time,groups,expected_lead_time_from_activity_a_to_b,0 days 00:00:22,Success
 time,groups,expected_lead_time_to_activity_a,0 days 00:00:26.333333333,Success
-time,groups,expected_service_and_lead_time_ratio,3.789551140526122,Success
+time,groups,expected_service_and_lead_time_ratio,3.789551140544518,Success
 time,groups,expected_service_time,0 days 00:01:08.640000,Success
 time,groups,expected_service_time_from_activity_a_to_b,0 days 00:00:10,Success
 time,groups,expected_waiting_time,0 days 00:00:43.333333333,Success
 time,groups,expected_waiting_time_from_activity_a_to_b,0 days 00:00:07.333333333,Success
 time,groups,lead_time,0 days 00:03:33,Success
 time,groups,lead_time_and_case_count_ratio,0 days 00:01:12,Success
-time,groups,service_and_lead_time_ratio,0.967136150230047,Success
-time,groups,service_time,0 days 00:03:25.999999999,Success
+time,groups,service_and_lead_time_ratio,0.9671361502347418,Success
+time,groups,service_time,0 days 00:03:26,Success
 time,groups,service_time_from_activity_a_to_b,0 days 00:00:30,Success
 time,instances,lead_time,0 days 00:00:36,Success
 time,instances,service_and_lead_time_ratio,1.0,Success

@@ -29,7 +29,7 @@ def match_all(case_log: pd.DataFrame) -> None:
     instance_col = StandardColumnNames.INSTANCE.value
 
     # --- Build per-activity deques of unmatched start events (sorted ascending) ---
-    start_mask = case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START
+    start_mask = case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START.value
     starts_sorted = case_log[start_mask].sort_values(StandardColumnNames.TIMESTAMP, ascending=True)
 
     # pending[activity] = deque of (timestamp, row_index) in ascending timestamp order
@@ -38,7 +38,7 @@ def match_all(case_log: pd.DataFrame) -> None:
         pending[row[StandardColumnNames.ACTIVITY]].append((row[StandardColumnNames.TIMESTAMP], idx))
 
     # --- Iterate complete events and match greedily ---
-    complete_mask = case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE
+    complete_mask = case_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE.value
     complete_events = case_log[complete_mask]
 
     # Collect assignments to apply in one batch

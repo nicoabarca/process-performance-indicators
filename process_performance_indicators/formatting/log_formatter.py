@@ -231,11 +231,11 @@ def _process_atomic_log(
 
     # Create complete events (original rows)
     complete_events = log_df.copy()
-    complete_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.COMPLETE
+    complete_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.COMPLETE.value
 
     # Create start events (duplicates with same timestamp)
     start_events = log_df.copy()
-    start_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.START
+    start_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.START.value
 
     # Combine start and complete events
     combined_log = pd.concat([start_events, complete_events], ignore_index=True)
@@ -303,11 +303,11 @@ def _process_production_style_log(
     start_events = log_df.copy()
     start_events[StandardColumnNames.TIMESTAMP] = start_events[StandardColumnNames.START_TIMESTAMP]
     start_events = start_events.drop(columns=[StandardColumnNames.START_TIMESTAMP])
-    start_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.START
+    start_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.START.value
 
     # Create complete events (use original timestamp)
     complete_events = log_df.drop(columns=[StandardColumnNames.START_TIMESTAMP]).copy()
-    complete_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.COMPLETE
+    complete_events[StandardColumnNames.LIFECYCLE_TRANSITION] = LifecycleTransitionType.COMPLETE.value
 
     # Combine start and complete events
     combined_log = pd.concat([start_events, complete_events], ignore_index=True)

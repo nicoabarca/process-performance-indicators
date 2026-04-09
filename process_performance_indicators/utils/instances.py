@@ -33,7 +33,7 @@ def cpl(event_log: pd.DataFrame, instance_id: str) -> pd.DataFrame:
 
     return event_log[
         (event_log[StandardColumnNames.INSTANCE] == instance_id)
-        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE)
+        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE.value)
     ]
 
 
@@ -418,7 +418,7 @@ def _match(event_log: pd.DataFrame, complete_event: pd.DataFrame) -> pd.DataFram
 
     start_event = event_log[
         (event_log[StandardColumnNames.INSTANCE] == complete_event_instance_id)
-        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START)
+        & (event_log[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START.value)
     ]
     if start_event.empty:
         return complete_event

@@ -250,8 +250,8 @@ quality,instances,outcome_unit_count_for_sum_of_all_events_of_activity_instances
 quality,instances,successful_outcome_unit_count,57.0,Success
 quality,instances,successful_outcome_unit_percentage,0.713,Success
 time,activities,lead_time,0 days 00:14:43,Success
-time,activities,service_and_lead_time_ratio,0.5855039637599094,Success
-time,activities,service_time,0 days 00:08:37,Success
+time,activities,service_and_lead_time_ratio,0.5855039637587769,Success
+time,activities,service_time,0 days 00:08:36.999999999,Success
 time,activities,waiting_time,0 days 00:06:06,Success
 time,cases,active_time,-1 days +23:59:48,Success
 time,cases,activity_count,4,Success

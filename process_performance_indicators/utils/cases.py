@@ -83,7 +83,7 @@ def strin(event_log: pd.DataFrame, case_id: str) -> set[str]:
     _is_case_id_valid(event_log, case_id)
 
     case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
-    start_events = case_events[case_events[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START]
+    start_events = case_events[case_events[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.START.value]
 
     min_start_time = start_events[StandardColumnNames.TIMESTAMP].min()
     earliest_instances = start_events[start_events[StandardColumnNames.TIMESTAMP] == min_start_time][
@@ -100,7 +100,7 @@ def endin(event_log: pd.DataFrame, case_id: str) -> set[str]:
 
     case_events = event_log[event_log[StandardColumnNames.CASE_ID] == case_id]
     complete_events = case_events[
-        case_events[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE
+        case_events[StandardColumnNames.LIFECYCLE_TRANSITION] == LifecycleTransitionType.COMPLETE.value
     ]
 
     max_complete_time = complete_events[StandardColumnNames.TIMESTAMP].max()
