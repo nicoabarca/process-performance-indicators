@@ -1,6 +1,6 @@
 [project]
 name = "process-performance-indicators"
-version = "0.2.4"
+version = "0.2.5"
 description = "A Python package for calculating process performance indicators"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -9,6 +9,10 @@ dependencies = [
     "pandas-stubs>=3.0.0.260204",
     "tqdm>=4.67.3",
 ]
+
+[project.urls]
+Homepage = "https://github.com/nicoabarca/process-performance-indicators"
+Issues = "https://github.com/nicoabarca/process-performance-indicators/issues"
 
 [dependency-groups]
 dev = [
